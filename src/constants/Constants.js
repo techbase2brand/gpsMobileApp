@@ -1,47 +1,80 @@
-export const LOGIN_TO_YOUR_ACCOUNT = "Login to your Account!";
-export const EMAIL = "E-mail";
-export const PASSWORD = "Password";
-export const REMEMBER_ME = "Remember me";
-export const FORGOT_PASSWORD = "Forgot Password?";
-export const LOGIN = "Login";
-export const SIGN_UP = "Sign Up";
-export const DONT_HAVE_ACCOUNT = "Don't have an account?";
+const generateCarsInRadius = (center, radius, count, yardId) => {
+  const cars = [];
+ 
+  for (let i = 0; i < count; i++) {
+    const r = radius * Math.sqrt(Math.random()); // uniform distribution within circle
+    const theta = Math.random() * 2 * Math.PI;
+ 
+    const dx = (r * Math.cos(theta)) / 111320; // convert meters to degrees (approx)
+    const dy = (r * Math.sin(theta)) / 110540;
+ 
+    cars.push({
+      id: `${yardId}-${i + 1}`,
+      latitude: center.latitude + dy,
+      longitude: center.longitude + dx,
+    });
+  }
+ 
+  return cars;
+};
+ 
+export const parkingYards = [
+  {
+    id: 1,
+    name: 'Parking Yard 1',
+    center: { latitude: 37.78725, longitude: -122.4324 },
+    radius: 100,
+    cars: generateCarsInRadius({ latitude: 37.78725, longitude: -122.4324 }, 100, 20, '1'),
+  },
+  {
+    id: 2,
+    name: 'Parking Yard 2',
+    center: { latitude: 37.78825, longitude: -122.4360 },
+    radius: 100,
+    cars: generateCarsInRadius({ latitude: 37.78825, longitude: -122.4360 }, 100, 20, '2'),
+  },
+  {
+    id: 3,
+    name: 'Parking Yard 3',
+    center: { latitude: 37.78925, longitude: -122.4380 },
+    radius: 100,
+    cars: generateCarsInRadius({ latitude: 37.78925, longitude: -122.4380 }, 100, 20, '3'),
+  },
+];
+ 
+ 
+export const parkingYard = [
+  {
+    id: 2,
+    name: 'Parking Yard 1',
+    center: {latitude: 37.78925, longitude: -122.4224},
+    radius: 100,
+    cars: [
+      {id: '2-1', latitude: 37.78935, longitude: -122.4223},
+      {id: '2-2', latitude: 37.78915, longitude: -122.4225},
+      {id: '2-3', latitude: 37.7892, longitude: -122.4222},
+      {id: '2-4', latitude: 37.7893, longitude: -122.4226},
+      {id: '2-5', latitude: 37.7891, longitude: -122.4224},
+      {id: '2-6', latitude: 37.7894, longitude: -122.4221},
+      {id: '2-7', latitude: 37.78928, longitude: -122.4227},
+      {id: '2-8', latitude: 37.78922, longitude: -122.422},
+      {id: '2-9', latitude: 37.78918, longitude: -122.4226},
+      {id: '2-10', latitude: 37.78932, longitude: -122.4223},
+    ],
+  },
+ 
+];
 
-export const FIRST_NAME = "First Name";
-export const LAST_NAME = "Last Name";
-export const PHONE_NUMBER = "Phone Number";
-export const ADDRESS = "Address";
-export const CITY = "City";
-export const COUNTRY = "Country";
-export const STATE = "State";
-export const ZIP_CODE = "Zip Code";
-export const WELCOME = "Welcome!";
-export const CREATE_YOUE_NEW_ACCOUNT = "Create Your New Account";
-export const ALREADY_HAVE_AN_ACCOUNT = "Already have an Account?";
 
-
-export const ENTER_YOU_EMAIL = "Enter your email we’ll send a otp on your email to reset your password.";
-export const UNABLE_TO_RESET_PASSWORD = " Unable to reset password?";
-export const GET_HELP = " Get Help";
-export const ENTER_FOUR_DIGIT_CODE = "Enter 4 Digit Code";
-export const ENTER_FOUR_DIGIT_CODE_THAT_YOU_RECEIVED = "Enter the 4-digit code that you received on your email.";
-export const EMAIL_NOT_RECEIVED = " Email not received?";
-export const RESEND_CODE = " Resend Code";
-export const RESET_PASSWORD = "Reset Password";
-export const SET_THE_NEW_PASSWORD = "Set the new password for your account so you can login and access all the features.";
-
-// export const NEW_WORK_ORDER = "New Work Order";
-export const NEW_CLIENT = "Add Customer";
-export const NEW_WORK_ORDER = "Add Vehicle";
-export const JOB_HISTORY = "Job History";
-
-export const CUSTOMER_INFORMATION = "Customer Information";
-export const ESSENTIAL_FOR_REGISTRATION = "It's essential for registration, insurance, and tracking recalls or thefts."
-
-
-export const CREATE_NEW_JOB = "Create New Job";
-
-export const SUPPORT_EMAIL = "info@ifshail.com";
-export const SUPPORT_MOBILE = "+1-239-919-7963";
-
-export const API_BASE_URL = "https://techrepairtracker.base2brand.com/api";
+export const SingleVehInparkingYard = [
+  {
+    id: 2,
+    name: 'Parking Yard 1',
+    center: {latitude: 37.78925, longitude: -122.4224},
+    radius: 100,
+    cars: [
+      {id: '2-1', latitude: 37.78935, longitude: -122.4223},
+    ],
+  },
+ 
+];
