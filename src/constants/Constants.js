@@ -18,63 +18,97 @@ const generateCarsInRadius = (center, radius, count, yardId) => {
   return cars;
 };
  
+// export const parkingYards = [
+//   {
+//     id: 1,
+//     name: 'Parking Yard 1',
+//     center: { latitude: 37.78725, longitude: -122.4324 },
+//     radius: 100,
+//     cars: generateCarsInRadius({ latitude: 37.78725, longitude: -122.4324 }, 100, 20, '1'),
+//   },
+//   {
+//     id: 2,
+//     name: 'Parking Yard 2',
+//     center: { latitude: 37.78825, longitude: -122.4360 },
+//     radius: 100,
+//     cars: generateCarsInRadius({ latitude: 37.78825, longitude: -122.4360 }, 100, 20, '2'),
+//   },
+//   {
+//     id: 3,
+//     name: 'Parking Yard 3',
+//     center: { latitude: 37.78925, longitude: -122.4380 },
+//     radius: 100,
+//     cars: generateCarsInRadius({ latitude: 37.78925, longitude: -122.4380 }, 100, 20, '3'),
+//   },
+// ];
+ 
 export const parkingYards = [
   {
     id: 1,
-    name: 'Parking Yard 1',
-    center: { latitude: 37.78725, longitude: -122.4324 },
+    name: 'Parking Yard 1 - Truganina',
+    center: {latitude: -37.8227, longitude: 144.7415},
     radius: 100,
-    cars: generateCarsInRadius({ latitude: 37.78725, longitude: -122.4324 }, 100, 20, '1'),
+    cars: generateCarsInRadius(
+      {latitude: -37.8227, longitude: 144.7415},
+      100,
+      20,
+      '1',
+    ),
   },
   {
     id: 2,
-    name: 'Parking Yard 2',
-    center: { latitude: 37.78825, longitude: -122.4360 },
+    name: 'Parking Yard 2 - Derrimut',
+    center: {latitude: -37.8254, longitude: 144.735},
     radius: 100,
-    cars: generateCarsInRadius({ latitude: 37.78825, longitude: -122.4360 }, 100, 20, '2'),
+    cars: generateCarsInRadius(
+      {latitude: -37.8254, longitude: 144.735},
+      100,
+      20,
+      '2',
+    ),
   },
   {
     id: 3,
-    name: 'Parking Yard 3',
-    center: { latitude: 37.78925, longitude: -122.4380 },
+    name: 'Parking Yard 3 - Laverton North',
+    center: {latitude: -37.8292, longitude: 144.740},
     radius: 100,
-    cars: generateCarsInRadius({ latitude: 37.78925, longitude: -122.4380 }, 100, 20, '3'),
+    cars: generateCarsInRadius(
+      {latitude: -37.8292, longitude: 144.740},
+      100,
+      20,
+      '3',
+    ),
   },
 ];
- 
  
 export const parkingYard = [
   {
-    id: 2,
-    name: 'Parking Yard 1',
-    center: {latitude: 37.78925, longitude: -122.4224},
+    id: 1,
+    name: 'Parking Yard 1 - Truganina',
+    center: {latitude: -37.8227, longitude: 144.7415},
     radius: 100,
-    cars: [
-      {id: '2-1', latitude: 37.78935, longitude: -122.4223},
-      {id: '2-2', latitude: 37.78915, longitude: -122.4225},
-      {id: '2-3', latitude: 37.7892, longitude: -122.4222},
-      {id: '2-4', latitude: 37.7893, longitude: -122.4226},
-      {id: '2-5', latitude: 37.7891, longitude: -122.4224},
-      {id: '2-6', latitude: 37.7894, longitude: -122.4221},
-      {id: '2-7', latitude: 37.78928, longitude: -122.4227},
-      {id: '2-8', latitude: 37.78922, longitude: -122.422},
-      {id: '2-9', latitude: 37.78918, longitude: -122.4226},
-      {id: '2-10', latitude: 37.78932, longitude: -122.4223},
-    ],
+    cars: generateCarsInRadius(
+      {latitude: -37.8227, longitude: 144.7415},
+      100,
+      20,
+      '1',
+    ),
   },
- 
 ];
-
-
+ 
 export const SingleVehInparkingYard = [
   {
-    id: 2,
-    name: 'Parking Yard 1',
-    center: {latitude: 37.78925, longitude: -122.4224},
+    id: 1,
+    name: 'Parking Yard 1 - Truganina',
+    center: {latitude: -37.8227, longitude: 144.7415},
     radius: 100,
-    cars: [
-      {id: '2-1', latitude: 37.78935, longitude: -122.4223},
-    ],
+    cars: generateCarsInRadius(
+      {latitude: -37.8227, longitude: 144.7415},
+      100,
+      1,
+      '1',
+    ),
   },
- 
 ];
+ 
+ 

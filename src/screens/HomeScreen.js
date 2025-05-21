@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   notificationIcon: {
     position: "absolute",
     right: wp(5), 
-    top: hp(2),
+    top: hp(15),
     width: wp(15),
     height: wp(15),
     backgroundColor: 'white', zIndex: 999,

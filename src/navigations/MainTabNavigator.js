@@ -26,7 +26,7 @@ export default function MainTabNavigator() {
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarStyle: {
-          display: getTabBarVisibility(route),
+          // display: getTabBarVisibility(route),
           backgroundColor: '#FFF',
           alignItems: "center",
           justifyContent: 'center',

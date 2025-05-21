@@ -5,22 +5,23 @@ import MainTabNavigator from './src/navigations/MainTabNavigator';
 import { whiteColor } from './src/constants/Color';
 import { BaseStyle } from './src/constants/Style';
 import { SPLASH_IMAGE } from './src/assests/images';
-
+import AuthStack from './src/navigations/AuthStack';
+ 
 const { flex, alignItemsCenter, alignJustifyCenter } = BaseStyle;
-
+ 
 function App(): React.JSX.Element {
   const [showSplash, setShowSplash] = useState(true);
-
+ 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShowSplash(false);
     }, 2000); // 3 seconds
-
+ 
     return () => clearTimeout(timeout); // cleanup
   }, []);
-
+ 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {showSplash ? (
         <View style={styles.splashContainer}>
           <Image
@@ -31,13 +32,14 @@ function App(): React.JSX.Element {
         </View>
       ) : (
         <NavigationContainer>
-          <MainTabNavigator />
+         <AuthStack/>
+          {/* <MainTabNavigator /> */}
         </NavigationContainer>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
-
+ 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -54,5 +56,5 @@ const styles = StyleSheet.create({
     height: 200,
   },
 });
-
+ 
 export default App;

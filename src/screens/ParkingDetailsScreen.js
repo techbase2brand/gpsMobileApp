@@ -6,27 +6,27 @@ import { IMAGE_BACKGROUND_IMAGE } from '../assests/images';
 import ParkingMap from '../components/ParkingMap';
 import { heightPercentageToDP } from '../utils';
 import { parkingYard, SingleVehInparkingYard } from '../constants/Constants';
-
+ 
 const ParkingDetailsScreen = ({ navigation }) => {
     const route = useRoute();
     const { vin, yard } = route.params;
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <ImageBackground style={styles.container} source={IMAGE_BACKGROUND_IMAGE} resizeMode="cover">
-
-                <ScrollView contentContainerStyle={{ padding: 16 }}>
+            {/* <ImageBackground style={styles.container} source={IMAGE_BACKGROUND_IMAGE} resizeMode="cover"> */}
+                <ScrollView contentContainerStyle={{}}>
                     {/* Header */}
                     <View style={styles.headerRow}>
                         <TouchableOpacity onPress={() => navigation.goBack()}>
-                            <Ionicons name="arrow-back" size={24} color="#000" />
+                            <Ionicons name="arrow-back" size={28} color="#000" />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ height: heightPercentageToDP(30), marginBottom: 20 }}>
-                        <ParkingMap parkingYards={SingleVehInparkingYard} single={true} vin={vin} />
+                    <View style={{ height: heightPercentageToDP(30) }}>
+                        <ParkingMap parkingYards={SingleVehInparkingYard} single={true} vin={vin} zoomIn={true} />
                     </View>
                     {/* Parking Info */}
+                    <View style={{padding:16 ,backgroundColor:"#ffff"}}>
                     <Text style={styles.headerText}>Parking Details</Text>
-
+ 
                     <View style={styles.sectionBox}>
                         <View style={styles.infoRow}>
                             <View style={styles.infoBlock}>
@@ -43,7 +43,7 @@ const ParkingDetailsScreen = ({ navigation }) => {
                             </View>
                         </View>
                     </View>
-
+ 
                     {/* Vin Details */}
                     <Text style={styles.sectionTitle}>Vehicle Details</Text>
                     <View style={styles.sectionBox}>
@@ -57,7 +57,7 @@ const ParkingDetailsScreen = ({ navigation }) => {
                                 <Text style={styles.value}>Tesla</Text>
                             </View>
                         </View>
-
+ 
                         <View style={styles.detailsRow}>
                             <View style={styles.detailsBlock}>
                                 <Text style={styles.label}>Make</Text>
@@ -68,7 +68,7 @@ const ParkingDetailsScreen = ({ navigation }) => {
                                 <Text style={styles.value}>TESLA, INC.</Text>
                             </View>
                         </View>
-
+ 
                         <View style={styles.detailsRow}>
                             <View style={styles.detailsBlock}>
                                 <Text style={styles.label}>Model Year</Text>
@@ -79,7 +79,7 @@ const ParkingDetailsScreen = ({ navigation }) => {
                                 <Text style={styles.value}>FREMOONT</Text>
                             </View>
                         </View>
-
+ 
                         <View style={styles.detailsRow}>
                             <View style={styles.detailsBlock}>
                                 <Text style={styles.label}>Vehicle Type</Text>
@@ -87,25 +87,27 @@ const ParkingDetailsScreen = ({ navigation }) => {
                             </View>
                         </View>
                     </View>
+ 
+                    </View>
                 </ScrollView>
-            </ImageBackground>
+            {/* </ImageBackground> */}
         </SafeAreaView>
     );
 };
-
+ 
 export default ParkingDetailsScreen;
-
+ 
 const styles = StyleSheet.create({
     container: {
         // padding: 16,
         // backgroundColor: '#fff',
-        flexGrow: 1,
+        // flexGrow: 1,
     },
     headerRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 10,
-        marginBottom: 20,
+        position:"absolute",
+        top:10,
+        left:10,
+        zIndex:99999
     },
     headerText: {
         fontSize: 22,
@@ -149,3 +151,4 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 });
+ 
