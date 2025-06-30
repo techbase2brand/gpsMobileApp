@@ -4,7 +4,6 @@ import MapView, {Marker, Circle, Polygon} from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
 const SLOT_SIZE = 0.0001; // Adjust for slot size
 
 const getSlotPolygon = (latitude, longitude, size = SLOT_SIZE) => {
@@ -145,40 +144,41 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar}) => {
                 borderBlockColor: 'red',
               }}></View>
             <Polygon
-              coordinates={[
-                {
-                  latitude: yard.center.latitude + yard.radius / 111000,
-                  longitude:
-                    yard.center.longitude -
-                    yard.radius /
-                      (111000 *
-                        Math.cos(yard.center.latitude * (Math.PI / 180))),
-                },
-                {
-                  latitude: yard.center.latitude + yard.radius / 111000,
-                  longitude:
-                    yard.center.longitude +
-                    yard.radius /
-                      (111000 *
-                        Math.cos(yard.center.latitude * (Math.PI / 180))),
-                },
-                {
-                  latitude: yard.center.latitude - yard.radius / 111000,
-                  longitude:
-                    yard.center.longitude +
-                    yard.radius /
-                      (111000 *
-                        Math.cos(yard.center.latitude * (Math.PI / 180))),
-                },
-                {
-                  latitude: yard.center.latitude - yard.radius / 111000,
-                  longitude:
-                    yard.center.longitude -
-                    yard.radius /
-                      (111000 *
-                        Math.cos(yard.center.latitude * (Math.PI / 180))),
-                },
-              ]}
+              // coordinates={[
+              //   {
+              //     latitude: yard.center.latitude + yard.radius / 111000,
+              //     longitude:
+              //       yard.center.longitude -
+              //       yard.radius /
+              //         (111000 *
+              //           Math.cos(yard.center.latitude * (Math.PI / 180))),
+              //   },
+              //   {
+              //     latitude: yard.center.latitude + yard.radius / 111000,
+              //     longitude:
+              //       yard.center.longitude +
+              //       yard.radius /
+              //         (111000 *
+              //           Math.cos(yard.center.latitude * (Math.PI / 180))),
+              //   },
+              //   {
+              //     latitude: yard.center.latitude - yard.radius / 111000,
+              //     longitude:
+              //       yard.center.longitude +
+              //       yard.radius /
+              //         (111000 *
+              //           Math.cos(yard.center.latitude * (Math.PI / 180))),
+              //   },
+              //   {
+              //     latitude: yard.center.latitude - yard.radius / 111000,
+              //     longitude:
+              //       yard.center.longitude -
+              //       yard.radius /
+              //         (111000 *
+              //           Math.cos(yard.center.latitude * (Math.PI / 180))),
+              //   },
+              // ]}
+              coordinates={yard?.coordinates}
               strokeColor="red"
               fillColor="rgba(0, 0, 255, 0.1)"
               strokeWidth={1}
@@ -214,7 +214,7 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar}) => {
                     title={single ? 'Parking Yard 1' : ''}
                     description={single ? vin : ''}>
                     {car?.show == 'yes' && !isSelected ? (
-                      <Ionicons name ="car-sport" size={12} color={'#000'} />
+                      <Ionicons name="car-sport" size={12} color={'#000'} />
                     ) : (
                       <Text></Text>
                     )}
@@ -228,11 +228,11 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar}) => {
                       }}
                       tracksViewChanges={false}>
                       <View style={{alignItems: 'center'}}>
-                        isSelected &&
+                        {/* isSelected && */}
                         <Ionicons
                           name="car-sport"
-                          size={40}
-                          color={isSelected ? '#913333' : '#000'}
+                          size={20}
+                          color={isSelected ? 'red' : '#000'}
                         />
                         {/* {isSelected && ( */}
                         <View style={styles.customCallout1}>
@@ -346,22 +346,11 @@ const styles = StyleSheet.create({
 
 export default ParkingMap;
 
-
-
-
-
-
-
-
-
-
-
 // import React, {useEffect, useRef, useState} from 'react';
 // import {View, Text, StyleSheet, Button, Alert} from 'react-native';
 // import MapView, {Marker, Circle, Polygon} from 'react-native-maps';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 // import Ionicons from 'react-native-vector-icons/Ionicons';
-
 
 // const SLOT_SIZE = 0.0001; // Adjust for slot size
 

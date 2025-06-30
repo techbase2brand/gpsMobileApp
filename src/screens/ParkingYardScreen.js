@@ -1,44 +1,54 @@
 // ParkingYardScreen.js
-import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions, SafeAreaView, ImageBackground } from 'react-native';
-import { IMAGE_BACKGROUND_IMAGE } from '../assests/images';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  SafeAreaView,
+  ImageBackground,
+} from 'react-native';
+import {IMAGE_BACKGROUND_IMAGE} from '../assests/images';
+import {parkingYards} from '../constants/Constants';
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
-const parkingData = [
-  { id: '1', name: 'Yard_1', address: '47 W 13th St, New York, NY 10011, USA' },
-  { id: '2', name: 'Yard_2', address: '47 W 13th St, New York, NY 10011, USA' },
-  { id: '3', name: 'Yard_3', address: '47 W 13th St, New York, NY 10011, USA' },
-  { id: '4', name: 'Yard_4', address: '47 W 13th St, New York, NY 10011, USA' },
-  { id: '5', name: 'Yard_5', address: '47 W 13th St, New York, NY 10011, USA' },
-  { id: '6', name: 'Yard_6', address: '47 W 13th St, New York, NY 10011, USA' },
-];
+const ParkingYardScreen = ({navigation}) => {
+  const [selectedYard, setSelectedYard] = useState(null);
 
-const ParkingYardScreen = ({ navigation }) => {
-  const [selectedYard, setSelectedYard] = useState('1');
+  const renderItem = ({item}) => {
+    const isSelected = item?.id === selectedYard;
 
-  const renderItem = ({ item }) => {
-    const isSelected = item.id === selectedYard;
     return (
       <TouchableOpacity
         style={[styles.card, isSelected && styles.selectedCard]}
-        onPress={() => { setSelectedYard(item.id), navigation.navigate("YardDetailsScreen") }}
-      >
-        <Text style={[styles.name, isSelected && styles.selectedText]}>{item.name}</Text>
-        <Text style={[styles.address, isSelected && styles.selectedText]}>{item.address}</Text>
+        onPress={() => {
+          setSelectedYard(item?.id),
+            navigation.navigate('YardDetailsScreen', {isSelected: item?.id});
+        }}>
+        <Text style={[styles.name, isSelected && styles.selectedText]}>
+          {item?.name}
+        </Text>
+        <Text style={[styles.address, isSelected && styles.selectedText]}>
+          {item?.address}
+        </Text>
       </TouchableOpacity>
     );
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ImageBackground style={{flex:1}} source={IMAGE_BACKGROUND_IMAGE} resizeMode="cover">
-
+    <SafeAreaView style={{flex: 1}}>
+      <ImageBackground
+        style={{flex: 1}}
+        source={IMAGE_BACKGROUND_IMAGE}
+        resizeMode="cover">
         <View style={styles.container}>
           <Text style={styles.title}>Parking Yard</Text>
           <FlatList
-            data={parkingData}
-            keyExtractor={(item) => item.id}
+            data={parkingYards}
+            keyExtractor={item => item.id}
             renderItem={renderItem}
             numColumns={2}
             columnWrapperStyle={styles.row}
@@ -77,8 +87,8 @@ const styles = StyleSheet.create({
     padding: 12,
     paddingVertical: 20,
     backgroundColor: '#fff',
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   selectedCard: {
     backgroundColor: '#FFEBEB',
@@ -89,13 +99,12 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: '#252837',
     marginBottom: 4,
-    textAlign: "center"
+    textAlign: 'center',
   },
   address: {
     fontSize: 13,
     color: '#252837',
-    textAlign: "center"
-
+    textAlign: 'center',
   },
   selectedText: {
     color: '#FF3B30',

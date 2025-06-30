@@ -9,8 +9,8 @@ const Stack = createNativeStackNavigator();
 export default function ParkingYardStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="YardDetailsScreen" component={YardDetailsScreen} />
       <Stack.Screen name="ParkingYardScreen" component={ParkingYardScreen} />
+      <Stack.Screen name="YardDetailsScreen" component={YardDetailsScreen} />
       <Stack.Screen name="ParkingDetailsScreen" component={ParkingDetailsScreen} />
     </Stack.Navigator>
   );
