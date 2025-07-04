@@ -34,7 +34,7 @@ export default function MainTabNavigator() {
         tabBarLabel: ({ focused }) => {
           let label = '';
           if (route.name === 'Home') label = 'Home';
-          else if (route.name === 'Parking Yard') label = 'Parking Yard';
+          else if (route.name === 'Facility') label = 'Facility';
           else if (route.name === 'Search') label = 'Search VIN';
 
           return (
@@ -52,7 +52,7 @@ export default function MainTabNavigator() {
           let iconName;
           if (route.name === 'Home') {
             iconName = focused ? HOME_FOCUSED_IMAGE : HOME_UNFOCUSED_IMAGE;
-          } else if (route.name === 'Parking Yard') {
+          } else if (route.name === 'Facility') {
             iconName = focused ? PARKING_FOCUSED_IMAGE : PARKING_UNFOCUSED_IMAGE;
           } else if (route.name === 'Search') {
             iconName = focused ? VIN_FOCUSED_IMAGE : VIN_UNFOCUSED_IMAGE;
@@ -86,14 +86,14 @@ export default function MainTabNavigator() {
             }
           },
         })} />
-      <Tab.Screen name="Parking Yard" component={ParkingYardStack}
+      <Tab.Screen name="Facility" component={ParkingYardStack}
         listeners={({ navigation }) => ({
           tabPress: e => {
             const state = navigation.getState();
             const currentRoute = state.routes.find(r => r.name === "History");
             if (currentRoute?.state?.index > 0) {
-              navigation.navigate("Parking Yard", {
-                screen: "Parking Yard", // 👈 initial screen of your JobHistoryStack
+              navigation.navigate("Facility", {
+                screen: "Facility", // 👈 initial screen of your JobHistoryStack
               });
             }
           },

@@ -4,6 +4,7 @@ import ParkingMap from '../components/ParkingMap';
 import {SingleVehInparkingYard, parkingYards} from '../constants/Constants';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from '../utils';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import Header from '../components/Header';
 
 const HomeScreen = ({navigation}) => {
   const [feeds, setFeeds] = useState([]);
@@ -25,6 +26,7 @@ const HomeScreen = ({navigation}) => {
   };
   return (
     <View style={{flex: 1}}>
+      <Header title="Home" backArrow={false}/>
       <Pressable
         style={styles.notificationIcon}
         onPress={() => navigation.navigate('NotificationScreen')}>
@@ -33,7 +35,7 @@ const HomeScreen = ({navigation}) => {
       <ParkingMap
         parkingYards={parkingYards}
         single={true}
-        zoomIn={true}
+        // zoomIn={true}
       />
     </View>
   );

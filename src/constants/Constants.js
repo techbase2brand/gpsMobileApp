@@ -20,7 +20,7 @@ const generateCarsInRadius = (center, radius, count, yardId) => {
 export const parkingYards = [
   {
     id: 1,
-    name: 'Parking Yard_1',
+    name: 'Facility_1',
     address:'Truganina',
     center: {latitude: -37.8209, longitude: 144.7386},
     radius: 80,
@@ -210,7 +210,7 @@ export const parkingYards = [
   },
   {
     id: 2,
-    name: 'Parking Yard_2 ',
+    name: 'Facility_2 ',
     address:'Derrimut',
     center: {latitude: -37.8219, longitude: 144.7384},
     radius: 80,
@@ -314,7 +314,7 @@ export const parkingYards = [
   },
   {
     id: 3,
-    name: 'Parking Yard_3',
+    name: 'Facility_3',
     address:'Laverton North',
     center: {latitude: -37.8226, longitude: 144.738},
     radius: 60,
@@ -496,7 +496,7 @@ export const parkingYards = [
 export const parkingYard = [
   {
     id: 1,
-    name: 'Parking Yard 1 - Truganina',
+    name: 'Facility 1 - Truganina',
     center: {latitude: -37.8209, longitude: 144.7386},
     radius: 120,
     cars: [
@@ -806,7 +806,7 @@ export const parkingYard = [
 export const SingleVehInparkingYard = [
   {
     id: 1,
-    name: 'Parking Yard 1 - Truganina',
+    name: 'Facility 1 - Truganina',
     center: {latitude: 30.711127280548283, longitude: 76.6923158661923},
     cars: [
       {

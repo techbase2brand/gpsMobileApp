@@ -5,12 +5,15 @@ import {
   TouchableOpacity,
   FlatList,
   SafeAreaView,
+  Pressable,
 } from 'react-native';
 import React, {useState} from 'react';
 import {heightPercentageToDP} from '../utils';
 import ParkingMap from '../components/ParkingMap';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {parkingYard, parkingYards} from '../constants/Constants';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import {heightPercentageToDP as hp, widthPercentageToDP as wp} from '../utils';
 
 const vinList = [
   {
@@ -310,6 +313,7 @@ const YardDetailsScreen = ({navigation, route}) => {
         //       yard: item.yard,
         //     }) }
       >
+         
         <View style={styles.row}>
           <Text style={styles.vinLabel}>{item.vin}</Text>
           <Text style={styles.quantity}>{item.parkingYard}</Text>
@@ -326,6 +330,11 @@ const YardDetailsScreen = ({navigation, route}) => {
             <Ionicons name="arrow-back" size={28} color="#000" />
           </TouchableOpacity>
         </View>
+        <Pressable
+        style={styles.notificationIcon}
+        onPress={() => navigation.navigate('Search')}>
+        <Fontisto name="search" size={20} color="#000" />
+      </Pressable>
         <View style={{height: heightPercentageToDP(40)}}>
           <ParkingMap
             parkingYards={parking_yard}
@@ -398,5 +407,18 @@ const styles = StyleSheet.create({
     fontSize: 15,
     flex: 1,
     textAlign: 'right',
+  },
+  notificationIcon: {
+    position: 'absolute',
+    right: wp(5),
+    top: hp(0),
+    width: wp(12),
+    height: wp(12),
+    backgroundColor: 'white',
+    zIndex: 999,
+    borderRadius: 100,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

@@ -72,55 +72,86 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar}) => {
     return () => clearTimeout(timeout);
   }, [parkingYards]);
 
+  // useEffect(() => {
+  //   if (zoomIn) {
+  //     if (mapRef.current) {
+  //       const center = parkingYards[0].center;
+  //       mapRef.current.animateToRegion(
+  //         {
+  //           latitude: center.latitude,
+  //           longitude: center.longitude,
+  //           latitudeDelta: 0.05,
+  //           longitudeDelta: 0.05,
+  //         },
+  //         1000,
+  //       );
+  //       setTimeout(() => {
+  //         mapRef.current.animateToRegion(
+  //           {
+  //             latitude: center.latitude,
+  //             longitude: center.longitude,
+  //             latitudeDelta: 0.02,
+  //             longitudeDelta: 0.02,
+  //           },
+  //           1000,
+  //         );
+  //       }, 500);
+  //       setTimeout(() => {
+  //         mapRef.current.animateToRegion(
+  //           {
+  //             latitude: center.latitude,
+  //             longitude: center.longitude,
+  //             latitudeDelta: 0.005,
+  //             longitudeDelta: 0.005,
+  //           },
+  //           1000,
+  //         );
+  //       }, 1000);
+  //       setTimeout(() => {
+  //         mapRef.current.animateToRegion(
+  //           {
+  //             latitude: center.latitude,
+  //             longitude: center.longitude,
+  //             latitudeDelta: 0.005,
+  //             longitudeDelta: 0.005,
+  //           },
+  //           1000,
+  //         );
+  //       }, 1500);
+  //     }
+  //   }
+  // }, []);
+
   useEffect(() => {
-    if (zoomIn) {
-      if (mapRef.current) {
-        const center = parkingYards[0].center;
+    if (zoomIn && mapRef.current) {
+      const center = parkingYards[0].center;
+      // First zoom (very far out)
+      mapRef.current.animateToRegion(
+        {
+          latitude: center.latitude,
+          longitude: center.longitude,
+          latitudeDelta: 1.0, // 🚀 extremely zoomed out
+          longitudeDelta: 1.0,
+        },
+        500,
+      );
+  
+      // Second zoom (very close)
+      setTimeout(() => {
         mapRef.current.animateToRegion(
           {
             latitude: center.latitude,
             longitude: center.longitude,
-            latitudeDelta: 0.05,
-            longitudeDelta: 0.05,
+            latitudeDelta: 0.0002, //  very close zoom
+            longitudeDelta: 0.0002,
           },
-          1000,
+          1000, // slightly slower for smooth effect
         );
-        setTimeout(() => {
-          mapRef.current.animateToRegion(
-            {
-              latitude: center.latitude,
-              longitude: center.longitude,
-              latitudeDelta: 0.02,
-              longitudeDelta: 0.02,
-            },
-            1000,
-          );
-        }, 500);
-        setTimeout(() => {
-          mapRef.current.animateToRegion(
-            {
-              latitude: center.latitude,
-              longitude: center.longitude,
-              latitudeDelta: 0.005,
-              longitudeDelta: 0.005,
-            },
-            1000,
-          );
-        }, 1000);
-        setTimeout(() => {
-          mapRef.current.animateToRegion(
-            {
-              latitude: center.latitude,
-              longitude: center.longitude,
-              latitudeDelta: 0.005,
-              longitudeDelta: 0.005,
-            },
-            1000,
-          );
-        }, 1500);
-      }
+      }, 1000); // waits for first zoom to finish
     }
   }, []);
+  
+  
 
   return (
     <>
