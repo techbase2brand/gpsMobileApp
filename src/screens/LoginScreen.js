@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   loginButton: {
-    backgroundColor: orangeColor,
+    backgroundColor: "#613EEA",
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   googleButton: {
     borderWidth: 1,
-    borderColor: orangeColor,
+    borderColor: "#613EEA",
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',
