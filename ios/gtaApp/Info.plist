@@ -30,6 +30,8 @@
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
+		<key>NSCameraUsageDescription</key>
+<string>This app uses the camera to scan VIN codes.</string>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>

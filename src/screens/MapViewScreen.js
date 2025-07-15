@@ -1,10 +1,12 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ParkingMap from '../components/ParkingMap';
 import {SingleVehInparkingYard, parkingYards} from '../constants/Constants';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from '../utils';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Header from '../components/Header';
+import Ionicons from 'react-native-vector-icons/dist/Ionicons';
+
 
 const MapViewScreen = ({navigation}) => {
   const [feeds, setFeeds] = useState([]);
@@ -26,12 +28,10 @@ const MapViewScreen = ({navigation}) => {
   };
   return (
     <View style={{flex: 1}}>
-      {/* <Header title="Home" backArrow={false} /> */}
-      <Pressable
-        style={styles.notificationIcon}
-        onPress={() => navigation.navigate('NotificationScreen')}>
-        <Fontisto name="bell" size={30} color="#000" />
-      </Pressable>
+      {/* <Header title="Home" backArrow={true} /> */}
+      <TouchableOpacity onPress={()=> navigation.goBack()} style={styles.notificationIcon}>
+          <Ionicons name="arrow-back" size={32} color="black" />
+        </TouchableOpacity>
       <ParkingMap
         parkingYards={parkingYards}
         single={true}
@@ -46,14 +46,11 @@ export default MapViewScreen;
 const styles = StyleSheet.create({
   notificationIcon: {
     position: 'absolute',
-    right: wp(5),
-    top: hp(15),
+    left: wp(2),
+    top: hp(5),
     width: wp(15),
     height: wp(15),
-    backgroundColor: 'white',
     zIndex: 999,
-    borderRadius: 100,
-    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },

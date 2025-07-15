@@ -1,8 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, StyleSheet, Button, Alert} from 'react-native';
+import {View, Text, StyleSheet, Button, Alert, Image} from 'react-native';
 import MapView, {Marker, Circle, Polygon} from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { CAR } from '../assests/images';
 
 const SLOT_SIZE = 0.0001; // Adjust for slot size
 
@@ -16,7 +17,7 @@ const getSlotPolygon = (latitude, longitude, size = SLOT_SIZE) => {
   ];
 };
 
-const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar}) => {
+const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar,homeScreen}) => {
   const mapRef = useRef(null);
   const [visibleCallouts, setVisibleCallouts] = useState([]);
   const [yards, setYards] = useState(parkingYards);
@@ -142,7 +143,7 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar}) => {
           {
             latitude: center.latitude,
             longitude: center.longitude,
-            latitudeDelta: 0.0002, //  very close zoom
+            latitudeDelta:  0.0002, //  very close zoom
             longitudeDelta: 0.0002,
           },
           1000, // slightly slower for smooth effect
@@ -233,7 +234,7 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar}) => {
               const isSelected = carToFocus?.vin === car.vin;
               const slotCoords = getSlotPolygon(car.latitude, car.longitude);
 
-              if (car.id === '1-1') return null;
+              if (car?.id === '1-1') return null;
               return (
                 <React.Fragment key={car.id}>
                   {/* Car Marker */}
@@ -245,6 +246,10 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar}) => {
                     title={single ? 'Parking Yard 1' : ''}
                     description={single ? vin : ''}>
                     {car?.show == 'yes' && !isSelected ? (
+                    //   <Image
+                    //   source={CAR}
+                    //   style={{height:50, width:50}}
+                    // />
                       <Ionicons name="car-sport" size={12} color={'#000'} />
                     ) : (
                       <Text></Text>
@@ -260,6 +265,7 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar}) => {
                       tracksViewChanges={false}>
                       <View style={{alignItems: 'center'}}>
                         {/* isSelected && */}
+
                         <Ionicons
                           name="car-sport"
                           size={20}

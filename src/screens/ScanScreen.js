@@ -1,21 +1,61 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet, Modal} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {widthPercentageToDP} from '../utils';
+import AnimatedLottieView from 'lottie-react-native';
 
-export default function ScanScreen() {
+export default function ScanScreen({navigation}) {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpen = () => {
+    setShowModal(true);
+
+    setTimeout(() => {
+      navigation.navigate('ParkingHistory');
+      setShowModal(false);
+    }, 2000);
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Scan Options</Text>
 
-      <TouchableOpacity style={styles.button}>
-        <Ionicons name="car-sport" size={24} color="white" style={styles.icon} />
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleOpen}
+        // onPress={()=>navigation.navigate('ScannerScreen')}
+      >
+        <Ionicons
+          name="car-sport"
+          size={24}
+          color="white"
+          style={styles.icon}
+        />
         <Text style={styles.buttonText}>Scan VIN</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleOpen}>
         <Ionicons name="barcode" size={24} color="white" style={styles.icon} />
         <Text style={styles.buttonText}>Scan Tracker Chip</Text>
       </TouchableOpacity>
+
+      <Modal visible={showModal} transparent animationType="fade">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            {/* {isLoggingOut ? ( */}
+            <>
+              <AnimatedLottieView
+                source={require('../assets/scan.json')}
+                autoPlay
+                loop
+                style={{width: 180, height: 300}}
+              />
+              {/* <Text style={{marginTop: 10}}>Logging out...</Text> */}
+            </>
+
+            {/* )} */}
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -44,7 +84,7 @@ const styles = StyleSheet.create({
 
     // Shadow
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
+    shadowOffset: {width: 0, height: 3},
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
@@ -56,4 +96,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   icon: {},
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+    width: widthPercentageToDP(80),
+  },
 });

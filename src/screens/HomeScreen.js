@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,85 +7,125 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
-  GROUP,
-  LANGUAGE,
+  ACTIVE,
+  BATTERY,
+  INACTIVE,
   MAP_ICON,
   MAP_IMAGE,
   NOTIFICATION,
-  QUESTION,
+  VEHICLE_REG,
 } from '../assests/images';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import DrawerMenu from '../components/DrawerMenu';
+import ParkingMap from '../components/ParkingMap';
+import {parkingYards} from '../constants/Constants';
+import {heightPercentageToDP as hp, widthPercentageToDP as wp} from '../utils';
 
 const cardData = [
   {
     id: 1,
-    icon: NOTIFICATION,
-    text: 'Notifications',
+    icon: VEHICLE_REG,
+    text: 'Vehicles Registered',
     showRedDot: true,
   },
   {
     id: 2,
-    icon: GROUP,
-    text: 'View Cars History',
+    icon: ACTIVE,
+    text: 'Active Chips',
     showRedDot: false,
   },
   {
     id: 3,
-    icon: LANGUAGE,
-    text: 'Parking History',
+    icon: INACTIVE,
+    text: 'In-Active Chips',
     showRedDot: false,
   },
   {
     id: 4,
-    icon: QUESTION,
-    text: 'Contact',
+    icon: BATTERY,
+    text: 'Low Battery Chips',
     showRedDot: false,
   },
 ];
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container]}>
       {/* Top Map and Menu */}
-      <View style={styles.topContainer}>
-        <View style={styles.mapPlaceholder}>
-          {/* Replace with your MapView component */}
-          <Image source={MAP_IMAGE} style={[styles.mapImage]} />
-          <TouchableOpacity>
-            <Image
-              source={MAP_ICON}
-              style={{
-                height: 70,
-                width: 70,
-                position: 'absolute',
-                top: -50,
-                right: 140,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
+      <View
+        style={[
+          styles.header,
+          {position: 'absolute', top: 30, width: '100%', zIndex: 999999},
+        ]}>
+        <TouchableOpacity onPress={() => setDrawerOpen(true)}>
+          <DrawerMenu
+            isOpen={isDrawerOpen}
+            onClose={() => setDrawerOpen(false)}
+            navigation={navigation}
+          />
+          <Ionicons name="menu" size={30} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={NOTIFICATION}
+            style={{
+              height: 36,
+              width: 36,
+            }}
+          />
+        </TouchableOpacity>
+      </View>
+
+      {/* <View style={isDrawerOpen && styles.drawer}> */}
+      {/* <View style={styles.topContainer}>
+          <View style={styles.mapPlaceholder}>
+            <Image source={MAP_IMAGE} style={[styles.mapImage]} />
+            <TouchableOpacity
+              onPress={() => navigation.navigate('MapViewScreen')}>
+              <Image
+                source={MAP_ICON}
+                style={{
+                  height: 70,
+                  width: 70,
+                  position: 'absolute',
+                  top: -50,
+                  right: 140,
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        </View> */}
+
+      <View style={{height: hp(45)}}>
+        <ParkingMap
+          parkingYards={parkingYards}
+          homeScreen={true}
+          // zoomIn={true}
+          // selectedCar={selectedCar}
+        />
       </View>
 
       {/* Security Details */}
-      <View style={styles.detailsContainer}>
-        <Text style={styles.locationText}>
-          Lekki Gardens Car Park A Security
-        </Text>
-        <View style={styles.profileContainer}>
-          <View>
-            <Image
-              source={{uri: 'https://randomuser.me/api/portraits/men/1.jpg'}}
-              style={styles.profileImage}
-            />
-            <View style={styles.onlineDot}></View>
+      {/* <View style={styles.detailsContainer}>
+          <Text style={styles.locationText}>
+            Lekki Gardens Car Park A Security
+          </Text>
+          <View style={styles.profileContainer}>
+            <View>
+              <Image
+                source={{uri: 'https://randomuser.me/api/portraits/men/1.jpg'}}
+                style={styles.profileImage}
+              />
+           
+            </View>
+            <View style={{marginLeft: 10}}>
+              <Text style={styles.name}>Mark Evans</Text>
+              <Text style={styles.role}>Security Guard</Text>
+              <Text style={styles.badge}>Badge number - SG911</Text>
+            </View>
           </View>
-          <View style={{marginLeft: 10}}>
-            <Text style={styles.name}>Mark Evans</Text>
-            <Text style={styles.role}>Security Guard</Text>
-            <Text style={styles.badge}>Badge number - SG911</Text>
-          </View>
-        </View>
-      </View>
+        </View> */}
 
       {/* Options Cards */}
       <View style={styles.cardsContainer}>
@@ -125,12 +165,25 @@ export default function HomeScreen() {
           <Text style={styles.cardText}>Contact Police</Text>
         </TouchableOpacity> */}
       </View>
+      {/* </View> */}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: 'white'},
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 16,
+  },
+  drawer: {
+    position: 'absolute',
+    right: -100,
+    top: 100,
+  },
+  headerTitle: {fontWeight: 'bold', fontSize: 16},
   topContainer: {backgroundColor: 'white'},
   mapPlaceholder: {position: 'relative', alignItems: 'flex-end'},
   mapImage: {

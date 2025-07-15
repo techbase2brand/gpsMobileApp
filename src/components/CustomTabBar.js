@@ -11,7 +11,7 @@ import Animated, {
 const AnimatedTouchableOpacity =
   Animated.createAnimatedComponent(TouchableOpacity);
 
-const PRIMARY_COLOR = '#130057';
+const PRIMARY_COLOR = '#613EEA';
 const SECONDARY_COLOR = '#fff';
 
 export default function CustomTabBar({ state, descriptors, navigation }) {
@@ -59,7 +59,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
               <Animated.Text
                 entering={FadeIn.duration(150)}
                 exiting={FadeOut.duration(100)}
-                style={styles.text}
+                style={[styles.text]}
               >
                 {label}
               </Animated.Text>

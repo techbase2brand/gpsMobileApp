@@ -20,7 +20,7 @@ const LoginScreen = ({navigation}) => {
   return (
     <ImageBackground
       style={styles.container}
-      source={IMAGE_BACKGROUND_IMAGE}
+      // source={IMAGE_BACKGROUND_IMAGE}
       resizeMode="cover">
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
@@ -56,7 +56,7 @@ const LoginScreen = ({navigation}) => {
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
 
-        <View style={styles.orContainer}>
+        {/* <View style={styles.orContainer}>
           <View style={styles.line} />
           <Text style={styles.orText}>or sign in with</Text>
           <View style={styles.line} />
@@ -64,7 +64,7 @@ const LoginScreen = ({navigation}) => {
 
         <TouchableOpacity style={styles.googleButton}>
           <Text style={styles.googleButtonText}>Continue with Google</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           style={styles.signupContainer}
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   forgot: {
     fontSize: 13,
-    color: '#888',
+    color: '#613EEA',
   },
   checkboxContainer: {
     flexDirection: 'row',

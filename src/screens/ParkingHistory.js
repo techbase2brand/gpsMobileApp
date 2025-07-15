@@ -6,16 +6,19 @@ import {
   TouchableOpacity,
   FlatList,
   SafeAreaView,
+  Image,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { NOTIFICATION } from '../assests/images';
 
 export default function ParkingHistory({navigation}) {
   const data = [
     {
       id: '1',
       name: 'Amanda Chase',
-      uniqueId: 'CPA-0129',
-      space: 'Space 4c',
+      vinID: 'vin-12345555',
+      chipId: 'CPA-0129',
+      space: 'Active',
       checkIn: '11:00 am',
       checkOut: '05:00 pm',
       date: '02/09/2019',
@@ -23,8 +26,9 @@ export default function ParkingHistory({navigation}) {
     {
       id: '2',
       name: 'Amanda Chase',
-      uniqueId: 'CPA-0129',
-      space: 'Space 4c',
+      vinID: 'vin-12345555',
+      chipId: 'CPA-0129',
+      space: 'Inactive',
       checkIn: '1:00 pm',
       checkOut: '05:00 pm',
       date: '02/09/2019',
@@ -32,13 +36,14 @@ export default function ParkingHistory({navigation}) {
     {
       id: '3',
       name: 'Amanda Chase',
-      uniqueId: 'CPA-0129',
-      space: 'Space 4c',
+      vinID: 'vin-12345555',
+      chipId: 'CPA-0129',
+      space: 'Active',
       checkIn: '8:00 pm',
       checkOut: '05:00 pm',
       date: '02/09/2019',
     },
-  ];
+  ]
 
   const renderItem = ({item}) => (
     <View style={styles.card}>
@@ -47,28 +52,33 @@ export default function ParkingHistory({navigation}) {
         <Text style={styles.space}>{item.space}</Text>
       </View>
 
-      <Text style={styles.uniqueId}>
-        Unique ID: <Text style={{color: 'blue'}}>{item.uniqueId}</Text>
-      </Text>
-
       <View style={styles.rowBetween}>
-        <Text>Time:</Text>
-        <Text style={styles.time}>{item.checkIn}</Text>
+        <Text style={styles.time}>Chip ID:</Text>
+        <Text >{item.chipId}</Text>
       </View>
-
+      <View style={styles.rowBetween}>
+        <Text style={styles.time}>Vin ID:</Text>
+        <Text >{item.vinID}</Text>
+      </View>
       {/* <View style={styles.rowBetween}>
-        <Text> Time (Est):</Text>
-        <Text style={styles.time}>{item.checkOut}</Text>
+        <Text style={styles.time}>Time:</Text>
+        <Text >{item.checkIn}</Text>
       </View> */}
 
+      {/* <View style={styles.rowBetween}>
+        <Text style={styles.time}>Date:</Text>
+        <Text >{item.date}</Text>
+      </View> */}
       <View style={styles.rowBetween}>
-        <Text>Date:</Text>
-        <Text style={styles.time}>{item.date}</Text>
-      </View>
-      <View style={{alignSelf: 'flex-end'}}>
-        <Text style={styles.time}>Edit By:</Text>
+      <Text >{item.date}</Text>
+      <Text >{item.checkIn}</Text>
+        {/* <Text style={styles.time}>Added By:</Text> */}
         <Text>Mark Evans</Text>
       </View>
+      {/* <View style={{alignSelf: 'flex-end'}}>
+        <Text style={styles.time}>Added By:</Text>
+        <Text>Mark Evans</Text>
+      </View> */}
 
       <TouchableOpacity
         style={[styles.qrBtn, {position: 'absolute', bottom: -20}]}>
@@ -82,30 +92,33 @@ export default function ParkingHistory({navigation}) {
       <View style={styles.header}>
         <Ionicons name="menu" size={28} color="black" />
         <Text style={styles.headerTitle}>History</Text>
-        <Ionicons name="person-circle" size={32} color="black" />
+        <TouchableOpacity>
+            <Image
+              source={NOTIFICATION}
+              style={{
+                height: 35,
+                width: 35,
+              }}
+            />
+          </TouchableOpacity>
+        {/* <Ionicons name="person-circle" size={32} color="black" /> */}
       </View>
+
 
       <FlatList
         data={data}
         keyExtractor={item => item.id}
         renderItem={renderItem}
-        contentContainerStyle={{padding: 16}}
+        contentContainerStyle={{padding: 16, overflow:"hidden"}}
       />
+      <View style={{ height:60,}}/>
 
-      {/* <TouchableOpacity
-        style={[styles.backBtn,{position:}]}
-        onPress={() => navigation.goBack()}
-      >
-        <Text style={{ color: 'white', fontWeight: 'bold' }}>
-          Go Back to Home Screen
-        </Text>
-      </TouchableOpacity> */}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: 'white'},
+  container: {flex: 1,},
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -117,6 +130,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 8,
     padding: 16,
+    paddingBottom:30,
     marginBottom: 40,
     // height:200,
 
@@ -134,7 +148,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   name: {fontWeight: 'bold', fontSize: 16},
-  space: {color: 'gray'},
+  // space: {color: 'gray'},
   uniqueId: {marginBottom: 8, marginTop: 4},
   time: {fontWeight: 'bold'},
   qrBtn: {

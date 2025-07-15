@@ -1,6 +1,57 @@
 PODS:
   - boost (1.84.0)
   - DoubleConversion (1.1.6)
+  - dynamsoft-capture-vision-react-native (2.6.1016):
+    - DynamsoftBarcodeReaderBundle (= 10.4.3002)
+    - DynamsoftCaptureVisionBundle (= 2.6.1004)
+    - DynamsoftMRZScannerBundle (= 2.0.1)
+    - React
+  - DynamsoftBarcodeReader (10.4.30)
+  - DynamsoftBarcodeReaderBundle (10.4.3002):
+    - DynamsoftBarcodeReader (= 10.4.30)
+    - DynamsoftCameraEnhancer (= 4.2.24)
+    - DynamsoftCaptureVisionRouter (= 2.4.30)
+    - DynamsoftCore (= 3.4.30)
+    - DynamsoftImageProcessing (= 2.4.30)
+    - DynamsoftLicense (= 3.4.40)
+    - DynamsoftUtility (= 1.4.30)
+  - DynamsoftCameraEnhancer (4.2.24)
+  - DynamsoftCaptureVisionBundle (2.6.1004):
+    - DynamsoftBarcodeReader (= 10.4.30)
+    - DynamsoftCameraEnhancer (= 4.2.24)
+    - DynamsoftCaptureVisionRouter (= 2.4.30)
+    - DynamsoftCodeParser (= 2.4.30)
+    - DynamsoftCodeParserDedicator (= 1.2.30)
+    - DynamsoftCore (= 3.4.30)
+    - DynamsoftDocumentNormalizer (= 2.6.10)
+    - DynamsoftImageProcessing (= 2.4.30)
+    - DynamsoftLabelRecognizer (= 3.4.30)
+    - DynamsoftLicense (= 3.4.40)
+    - DynamsoftNeuralNetwork (= 1.0.20)
+    - DynamsoftUtility (= 1.4.30)
+  - DynamsoftCaptureVisionRouter (2.4.30)
+  - DynamsoftCodeParser (2.4.30)
+  - DynamsoftCodeParserDedicator (1.2.30)
+  - DynamsoftCore (3.4.30)
+  - DynamsoftDocumentNormalizer (2.6.10)
+  - DynamsoftImageProcessing (2.4.30)
+  - DynamsoftLabelRecognizer (3.4.30)
+  - DynamsoftLicense (3.4.40)
+  - DynamsoftMRZ (3.4.20)
+  - DynamsoftMRZScannerBundle (2.0.1):
+    - DynamsoftCameraEnhancer (= 4.2.24)
+    - DynamsoftCaptureVisionRouter (= 2.4.30)
+    - DynamsoftCodeParser (= 2.4.30)
+    - DynamsoftCodeParserDedicator (= 1.2.30)
+    - DynamsoftCore (= 3.4.30)
+    - DynamsoftImageProcessing (= 2.4.30)
+    - DynamsoftLabelRecognizer (= 3.4.30)
+    - DynamsoftLicense (= 3.4.40)
+    - DynamsoftMRZ (= 3.4.20)
+    - DynamsoftNeuralNetwork (= 1.0.20)
+    - DynamsoftUtility (= 1.4.30)
+  - DynamsoftNeuralNetwork (1.0.20)
+  - DynamsoftUtility (1.4.30)
   - fast_float (6.1.4)
   - FBLazyVector (0.79.2)
   - fmt (11.0.2)
@@ -8,6 +59,32 @@ PODS:
   - hermes-engine (0.79.2):
     - hermes-engine/Pre-built (= 0.79.2)
   - hermes-engine/Pre-built (0.79.2)
+  - lottie-ios (4.5.0)
+  - lottie-react-native (7.2.2):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - lottie-ios (= 4.5.0)
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-hermes
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RCT-Folly (2024.11.18.00):
     - boost
     - DoubleConversion
@@ -1458,6 +1535,31 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-simple-toast (3.3.2):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-hermes
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Toast (~> 4)
+    - Yoga
   - React-NativeModulesApple (0.79.2):
     - glog
     - hermes-engine
@@ -2004,16 +2106,19 @@ PODS:
     - ReactCommon/turbomodule/core
     - Yoga
   - SocketRocket (0.7.1)
+  - Toast (4.1.1)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - dynamsoft-capture-vision-react-native (from `../node_modules/dynamsoft-capture-vision-react-native`)
   - fast_float (from `../node_modules/react-native/third-party-podspecs/fast_float.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTDeprecation (from `../node_modules/react-native/ReactApple/Libraries/RCTFoundation/RCTDeprecation`)
@@ -2049,6 +2154,7 @@ DEPENDENCIES:
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-oscompat (from `../node_modules/react-native/ReactCommon/oscompat`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -2088,13 +2194,33 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - DynamsoftBarcodeReader
+    - DynamsoftBarcodeReaderBundle
+    - DynamsoftCameraEnhancer
+    - DynamsoftCaptureVisionBundle
+    - DynamsoftCaptureVisionRouter
+    - DynamsoftCodeParser
+    - DynamsoftCodeParserDedicator
+    - DynamsoftCore
+    - DynamsoftDocumentNormalizer
+    - DynamsoftImageProcessing
+    - DynamsoftLabelRecognizer
+    - DynamsoftLicense
+    - DynamsoftMRZ
+    - DynamsoftMRZScannerBundle
+    - DynamsoftNeuralNetwork
+    - DynamsoftUtility
+    - lottie-ios
     - SocketRocket
+    - Toast
 
 EXTERNAL SOURCES:
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  dynamsoft-capture-vision-react-native:
+    :path: "../node_modules/dynamsoft-capture-vision-react-native"
   fast_float:
     :podspec: "../node_modules/react-native/third-party-podspecs/fast_float.podspec"
   FBLazyVector:
@@ -2106,6 +2232,8 @@ EXTERNAL SOURCES:
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
     :tag: hermes-2025-03-03-RNv0.79.0-bc17d964d03743424823d7dd1a9f37633459c5c5
+  lottie-react-native:
+    :path: "../node_modules/lottie-react-native"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTDeprecation:
@@ -2172,6 +2300,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-simple-toast:
+    :path: "../node_modules/react-native-simple-toast"
   React-NativeModulesApple:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-oscompat:
@@ -2248,11 +2378,30 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
+  dynamsoft-capture-vision-react-native: de6efc586ac3930e8a064c7f7dcec64ac3a9cd32
+  DynamsoftBarcodeReader: b1925cf91cea404444c8eccf9045f5bd78a65d51
+  DynamsoftBarcodeReaderBundle: 2665ca194f2db5bc3d5ec1376aa799ae51c3edef
+  DynamsoftCameraEnhancer: 18628b6cd6169d35b5579424cdfab37e1b8ca7a4
+  DynamsoftCaptureVisionBundle: bb5d6c044784ce56b8b3615eed6cb88db695aa67
+  DynamsoftCaptureVisionRouter: 4e2fb20b7f0aae3b8709b6ff56713decb599e4ea
+  DynamsoftCodeParser: 7a8118c0bcd21bc849aaf7427f4088c2ea15d9a6
+  DynamsoftCodeParserDedicator: baa514940d7f5310e4a5f5d04eb59bb8282c1c8a
+  DynamsoftCore: 7b4ba6658f14d99aab9cc8e6ff2bc847909103ff
+  DynamsoftDocumentNormalizer: 5aa9f3c0465face2159862398970142a8b451b29
+  DynamsoftImageProcessing: 9c8e8deae9165693ec4ba4499a835a5609659fbb
+  DynamsoftLabelRecognizer: e05eed966b67d99dc8189ef74383a7454de37377
+  DynamsoftLicense: 4eabe8e077a64b38c8fdcf6177236bc018bac9a0
+  DynamsoftMRZ: 2f1983c9eb81d23bedbe80e56d6ff44136c3f43c
+  DynamsoftMRZScannerBundle: a900452d8e50a4edebb6c9cc537862ff3fc534d5
+  DynamsoftNeuralNetwork: 281373d04b236f4616f2f607b6266f0393d906e5
+  DynamsoftUtility: 0cea6058495725a9bdfff664f952785d81ab274e
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 84b955f7b4da8b895faf5946f73748267347c975
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
   hermes-engine: 314be5250afa5692b57b4dd1705959e1973a8ebe
+  lottie-ios: a881093fab623c467d3bce374367755c272bdd59
+  lottie-react-native: 8bc11e10576d1a3f77f4e0ae5b70503c5c890a09
   RCT-Folly: e78785aa9ba2ed998ea4151e314036f6c49e6d82
   RCTDeprecation: 83ffb90c23ee5cea353bd32008a7bca100908f8c
   RCTRequired: eb7c0aba998009f47a540bec9e9d69a54f68136e
@@ -2286,6 +2435,7 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: 054f34e9b82f02bd40f09cebd4083828b5b2beb6
   react-native-maps: c97d5144f32174474fe56de27f62c1ff67f40acd
   react-native-safe-area-context: 5594ec631ede9c311c5c0efa244228eff845ce88
+  react-native-simple-toast: c441c833fe4c18473c09fd3b5789f0b279dd074d
   React-NativeModulesApple: 2c4377e139522c3d73f5df582e4f051a838ff25e
   React-oscompat: ef5df1c734f19b8003e149317d041b8ce1f7d29c
   React-perflogger: 9a151e0b4c933c9205fd648c246506a83f31395d
@@ -2322,6 +2472,7 @@ SPEC CHECKSUMS:
   RNScreens: 482e9707f9826230810c92e765751af53826d509
   RNVectorIcons: 941a39b5d3b9d8cf8ac2e2fc09b07bfafbcf9796
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
+  Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
   Yoga: c758bfb934100bb4bf9cbaccb52557cee35e8bdf
 
 PODFILE CHECKSUM: 1f09730e18ae20875feaf3ccb342ce46b929fcc6
