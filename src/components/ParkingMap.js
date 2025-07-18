@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Button, Alert, Image} from 'react-native';
 import MapView, {Marker, Circle, Polygon} from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { CAR } from '../assests/images';
+import {CAR} from '../assests/images';
 
 const SLOT_SIZE = 0.0001; // Adjust for slot size
 
@@ -17,7 +17,7 @@ const getSlotPolygon = (latitude, longitude, size = SLOT_SIZE) => {
   ];
 };
 
-const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar,homeScreen}) => {
+const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar, home}) => {
   const mapRef = useRef(null);
   const [visibleCallouts, setVisibleCallouts] = useState([]);
   const [yards, setYards] = useState(parkingYards);
@@ -136,23 +136,21 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar,homeScreen})
         },
         500,
       );
-  
+
       // Second zoom (very close)
       setTimeout(() => {
         mapRef.current.animateToRegion(
           {
             latitude: center.latitude,
             longitude: center.longitude,
-            latitudeDelta:  0.0002, //  very close zoom
-            longitudeDelta: 0.0002,
+            latitudeDelta: home ? 0.002 : 0.0002, //  very close zoom
+            longitudeDelta: home ? 0.002 : 0.0002,
           },
           1000, // slightly slower for smooth effect
         );
       }, 1000); // waits for first zoom to finish
     }
   }, []);
-  
-  
 
   return (
     <>
@@ -246,12 +244,9 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar,homeScreen})
                     title={single ? 'Parking Yard 1' : ''}
                     description={single ? vin : ''}>
                     {car?.show == 'yes' && !isSelected ? (
-                    //   <Image
-                    //   source={CAR}
-                    //   style={{height:50, width:50}}
-                    // />
-                      <Ionicons name="car-sport" size={12} color={'#000'} />
+                      <Image source={CAR} style={{height: 30, width: 30}} resizeMode="contain" />
                     ) : (
+                      // <Ionicons name="car-sport" size={12} color={'#000'} />
                       <Text></Text>
                     )}
                   </Marker>

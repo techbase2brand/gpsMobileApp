@@ -42,7 +42,7 @@ const ParkingYardScreen = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground
         style={{flex: 1}}
-        source={IMAGE_BACKGROUND_IMAGE}
+        // source={IMAGE_BACKGROUND_IMAGE}
         resizeMode="cover">
         <View style={styles.container}>
           <Text style={styles.title}>Parking Yard</Text>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   card: {
     width: (width - 48) / 2,
     borderWidth: 1,
-    borderColor: '#FFCDD2',
+    borderColor: '#c1b7ed',
     borderRadius: 10,
     padding: 12,
     paddingVertical: 20,
@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   selectedCard: {
-    backgroundColor: '#FFEBEB',
-    borderColor: '#FF3B30',
+    backgroundColor: '#d6d3e6',
+    borderColor: '#613EEA',
   },
   name: {
     fontWeight: 'bold',
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   selectedText: {
-    color: '#FF3B30',
+    color: '#613EEA',
   },
 });
 

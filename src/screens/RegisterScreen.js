@@ -8,8 +8,9 @@ import {
   //   CheckBox,
   SafeAreaView,
   ImageBackground,
+  Image,
 } from 'react-native';
-import {IMAGE_BACKGROUND_IMAGE} from '../assests/images';
+import {IMAGE_BACKGROUND_IMAGE, MAIN_LOGO} from '../assests/images';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {orangeColor} from '../constants/Color';
 
@@ -21,23 +22,32 @@ const RegisterScreen = ({navigation}) => {
   return (
     <ImageBackground
       style={styles.container}
-      source={IMAGE_BACKGROUND_IMAGE}
+      // source={IMAGE_BACKGROUND_IMAGE}
       resizeMode="cover">
-      <View style={styles.container}>
+      <View style={{}}>
         <View
           style={{
             flexDirection: 'row',
-            gap: 20,
+            // gap: 20,
             alignItems: 'center',
             marginTop: 20,
           }}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={{}}>
             <Ionicons name="arrow-back" size={28} color="#000" />
           </TouchableOpacity>
-          <Text style={styles.title}>Create Account</Text>
+          {/* <Text style={styles.title}>Create Account</Text> */}
         </View>
-        <Text style={styles.subtitle}>Welcome back to the app</Text>
-
+        {/* <Text style={styles.subtitle}>Welcome back to the app</Text> */}
+        <Image
+          source={MAIN_LOGO}
+          style={{
+            height: 120,
+            width: 140,
+            resizeMode: 'contain',
+            alignSelf: 'center',
+            marginVertical: 40,
+          }}
+        />
         <Text style={styles.label}>Email</Text>
         <TextInput
           style={styles.input}
@@ -95,7 +105,7 @@ export default RegisterScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 20,
+    paddingVertical: 30,
     paddingHorizontal: 16,
   },
   title: {
@@ -142,7 +152,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   loginButton: {
-    backgroundColor: "#613EEA",
+    backgroundColor: '#613EEA',
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',
@@ -181,10 +191,10 @@ const styles = StyleSheet.create({
   },
   signupContainer: {
     alignItems: 'center',
-    marginTop: 200,
+    marginTop: 20,
   },
   signupText: {
-    color: '#333',
+    color: '#000',
   },
   signupLink: {
     fontWeight: 'bold',

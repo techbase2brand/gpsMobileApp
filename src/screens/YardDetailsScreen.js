@@ -299,7 +299,7 @@ const YardDetailsScreen = ({navigation, route}) => {
           styles.itemContainer,
           {
             backgroundColor: isSelectedVin
-              ? '#EF502E'
+              ? '#613EEA'
               : isEven
               ? '#F9F9F9'
               : '#FFFFFF',
@@ -313,10 +313,14 @@ const YardDetailsScreen = ({navigation, route}) => {
         //       yard: item.yard,
         //     }) }
       >
-         
         <View style={styles.row}>
-          <Text style={styles.vinLabel}>{item.vin}</Text>
-          <Text style={styles.quantity}>{item.parkingYard}</Text>
+          <Text
+            style={isSelectedVin ? styles.vinLabelFocused : styles.vinLabel}>
+            {item.vin}
+          </Text>
+          <Text style={isSelectedVin ? styles.quantityFOuced : styles.quantity}>
+            {item.parkingYard}
+          </Text>
         </View>
       </TouchableOpacity>
     );
@@ -331,10 +335,10 @@ const YardDetailsScreen = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
         <Pressable
-        style={styles.notificationIcon}
-        onPress={() => navigation.navigate('Search')}>
-        <Fontisto name="search" size={20} color="#000" />
-      </Pressable>
+          style={styles.notificationIcon}
+          onPress={() => navigation.navigate('Search')}>
+          {/* <Fontisto name="search" size={20} color="#000" /> */}
+        </Pressable>
         <View style={{height: heightPercentageToDP(40)}}>
           <ParkingMap
             parkingYards={parking_yard}
@@ -401,6 +405,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     flex: 1,
   },
+  vinLabelFocused: {
+    color: '#fff',
+    fontWeight: '500',
+    fontSize: 15,
+    flex: 1,
+  },
   quantity: {
     color: '#000',
     fontWeight: '500',
@@ -408,17 +418,24 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'right',
   },
+  quantityFOuced: {
+    color: '#fff',
+    fontWeight: '500',
+    fontSize: 15,
+    flex: 1,
+    textAlign: 'right',
+  },
   notificationIcon: {
-    position: 'absolute',
-    right: wp(5),
-    top: hp(0),
-    width: wp(12),
-    height: wp(12),
-    backgroundColor: 'white',
-    zIndex: 999,
-    borderRadius: 100,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    // position: 'absolute',
+    // right: wp(5),
+    // top: hp(0),
+    // width: wp(12),
+    // height: wp(12),
+    // backgroundColor: 'white',
+    // zIndex: 999,
+    // borderRadius: 100,
+    // borderWidth: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });

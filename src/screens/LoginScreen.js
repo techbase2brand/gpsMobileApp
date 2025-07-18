@@ -8,9 +8,10 @@ import {
   //   CheckBox,
   SafeAreaView,
   ImageBackground,
+  Image,
 } from 'react-native';
-import {IMAGE_BACKGROUND_IMAGE} from '../assests/images';
-import { orangeColor } from '../constants/Color';
+import {IMAGE_BACKGROUND_IMAGE, MAIN_LOGO} from '../assests/images';
+import {orangeColor} from '../constants/Color';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -23,9 +24,18 @@ const LoginScreen = ({navigation}) => {
       // source={IMAGE_BACKGROUND_IMAGE}
       resizeMode="cover">
       <View style={styles.container}>
-        <Text style={styles.title}>Login</Text>
-        <Text style={styles.subtitle}>Welcome back to the app</Text>
-
+        <Text style={styles.title}></Text>
+        {/* <Text style={styles.subtitle}></Text> */}
+        <Image
+          source={MAIN_LOGO}
+          style={{
+            height: 120,
+            width: 140,
+            resizeMode: 'contain',
+            alignSelf: 'center',
+            marginBottom: 40,
+          }}
+        />
         <Text style={styles.label}>Email</Text>
         <TextInput
           style={styles.input}
@@ -37,9 +47,6 @@ const LoginScreen = ({navigation}) => {
 
         <View style={styles.passwordRow}>
           <Text style={styles.label}>Password</Text>
-          <TouchableOpacity>
-            <Text style={styles.forgot}>Forget Password?</Text>
-          </TouchableOpacity>
         </View>
         <TextInput
           style={styles.input}
@@ -49,6 +56,11 @@ const LoginScreen = ({navigation}) => {
           value={password}
           onChangeText={setPassword}
         />
+        <TouchableOpacity
+          style={{alignSelf: 'flex-end'}}
+          onPress={() => navigation.navigate('ForgetPasswordFlow')}>
+          <Text style={styles.forgot}>Forget Password?</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.loginButton}
@@ -120,6 +132,7 @@ const styles = StyleSheet.create({
   },
   forgot: {
     fontSize: 13,
+     fontWeight: 'bold',
     color: '#613EEA',
   },
   checkboxContainer: {
@@ -132,7 +145,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   loginButton: {
-    backgroundColor: "#613EEA",
+    backgroundColor: '#613EEA',
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',
@@ -159,7 +172,7 @@ const styles = StyleSheet.create({
   },
   googleButton: {
     borderWidth: 1,
-    borderColor: "#613EEA",
+    borderColor: '#613EEA',
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',
@@ -171,13 +184,14 @@ const styles = StyleSheet.create({
   },
   signupContainer: {
     alignItems: 'center',
-    marginTop: 200,
+    marginTop: 20,
   },
   signupText: {
     color: '#333',
   },
   signupLink: {
     fontWeight: 'bold',
-    textDecorationLine: 'underline',
+    color: '#613EEA',
+    // textDecorationLine: 'underline',
   },
 });

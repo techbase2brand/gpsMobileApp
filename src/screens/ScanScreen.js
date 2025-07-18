@@ -11,7 +11,7 @@ export default function ScanScreen({navigation}) {
     setShowModal(true);
 
     setTimeout(() => {
-      navigation.navigate('ParkingHistory');
+      navigation.navigate('ValidIDScreen');
       setShowModal(false);
     }, 2000);
   };
@@ -49,9 +49,7 @@ export default function ScanScreen({navigation}) {
                 loop
                 style={{width: 180, height: 300}}
               />
-              {/* <Text style={{marginTop: 10}}>Logging out...</Text> */}
             </>
-
             {/* )} */}
           </View>
         </View>

@@ -7,8 +7,7 @@ import {
   Pressable,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-// import Toast from 'react-native-simple-toast';
-
+import Toast from 'react-native-simple-toast';
 import {
   BarcodeScanner,
   EnumScanningMode,
@@ -28,12 +27,10 @@ const ScannerScreen = ({navigation, route}) => {
     }, []),
   );
   // useEffect(() => {
-
   //   scanVinCode()
   // }, [])
 
   const scanVinCode = async () => {
-    console.log('kjasbdkjsabda');
     const config = {
       license: LICENSE,
       scanningMode: EnumScanningMode.SM_SINGLE,
@@ -59,7 +56,7 @@ const ScannerScreen = ({navigation, route}) => {
           //   // navigation.navigate('WorkOrderScreenTwo', { vinNumber: vin, isFromScanner: true });
           // }
         } else {
-          // Toast.show('Please scan a valid VIN number.');
+          Toast.show('Please scan a valid VIN number.');
           navigation.goBack();
         }
       } else {
@@ -67,7 +64,7 @@ const ScannerScreen = ({navigation, route}) => {
       }
     } catch (error) {
       console.log('Error', error.message || 'Unexpected error occurred');
-      // Toast.show(error.message || 'Unexpected error occurred');
+      Toast.show(error.message || 'Unexpected error occurred');
       navigation.goBack();
     }
   };

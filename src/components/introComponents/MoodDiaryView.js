@@ -1,22 +1,65 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, Dimensions } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  interpolate,
+  Extrapolate,
+} from 'react-native-reanimated';
 import { INTRO_3 } from '../../assests/images';
 
 const { width, height } = Dimensions.get('window');
 
-const MoodDiaryView = ({ animationController }) => {
+const IMAGE_WIDTH = width * 0.7;
+
+const MoodDiaryView = ({ triggerAnimation }) => {
+  const animationProgress = useSharedValue(0);
+
+  useEffect(() => {
+    if (triggerAnimation) {
+      animationProgress.value = withTiming(1, { duration: 1000 });
+    }
+  }, [triggerAnimation]);
+
+  // Text animation: slide in from right
+  const textAnimStyle = useAnimatedStyle(() => {
+    const translateX = interpolate(
+      animationProgress.value,
+      [0, 1],
+      [width, 0],
+      Extrapolate.CLAMP
+    );
+    return { transform: [{ translateX }], opacity: animationProgress.value };
+  });
+
+  // Image animation: slide in from bottom
+  const imageAnimStyle = useAnimatedStyle(() => {
+    const translateY = interpolate(
+      animationProgress.value,
+      [0, 1],
+      [width , 0],
+      Extrapolate.CLAMP
+    );
+    return { transform: [{ translateY }], opacity: animationProgress.value };
+  });
+
   return (
-    <View style={styles.container}>
-      <Image
-        source={INTRO_3} // replace with your image
-        style={styles.image}
+    <Animated.View style={styles.container}>
+      <Animated.Image
+        source={INTRO_3}
+        style={[styles.image, imageAnimStyle]}
         resizeMode="contain"
       />
-      <Text style={styles.title}>Easy Track</Text>
-      <Text style={styles.subtitle}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      </Text>
-    </View>
+      <Animated.Text style={[styles.title, textAnimStyle]}>
+        Easy Track
+      </Animated.Text>
+
+      <Animated.Text style={[styles.subtitle, textAnimStyle]}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </Animated.Text>
+
+    </Animated.View>
   );
 };
 
@@ -26,11 +69,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingHorizontal: 20,
-  },
-  image: {
-    width: width * 0.7,
-    height: height * 0.4,
-    marginBottom: 20,
+    paddingBottom: 100,
   },
   title: {
     fontSize: 24,
@@ -43,5 +82,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#888',
     textAlign: 'center',
+    marginBottom: 20,
+    paddingHorizontal: 64,
+    paddingVertical: 16,
+  },
+  image: {
+    width: IMAGE_WIDTH,
+    height: height * 0.4,
+    marginBottom: 20,
   },
 });

@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView, ImageBackground } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { IMAGE_BACKGROUND_IMAGE } from '../assests/images';
 
 const notifications = [
     {
@@ -37,7 +36,7 @@ export default function NotificationScreen({ navigation }) {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <ImageBackground style={styles.container} source={IMAGE_BACKGROUND_IMAGE} resizeMode="cover">
+            <ImageBackground style={styles.container}  resizeMode="cover">
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Ionicons name="arrow-back" size={24} color="#000" />

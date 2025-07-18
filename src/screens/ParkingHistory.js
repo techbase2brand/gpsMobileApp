@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { NOTIFICATION } from '../assests/images';
+import {NOTIFICATION} from '../assests/images';
 
 export default function ParkingHistory({navigation}) {
   const data = [
@@ -43,46 +43,54 @@ export default function ParkingHistory({navigation}) {
       checkOut: '05:00 pm',
       date: '02/09/2019',
     },
-  ]
+  ];
 
   const renderItem = ({item}) => (
     <View style={styles.card}>
-      <View style={styles.rowBetween}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.space}>{item.space}</Text>
-      </View>
+      <TouchableOpacity onPress={() => navigation.navigate('ValidIDScreen')}>
+        <View style={styles.rowBetween}>
+          <Text style={styles.name}></Text>
+          <Text
+            style={{
+              color: item.space == 'Active' ? '#06a514ff' : 'red',
+              fontWeight: 500,
+            }}>
+            {item?.space}
+          </Text>
+        </View>
 
-      <View style={styles.rowBetween}>
-        <Text style={styles.time}>Chip ID:</Text>
-        <Text >{item.chipId}</Text>
-      </View>
-      <View style={styles.rowBetween}>
-        <Text style={styles.time}>Vin ID:</Text>
-        <Text >{item.vinID}</Text>
-      </View>
-      {/* <View style={styles.rowBetween}>
+        <View style={styles.rowBetween}>
+          <Text style={styles.time}>Chip ID:</Text>
+          <Text>{item.chipId}</Text>
+        </View>
+        <View style={styles.rowBetween}>
+          <Text style={styles.time}>Vin ID:</Text>
+          <Text>{item.vinID}</Text>
+        </View>
+        {/* <View style={styles.rowBetween}>
         <Text style={styles.time}>Time:</Text>
         <Text >{item.checkIn}</Text>
       </View> */}
 
-      {/* <View style={styles.rowBetween}>
+        {/* <View style={styles.rowBetween}>
         <Text style={styles.time}>Date:</Text>
         <Text >{item.date}</Text>
       </View> */}
-      <View style={styles.rowBetween}>
-      <Text >{item.date}</Text>
-      <Text >{item.checkIn}</Text>
-        {/* <Text style={styles.time}>Added By:</Text> */}
-        <Text>Mark Evans</Text>
-      </View>
-      {/* <View style={{alignSelf: 'flex-end'}}>
+        <View style={styles.rowBetween}>
+          <Text>{item.date}</Text>
+          <Text>{item.checkIn}</Text>
+          {/* <Text style={styles.time}>Added By:</Text> */}
+          <Text>Mark Evans</Text>
+        </View>
+        {/* <View style={{alignSelf: 'flex-end'}}>
         <Text style={styles.time}>Added By:</Text>
         <Text>Mark Evans</Text>
       </View> */}
 
-      <TouchableOpacity
-        style={[styles.qrBtn, {position: 'absolute', bottom: -20}]}>
-        <Ionicons name="qr-code" size={30} color="white" />
+        <TouchableOpacity
+          style={[styles.qrBtn, {position: 'absolute', bottom: -50}]}>
+          <Ionicons name="qr-code" size={30} color="white" />
+        </TouchableOpacity>
       </TouchableOpacity>
     </View>
   );
@@ -90,47 +98,49 @@ export default function ParkingHistory({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Ionicons name="menu" size={28} color="black" />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={24} color="#000" />
+        </TouchableOpacity>
+        {/* <Ionicons name="menu" size={28} color="black" /> */}
         <Text style={styles.headerTitle}>History</Text>
-        <TouchableOpacity>
-            <Image
-              source={NOTIFICATION}
-              style={{
-                height: 35,
-                width: 35,
-              }}
-            />
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('NotificationScreen')}>
+          <Image
+            source={NOTIFICATION}
+            style={{
+              height: 35,
+              width: 35,
+            }}
+          />
+        </TouchableOpacity>
         {/* <Ionicons name="person-circle" size={32} color="black" /> */}
       </View>
-
 
       <FlatList
         data={data}
         keyExtractor={item => item.id}
         renderItem={renderItem}
-        contentContainerStyle={{padding: 16, overflow:"hidden"}}
+        contentContainerStyle={{padding: 16, overflow: 'hidden'}}
       />
-      <View style={{ height:60,}}/>
-
+      <View style={{height: 60}} />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 1,},
+  container: {flex: 1},
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
+    paddingHorizontal: 16,
   },
   headerTitle: {fontWeight: 'bold', fontSize: 16},
   card: {
     backgroundColor: 'white',
     borderRadius: 8,
     padding: 16,
-    paddingBottom:30,
+    paddingBottom: 30,
     marginBottom: 40,
     // height:200,
 

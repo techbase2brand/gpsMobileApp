@@ -35,7 +35,7 @@ const MapViewScreen = ({navigation}) => {
       <ParkingMap
         parkingYards={parkingYards}
         single={true}
-        // zoomIn={true}
+        home={true}
       />
     </View>
   );

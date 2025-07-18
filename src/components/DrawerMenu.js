@@ -80,7 +80,7 @@ export default function DrawerMenu({isOpen, onClose, user, navigation}) {
       {/* Menu items */}
       <View style={styles.menuItems}>
         {[
-          {label: 'Parking History', icon: 'time'},
+          {label: 'Facility History', icon: 'time'},
           {label: 'How it works', icon: 'information-circle'},
           {label: 'Support', icon: 'help-circle'},
           {label: 'Settings', icon: 'settings'},

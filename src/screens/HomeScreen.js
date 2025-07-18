@@ -20,7 +20,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import DrawerMenu from '../components/DrawerMenu';
 import ParkingMap from '../components/ParkingMap';
 import {parkingYards} from '../constants/Constants';
-import {heightPercentageToDP as hp, widthPercentageToDP as wp} from '../utils';
+import {
+  heightPercentageToDP,
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from '../utils';
 
 const cardData = [
   {
@@ -28,24 +32,32 @@ const cardData = [
     icon: VEHICLE_REG,
     text: 'Vehicles Registered',
     showRedDot: true,
+    backgroundColor: '#613EEA',
+    count:40
   },
   {
     id: 2,
     icon: ACTIVE,
     text: 'Active Chips',
     showRedDot: false,
+    backgroundColor: '#F2893D',
+    count:30
   },
   {
     id: 3,
     icon: INACTIVE,
     text: 'In-Active Chips',
     showRedDot: false,
+    backgroundColor: '#F24369',
+    count:10
   },
   {
     id: 4,
     icon: BATTERY,
     text: 'Low Battery Chips',
     showRedDot: false,
+    backgroundColor: '#45C64F',
+    count:5
   },
 ];
 export default function HomeScreen({navigation}) {
@@ -66,7 +78,8 @@ export default function HomeScreen({navigation}) {
           />
           <Ionicons name="menu" size={30} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('NotificationScreen')}>
           <Image
             source={NOTIFICATION}
             style={{
@@ -101,7 +114,8 @@ export default function HomeScreen({navigation}) {
         <ParkingMap
           parkingYards={parkingYards}
           homeScreen={true}
-          // zoomIn={true}
+          zoomIn={true}
+          home={true}
           // selectedCar={selectedCar}
         />
       </View>
@@ -132,16 +146,28 @@ export default function HomeScreen({navigation}) {
         {cardData?.map(item => (
           <TouchableOpacity
             key={item?.id}
-            style={[styles.card, {marginLeft: 0}]}>
-            <Image
-              source={item?.icon}
-              style={{
-                height: 40,
-                width: 40,
-              }}
-            />
-            {/* <Ionicons name={item.icon} size={32} color="purple" /> */}
+            style={[
+              styles.card,
+              {marginLeft: 0, backgroundColor: item.backgroundColor},
+            ]}>
             <Text style={styles.cardText}>{item.text}</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                // height:heightPercentageToDP(12),
+              }}>
+              <Text style={[styles.cardText, {fontSize: 22}]}>{item.count}</Text>
+              <Image
+                source={item?.icon}
+                style={{
+                  height: 40,
+                  width: 40,
+                }}
+              />
+            </View>
+
+            {/* <Ionicons name={item.icon} size={32} color="purple" /> */}
           </TouchableOpacity>
         ))}
         {/* <TouchableOpacity style={styles.card}>
@@ -231,24 +257,22 @@ const styles = StyleSheet.create({
   },
   card: {
     flexDirection: 'column',
+    justifyContent: 'space-between',
     width: '44%',
     height: 140,
     borderRadius: 8,
+    paddingVertical: 10,
     paddingHorizontal: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'white',
     marginBottom: 20,
     elevation: 4,
-
     // Bottom shadow
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 3},
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    elevation: 6,
   },
-  cardText: {marginTop: 8, textAlign: 'center'},
+  cardText: {marginTop: 8, fontWeight: 600, fontSize: 15, color: '#fff'},
   redDot: {
     width: 10,
     height: 10,
