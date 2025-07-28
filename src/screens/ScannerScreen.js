@@ -38,7 +38,7 @@ const ScannerScreen = ({navigation, route}) => {
 
     try {
       const result = await BarcodeScanner.launch(config);
-      //  console.log("resultresult",config);
+       console.log("resultresult",result);
       if (
         result.resultStatus === EnumResultStatus.RS_FINISHED &&
         result.barcodes?.length

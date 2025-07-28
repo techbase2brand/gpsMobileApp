@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -25,6 +25,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from '../utils';
+import {useFocusEffect} from '@react-navigation/native';
 
 const cardData = [
   {
@@ -33,7 +34,7 @@ const cardData = [
     text: 'Vehicles Registered',
     showRedDot: true,
     backgroundColor: '#613EEA',
-    count:40
+    count: 40,
   },
   {
     id: 2,
@@ -41,7 +42,7 @@ const cardData = [
     text: 'Active Chips',
     showRedDot: false,
     backgroundColor: '#F2893D',
-    count:30
+    count: 30,
   },
   {
     id: 3,
@@ -49,7 +50,7 @@ const cardData = [
     text: 'In-Active Chips',
     showRedDot: false,
     backgroundColor: '#F24369',
-    count:10
+    count: 10,
   },
   {
     id: 4,
@@ -57,11 +58,29 @@ const cardData = [
     text: 'Low Battery Chips',
     showRedDot: false,
     backgroundColor: '#45C64F',
-    count:5
+    count: 5,
   },
 ];
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({navigation, setCheckUser}) {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const handlePress = item => {
+    setDrawerOpen(true);
+
+    // Hide tab bar when modal opens
+    navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
+  };
+
+  const closeModal = () => {
+    setDrawerOpen(false);
+
+    // Show tab bar again
+    navigation.getParent()?.setOptions({tabBarStyle: {display: 'flex'}});
+  };
+  useFocusEffect(
+    React.useCallback(() => {
+      navigation.getParent()?.setOptions({tabBarStyle: {display: 'flex'}});
+    }, []),
+  );
   return (
     <ScrollView style={[styles.container]}>
       {/* Top Map and Menu */}
@@ -70,11 +89,12 @@ export default function HomeScreen({navigation}) {
           styles.header,
           {position: 'absolute', top: 30, width: '100%', zIndex: 999999},
         ]}>
-        <TouchableOpacity onPress={() => setDrawerOpen(true)}>
+        <TouchableOpacity onPress={handlePress}>
           <DrawerMenu
             isOpen={isDrawerOpen}
-            onClose={() => setDrawerOpen(false)}
+            onClose={closeModal}
             navigation={navigation}
+            setCheckUser={setCheckUser}
           />
           <Ionicons name="menu" size={30} color="black" />
         </TouchableOpacity>
@@ -157,7 +177,9 @@ export default function HomeScreen({navigation}) {
                 justifyContent: 'space-between',
                 // height:heightPercentageToDP(12),
               }}>
-              <Text style={[styles.cardText, {fontSize: 22}]}>{item.count}</Text>
+              <Text style={[styles.cardText, {fontSize: 22}]}>
+                {item.count}
+              </Text>
               <Image
                 source={item?.icon}
                 style={{

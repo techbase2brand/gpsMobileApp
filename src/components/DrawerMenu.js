@@ -16,13 +16,23 @@ import Animated, {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AnimationScreen from './AnimationScreen';
 import AnimatedLottieView from 'lottie-react-native';
-import { widthPercentageToDP } from '../utils';
+import {widthPercentageToDP} from '../utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {clearUser} from '../redux/userSlice';
 // import AnimationScreen from './AnimationScreen';
 
 const {width, height} = Dimensions.get('window');
 const DRAWER_WIDTH = width * 0.75;
 
-export default function DrawerMenu({isOpen, onClose, user, navigation}) {
+export default function DrawerMenu({
+  isOpen,
+  onClose,
+  user,
+  navigation,
+  setCheckUser,
+}) {
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -31,23 +41,40 @@ export default function DrawerMenu({isOpen, onClose, user, navigation}) {
     setIsLoggingOut(false);
   };
 
-  
-  const handleLogout = () => {
-  setIsLoggingOut(true);
-  // simulate logout delay
-   navigation.navigate("AuthStack")
-   setShowModal(false);
-  setTimeout(() => {
+  // const handleLogout = () => {
+  //   setIsLoggingOut(true);
+  //   // simulate logout delay
+  //   navigation.navigate('AuthStack');
+  //   setShowModal(false);
+  //   setTimeout(() => {
+  //     setShowModal(false);
+  //     // reset isLoggingOut AFTER modal fully closes
+  //     setTimeout(() => {
+  //       setIsLoggingOut(false);
+  //     }, 500); // adjust if needed
+  //     console.log('Logged out successfully');
+
+  //     // Perform actual logout here
+  //   }, 3000);
+  // };
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+
+    try {
+      // await AsyncStorage.removeItem('user');
+      dispatch(clearUser());
+      console.log('User data removed from AsyncStorage');
+      // setCheckUser(null);
+    } catch (error) {
+      console.error('Error clearing user data:', error);
+    }
     setShowModal(false);
-    // reset isLoggingOut AFTER modal fully closes
+    // navigation.navigate('AuthStack');
     setTimeout(() => {
       setIsLoggingOut(false);
-    }, 500); // adjust if needed
-    console.log('Logged out successfully');
-   
-    // Perform actual logout here
-  }, 3000);
-};
+    }, 500);
+  };
 
   const translateX = useSharedValue(-DRAWER_WIDTH);
 
@@ -85,7 +112,15 @@ export default function DrawerMenu({isOpen, onClose, user, navigation}) {
           {label: 'Support', icon: 'help-circle'},
           {label: 'Settings', icon: 'settings'},
         ].map((item, idx) => (
-          <TouchableOpacity key={idx} style={styles.menuItem}>
+          <TouchableOpacity
+            onPress={() => {
+              if (item.label === 'Facility History') {
+                navigation.navigate('ActivityHistoryScreen');
+              }
+              // add other navigation if needed
+            }}
+            key={idx}
+            style={styles.menuItem}>
             <Ionicons
               name={item.icon}
               size={20}
@@ -105,39 +140,34 @@ export default function DrawerMenu({isOpen, onClose, user, navigation}) {
           color="#613EEA"
           style={{marginRight: 10}}
         />
-        <Text style={{color:"#613EEA"}}>Logout</Text>
+        <Text style={{color: '#613EEA'}}>Logout</Text>
       </TouchableOpacity>
       <Modal visible={showModal} transparent animationType="fade">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            {/* {isLoggingOut ? ( */}
-              <>
-                <AnimatedLottieView
-                  source={require('../assets/logout.json')}
-                  autoPlay
-                  loop
-                  style={{width: 180, height: 180}}
-                />
-                {/* <Text style={{marginTop: 10}}>Logging out...</Text> */}
-              </>
-            {/* ) : ( */}
-              <>
-                <Text style={{fontSize: 16, marginBottom: 20}}>
-                  Are you sure you want to log out?
-                </Text>
-                <View style={styles.buttonRow}>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={handleLogout}>
-                    <Text style={{color: 'white'}}>Yes</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.button, {backgroundColor: 'grey'}]}
-                    onPress={() => setShowModal(false)}>
-                    <Text style={{color: 'white'}}>No</Text>
-                  </TouchableOpacity>
-                </View>
-              </>
+            <>
+              <AnimatedLottieView
+                source={require('../assets/logout.json')}
+                autoPlay
+                loop
+                style={{width: 180, height: 180}}
+              />
+            </>
+            <>
+              <Text style={{fontSize: 16, marginBottom: 20}}>
+                Are you sure you want to log out?
+              </Text>
+              <View style={styles.buttonRow}>
+                <TouchableOpacity style={styles.button} onPress={handleLogout}>
+                  <Text style={{color: 'white'}}>Yes</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.button, {backgroundColor: 'grey'}]}
+                  onPress={() => setShowModal(false)}>
+                  <Text style={{color: 'white'}}>No</Text>
+                </TouchableOpacity>
+              </View>
+            </>
             {/* )} */}
           </View>
         </View>
@@ -205,7 +235,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     alignItems: 'center',
-    width:widthPercentageToDP(80)
+    width: widthPercentageToDP(80),
   },
   buttonRow: {
     flexDirection: 'row',

@@ -8,18 +8,24 @@ import NotificationScreen from '../screens/NotificationScreen';
 import MapViewScreen from '../screens/MapViewScreen';
 import AuthStack from './AuthStack';
 import LoginScreen from '../screens/LoginScreen';
+import ActivityHistoryScreen from '../screens/ActivityHistoryScreen';
 
 const Stack = createNativeStackNavigator();
 
-export default function HomeStack() {
+export default function HomeStack({setCheckUser}) {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
         // ...TransitionPresets?.SlideFromRightIOS,
       }} initialRouteName='HomeScreen'>
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+         <Stack.Screen name="HomeScreen">
+        {props => <HomeScreen {...props} setCheckUser={setCheckUser} />}
+      </Stack.Screen>
+      {/* <Stack.Screen name="HomeScreen" component={HomeScreen} setCheckUser={setCheckUser} /> */}
       <Stack.Screen name="MapViewScreen" component={MapViewScreen} />
+      <Stack.Screen name="ActivityHistoryScreen" component={ActivityHistoryScreen} />
+
       <Stack.Screen
         name="NotificationScreen"
         component={NotificationScreen}
@@ -51,7 +57,7 @@ export default function HomeStack() {
           },
         }}
       />
-      <Stack.Screen name="AuthStack" component={AuthStack} />
+      {/* <Stack.Screen name="AuthStack" component={AuthStack} /> */}
     </Stack.Navigator>
   );
 }

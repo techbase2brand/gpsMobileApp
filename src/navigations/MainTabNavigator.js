@@ -213,11 +213,11 @@ import ScanStack from './ScanStack';
 import CustomTabBar from '../components/CustomTabBar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
-export default function MainTabNavigator() {
+export default function MainTabNavigator({setCheckUser}) {
   return (
     <Tab.Navigator
       tabBar={props => <CustomTabBar {...props} />}
@@ -274,19 +274,53 @@ export default function MainTabNavigator() {
         tabBarLabel: route.name,
       })}
     >
-      <Tab.Screen name="Home" component={HomeStack}  listeners={({ navigation }) => ({
-          tabPress: e => {
-            // Prevent default behaviour
-            e.preventDefault();
-            // Reset the stack to HomeScreen
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [{ name: 'Home' }], // 'Home' is your Tab name
-              })
-            );
-          },
-        })} />
+      {/* <Tab.Screen 
+  name="Home"
+  listeners={({ navigation }) => ({
+    tabPress: e => {
+      e.preventDefault();
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        })
+      );
+    },
+  })}
+>
+  {() => <HomeStack setCheckUser={setCheckUser} />}
+</Tab.Screen> */}
+<Tab.Screen 
+  name="Home"
+  options={({ route }) => {
+    const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+    console.log("routeName:::",routeName);
+    
+    if (routeName == 'AuthStack') {
+      return {
+        tabBarStyle: { display: 'none',backgroundColor:"red" },
+      };
+    }
+    return {
+      tabBarStyle: { display: 'flex' },
+    };
+  }}
+  listeners={({ navigation }) => ({
+    tabPress: e => {
+      e.preventDefault();
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        })
+      );
+    },
+  })}
+>
+  {() => <HomeStack setCheckUser={setCheckUser} />}
+</Tab.Screen>
+
+
       <Tab.Screen name="Map" component={MapStack} />
       <Tab.Screen name="Scan" component={ScanStack} listeners={({ navigation }) => ({
           tabPress: e => {

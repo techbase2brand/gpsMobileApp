@@ -12,10 +12,15 @@ import {
 } from 'react-native';
 import {IMAGE_BACKGROUND_IMAGE} from '../assests/images';
 import {parkingYards} from '../constants/Constants';
+import useFacilityFetch from '../hooks/useFacilityFetch';
 
 const {width} = Dimensions.get('window');
 
 const ParkingYardScreen = ({navigation}) => {
+
+  const { data } = useFacilityFetch("facility");
+  console.log("datat>>>>>",data);
+  
   const [selectedYard, setSelectedYard] = useState(null);
 
   const renderItem = ({item}) => {
