@@ -227,43 +227,48 @@ const LoginScreen = ({navigation}) => {
       return;
     }
     setLoading(true);
-    try {
-      const {data, error} = await supabase
-        .from('staff')
-        .select('*')
-        .eq('email', email)
-        .single();
-
-      if (error || !data) {
-        alert('Invalid email or password');
-        setLoading(false);
-        return;
-      }
-
-      const isMatch = await bcrypt.compare(password, data.password);
-
-      if (!isMatch) {
-        alert('Invalid email or password');
-        setLoading(false);
-        return;
-      }
-
-      if (data.status !== 'Active') {
-        alert('User inactive');
-        setLoading(false);
-        return;
-      }
-      console.log('data::::', data);
-      dispatch(setUser(data));
-      await AsyncStorage.setItem('user', JSON.stringify(data));
+     dispatch(setUser(email));
+      await AsyncStorage.setItem('user', JSON.stringify(email));
       setLoading(false);
       // login successful
       navigation.navigate('mainscreens');
-    } catch (err) {
-      console.error('Login error:', err);
-      alert('Something went wrong. Please try again.');
-      setLoading(false);
-    }
+    // try {
+    //   // const {data, error} = await supabase
+    //   //   .from('staff')
+    //   //   .select('*')
+    //   //   .eq('email', email)
+    //   //   .single();
+
+    //   // if (error || !data) {
+    //   //   alert('Invalid email or password');
+    //   //   setLoading(false);
+    //   //   return;
+    //   // }
+
+    //   // const isMatch = await bcrypt.compare(password, data.password);
+
+    //   // if (!isMatch) {
+    //   //   alert('Invalid email or password');
+    //   //   setLoading(false);
+    //   //   return;
+    //   // }
+
+    //   // if (data.status !== 'Active') {
+    //   //   alert('User inactive');
+    //   //   setLoading(false);
+    //   //   return;
+    //   // }
+    //   // console.log('data::::', data);
+    //   dispatch(setUser(email));
+    //   await AsyncStorage.setItem('user', JSON.stringify(email));
+    //   setLoading(false);
+    //   // login successful
+    //   navigation.navigate('mainscreens');
+    // } catch (err) {
+    //   console.error('Login error:', err);
+    //   alert('Something went wrong. Please try again.');
+    //   setLoading(false);
+    // }
   };
 
   return (

@@ -46,7 +46,15 @@ export const INTRO_1 = require('./onboarding_img/intro_1.png');
 export const INTRO_2 = require('./onboarding_img/intro_2.png');
 export const INTRO_3 = require('./onboarding_img/intro_3.png');
 
-// export const VIN_FOCUSED_IMAGE = require('./vin_focused.png');
-// export const IMAGE_BACKGROUND_IMAGE = require('./imageBackground.png');
-// export const SPLASH_IMAGE = require('./splash.png');
-// export const SCANNER = require('./homeIcon/scanner.png');
+
+export const MARUTI = require('./car_logo/maruti.png');
+export const TOYOTA = require('./car_logo/toyota.jpg');
+export const FORD = require('./car_logo/ford.jpeg');
+export const HONDA = require('./car_logo/honda.jpg');
+
+export const HUNDAYI = require('./car_logo/hundayi.png');
+export const MAHINDRA = require('./car_logo/mahindra.jpeg');
+export const TATA = require('./car_logo/tata.jpg');
+export const KIA = require('./car_logo/kia.png');
+
+

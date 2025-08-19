@@ -20,7 +20,7 @@ const generateCarsInRadius = (center, radius, count, yardId) => {
 export const parkingYards = [
   {
     id: 1,
-    name: 'Facility_1',
+    name: 'Facility Truganina',
     address:'Truganina',
     center: {latitude: -37.8209, longitude: 144.7386},
     radius: 80,
@@ -210,7 +210,7 @@ export const parkingYards = [
   },
   {
     id: 2,
-    name: 'Facility_2 ',
+    name: 'Facility Derrimut ',
     address:'Derrimut',
     center: {latitude: -37.8219, longitude: 144.7384},
     radius: 80,
@@ -314,7 +314,7 @@ export const parkingYards = [
   },
   {
     id: 3,
-    name: 'Facility_3',
+    name: 'Facility Laverton',
     address:'Laverton North',
     center: {latitude: -37.8226, longitude: 144.738},
     radius: 60,
@@ -2588,3 +2588,415 @@ export const SingleVehInparkingYard = [
 //     ],
 //   },
 // ];
+
+
+export const vinList = [
+  {
+    "id": "1",
+    "vin": "VIN-100001",
+    "parkingYard": 1,
+    "year": 2016,
+    "make": "Honda",
+    "model": "Accord"
+  },
+  {
+    "id": "2",
+    "vin": "VIN-100002",
+    "parkingYard": 1,
+    "year": 2021,
+    "make": "Hyundai",
+    "model": "Creta"
+  },
+  {
+    "id": "3",
+    "vin": "VIN-100003",
+    "parkingYard": 1,
+    "year": 2023,
+    "make": "Kia",
+    "model": "Sportage"
+  },
+  {
+    "id": "4",
+    "vin": "VIN-100004",
+    "parkingYard": 1,
+    "year": 2016,
+    "make": "Honda",
+    "model": "City"
+  },
+  {
+    "id": "5",
+    "vin": "VIN-100005",
+    "parkingYard": 1,
+    "year": 2019,
+    "make": "Maruti",
+    "model": "Swift"
+  },
+  {
+    "id": "6",
+    "vin": "VIN-100006",
+    "parkingYard": 1,
+    "year": 2021,
+    "make": "Honda",
+    "model": "Civic"
+  },
+  {
+    "id": "7",
+    "vin": "VIN-100007",
+    "parkingYard": 1,
+    "year": 2023,
+    "make": "Mahindra",
+    "model": "Thar"
+  },
+  {
+    "id": "8",
+    "vin": "VIN-100008",
+    "parkingYard": 1,
+    "year": 2015,
+    "make": "Maruti",
+    "model": "Swift"
+  },
+  {
+    "id": "9",
+    "vin": "VIN-100009",
+    "parkingYard": 1,
+    "year": 2016,
+    "make": "Honda",
+    "model": "City"
+  },
+  {
+    "id": "10",
+    "vin": "VIN-1000010",
+    "parkingYard": 1,
+    "year": 2023,
+    "make": "Maruti",
+    "model": "Ertiga"
+  },
+  {
+    "id": "11",
+    "vin": "VIN-1000011",
+    "parkingYard": 1,
+    "year": 2015,
+    "make": "Kia",
+    "model": "Sportage"
+  },
+  {
+    "id": "12",
+    "vin": "VIN-1000012",
+    "parkingYard": 1,
+    "year": 2019,
+    "make": "Honda",
+    "model": "Accord"
+  },
+  {
+    "id": "13",
+    "vin": "VIN-1000013",
+    "parkingYard": 1,
+    "year": 2018,
+    "make": "Hyundai",
+    "model": "Verna"
+  },
+  {
+    "id": "14",
+    "vin": "VIN-1000014",
+    "parkingYard": 1,
+    "year": 2021,
+    "make": "Toyota",
+    "model": "Camry"
+  },
+  {
+    "id": "15",
+    "vin": "VIN-1000015",
+    "parkingYard": 1,
+    "year": 2020,
+    "make": "Kia",
+    "model": "Seltos"
+  },
+  {
+    "id": "16",
+    "vin": "VIN-1000016",
+    "parkingYard": 1,
+    "year": 2023,
+    "make": "Maruti",
+    "model": "Swift"
+  },
+  {
+    "id": "17",
+    "vin": "VIN-1000017",
+    "parkingYard": 1,
+    "year": 2023,
+    "make": "Hyundai",
+    "model": "Verna"
+  },
+  {
+    "id": "18",
+    "vin": "VIN-1000018",
+    "parkingYard": 1,
+    "year": 2021,
+    "make": "Ford",
+    "model": "Explorer"
+  },
+  {
+    "id": "19",
+    "vin": "VIN-1000019",
+    "parkingYard": 1,
+    "year": 2015,
+    "make": "Honda",
+    "model": "Accord"
+  },
+  {
+    "id": "20",
+    "vin": "VIN-1000020",
+    "parkingYard": 1,
+    "year": 2022,
+    "make": "Hyundai",
+    "model": "Elantra"
+  },
+  {
+    "id": "21",
+    "vin": "VIN-1000021",
+    "parkingYard": 2,
+    "year": 2018,
+    "make": "Honda",
+    "model": "Accord"
+  },
+  {
+    "id": "22",
+    "vin": "VIN-1000022",
+    "parkingYard": 2,
+    "year": 2020,
+    "make": "Mahindra",
+    "model": "Thar"
+  },
+  {
+    "id": "23",
+    "vin": "VIN-1000023",
+    "parkingYard": 2,
+    "year": 2020,
+    "make": "Hyundai",
+    "model": "Creta"
+  },
+  {
+    "id": "24",
+    "vin": "VIN-1000024",
+    "parkingYard": 2,
+    "year": 2020,
+    "make": "Hyundai",
+    "model": "Elantra"
+  },
+  {
+    "id": "25",
+    "vin": "VIN-1000025",
+    "parkingYard": 2,
+    "year": 2023,
+    "make": "Ford",
+    "model": "Explorer"
+  },
+  {
+    "id": "26",
+    "vin": "VIN-1000026",
+    "parkingYard": 2,
+    "year": 2019,
+    "make": "Tata",
+    "model": "Harrier"
+  },
+  {
+    "id": "27",
+    "vin": "VIN-1000027",
+    "parkingYard": 2,
+    "year": 2022,
+    "make": "Maruti",
+    "model": "Baleno"
+  },
+  {
+    "id": "28",
+    "vin": "VIN-1000028",
+    "parkingYard": 2,
+    "year": 2017,
+    "make": "Hyundai",
+    "model": "Creta"
+  },
+  {
+    "id": "29",
+    "vin": "VIN-1000029",
+    "parkingYard": 2,
+    "year": 2016,
+    "make": "Tata",
+    "model": "Safari"
+  },
+  {
+    "id": "30",
+    "vin": "VIN-1000030",
+    "parkingYard": 2,
+    "year": 2016,
+    "make": "Mahindra",
+    "model": "Thar"
+  },
+  {
+    "id": "31",
+    "vin": "VIN-1000031",
+    "parkingYard": 2,
+    "year": 2018,
+    "make": "Mahindra",
+    "model": "XUV500"
+  },
+  {
+    "id": "32",
+    "vin": "VIN-1000032",
+    "parkingYard": 3,
+    "year": 2015,
+    "make": "Ford",
+    "model": "Focus"
+  },
+  {
+    "id": "33",
+    "vin": "VIN-1000033",
+    "parkingYard": 3,
+    "year": 2019,
+    "make": "Toyota",
+    "model": "Fortuner"
+  },
+  {
+    "id": "34",
+    "vin": "VIN-1000034",
+    "parkingYard": 3,
+    "year": 2017,
+    "make": "Ford",
+    "model": "Explorer"
+  },
+  {
+    "id": "35",
+    "vin": "VIN-1000035",
+    "parkingYard": 3,
+    "year": 2020,
+    "make": "Mahindra",
+    "model": "Thar"
+  },
+  {
+    "id": "36",
+    "vin": "VIN-1000036",
+    "parkingYard": 3,
+    "year": 2023,
+    "make": "Kia",
+    "model": "Sportage"
+  },
+  {
+    "id": "37",
+    "vin": "VIN-1000037",
+    "parkingYard": 3,
+    "year": 2016,
+    "make": "Toyota",
+    "model": "Camry"
+  },
+  {
+    "id": "38",
+    "vin": "VIN-1000038",
+    "parkingYard": 3,
+    "year": 2016,
+    "make": "Honda",
+    "model": "Civic"
+  },
+  {
+    "id": "39",
+    "vin": "VIN-1000039",
+    "parkingYard": 3,
+    "year": 2023,
+    "make": "Ford",
+    "model": "Mustang"
+  },
+  {
+    "id": "40",
+    "vin": "VIN-1000040",
+    "parkingYard": 3,
+    "year": 2020,
+    "make": "Mahindra",
+    "model": "Thar"
+  },
+  {
+    "id": "41",
+    "vin": "VIN-1000041",
+    "parkingYard": 3,
+    "year": 2015,
+    "make": "Honda",
+    "model": "Accord"
+  },
+  {
+    "id": "42",
+    "vin": "VIN-1000042",
+    "parkingYard": 3,
+    "year": 2016,
+    "make": "Tata",
+    "model": "Harrier"
+  },
+  {
+    "id": "43",
+    "vin": "VIN-1000043",
+    "parkingYard": 3,
+    "year": 2021,
+    "make": "Toyota",
+    "model": "Camry"
+  },
+  {
+    "id": "44",
+    "vin": "VIN-1000044",
+    "parkingYard": 3,
+    "year": 2022,
+    "make": "Honda",
+    "model": "Civic"
+  },
+  {
+    "id": "45",
+    "vin": "VIN-1000045",
+    "parkingYard": 3,
+    "year": 2019,
+    "make": "Kia",
+    "model": "Sonet"
+  },
+  {
+    "id": "46",
+    "vin": "VIN-1000046",
+    "parkingYard": 3,
+    "year": 2022,
+    "make": "Kia",
+    "model": "Sonet"
+  },
+  {
+    "id": "47",
+    "vin": "VIN-1000047",
+    "parkingYard": 3,
+    "year": 2023,
+    "make": "Ford",
+    "model": "Explorer"
+  },
+  {
+    "id": "48",
+    "vin": "VIN-1000048",
+    "parkingYard": 3,
+    "year": 2018,
+    "make": "Ford",
+    "model": "Explorer"
+  },
+  {
+    "id": "49",
+    "vin": "VIN-1000049",
+    "parkingYard": 3,
+    "year": 2019,
+    "make": "Tata",
+    "model": "Harrier"
+  },
+  {
+    "id": "50",
+    "vin": "VIN-1000050",
+    "parkingYard": 3,
+    "year": 2019,
+    "make": "Ford",
+    "model": "Focus"
+  },
+  {
+    "id": "51",
+    "vin": "VIN-1000051",
+    "parkingYard": 3,
+    "year": 2018,
+    "make": "Honda",
+    "model": "City"
+  }
+];

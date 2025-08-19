@@ -9,6 +9,9 @@ import MapViewScreen from '../screens/MapViewScreen';
 import AuthStack from './AuthStack';
 import LoginScreen from '../screens/LoginScreen';
 import ActivityHistoryScreen from '../screens/ActivityHistoryScreen';
+import SearchScreen from '../screens/SearchScreen';
+import YardDetailsScreen from '../screens/YardDetailsScreen';
+import ActiveChipScreen from '../screens/ActiveChipScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,30 +21,37 @@ export default function HomeStack({setCheckUser}) {
       screenOptions={{
         headerShown: false,
         // ...TransitionPresets?.SlideFromRightIOS,
-      }} initialRouteName='HomeScreen'>
-         <Stack.Screen name="HomeScreen">
+      }}
+      initialRouteName="HomeScreen">
+      <Stack.Screen name="HomeScreen">
         {props => <HomeScreen {...props} setCheckUser={setCheckUser} />}
       </Stack.Screen>
       {/* <Stack.Screen name="HomeScreen" component={HomeScreen} setCheckUser={setCheckUser} /> */}
       <Stack.Screen name="MapViewScreen" component={MapViewScreen} />
-      <Stack.Screen name="ActivityHistoryScreen" component={ActivityHistoryScreen} />
+      <Stack.Screen
+        name="ActivityHistoryScreen"
+        component={ActivityHistoryScreen}
+      />
+      <Stack.Screen name="SearchScreen" component={SearchScreen} />
+      <Stack.Screen name="YardDetailsScreen" component={YardDetailsScreen} />
+      <Stack.Screen name="ActiveChipScreen" component={ActiveChipScreen} />
 
       <Stack.Screen
         name="NotificationScreen"
         component={NotificationScreen}
-      options={{
+        options={{
           gestureDirection: 'vertical',
           transitionSpec: {
             open: {
               animation: 'timing',
-              config: { duration: 500 },
+              config: {duration: 500},
             },
             close: {
               animation: 'timing',
-              config: { duration: 500 },
+              config: {duration: 500},
             },
           },
-          cardStyleInterpolator: ({ current, layouts }) => {
+          cardStyleInterpolator: ({current, layouts}) => {
             return {
               cardStyle: {
                 transform: [

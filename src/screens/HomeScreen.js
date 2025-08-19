@@ -6,6 +6,8 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  FlatList,
+  TextInput,
 } from 'react-native';
 import {
   ACTIVE,
@@ -23,46 +25,69 @@ import {parkingYards} from '../constants/Constants';
 import {
   heightPercentageToDP,
   heightPercentageToDP as hp,
+  widthPercentageToDP,
   widthPercentageToDP as wp,
 } from '../utils';
 import {useFocusEffect} from '@react-navigation/native';
+import ParkingYardScreen from './ParkingYardScreen';
 
 const cardData = [
+  // {
+  //   id: 1,
+  //   icon: VEHICLE_REG,
+  //   text: 'Vehicles Registered',
+  //   showRedDot: true,
+  //   backgroundColor: '#613EEA',
+  //   count: 40,
+  // },
   {
     id: 1,
-    icon: VEHICLE_REG,
-    text: 'Vehicles Registered',
-    showRedDot: true,
-    backgroundColor: '#613EEA',
-    count: 40,
+    icon: ACTIVE,
+    text: 'Active Chips',
+    backgroundColor: '#F2893D',
+    count: 30,
+    type: 'active',
   },
   {
     id: 2,
-    icon: ACTIVE,
-    text: 'Active Chips',
-    showRedDot: false,
-    backgroundColor: '#F2893D',
-    count: 30,
+    icon: INACTIVE,
+    text: 'In-Active Chips',
+    backgroundColor: '#F24369',
+    count: 10,
+    type: 'inactive',
   },
   {
     id: 3,
-    icon: INACTIVE,
-    text: 'In-Active Chips',
-    showRedDot: false,
-    backgroundColor: '#F24369',
-    count: 10,
-  },
-  {
-    id: 4,
     icon: BATTERY,
     text: 'Low Battery Chips',
-    showRedDot: false,
     backgroundColor: '#45C64F',
     count: 5,
+    type: 'lowBattery',
   },
 ];
 export default function HomeScreen({navigation, setCheckUser}) {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [selectedYard, setSelectedYard] = useState(null);
+
+  const renderItem = ({item}) => {
+    const isSelected = item?.id === selectedYard;
+
+    return (
+      <TouchableOpacity
+        style={[styles.card1, isSelected && styles.selectedCard]}
+        onPress={() => {
+          setSelectedYard(item?.id),
+            navigation.navigate('YardDetailsScreen', {isSelected: item?.id});
+        }}>
+        <Text style={[styles.name1, isSelected && styles.selectedText]}>
+          {item?.name}
+        </Text>
+        <Text style={[styles.address, isSelected && styles.selectedText]}>
+          {item?.address}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
   const handlePress = item => {
     setDrawerOpen(true);
 
@@ -82,12 +107,11 @@ export default function HomeScreen({navigation, setCheckUser}) {
     }, []),
   );
   return (
-    <ScrollView style={[styles.container]}>
-      {/* Top Map and Menu */}
+    <View style={[styles.container, {marginBottom: 0}]}>
       <View
         style={[
           styles.header,
-          {position: 'absolute', top: 30, width: '100%', zIndex: 999999},
+          {position: 'absolute', top: 30, width: '100%', zIndex: 1},
         ]}>
         <TouchableOpacity onPress={handlePress}>
           <DrawerMenu
@@ -98,6 +122,29 @@ export default function HomeScreen({navigation, setCheckUser}) {
           />
           <Ionicons name="menu" size={30} color="black" />
         </TouchableOpacity>
+        {!isDrawerOpen && (
+          <TouchableOpacity
+            style={styles.searchBar}
+            onPress={() => navigation.navigate('SearchScreen')}>
+            <Ionicons
+              name="search"
+              size={22}
+              color="#555"
+              style={{marginRight: 8}}
+            />
+            <Text style={{color: '#555'}}>
+              Search VIN, Make, Model, Year...
+            </Text>
+            {/* <TextInput
+            style={styles.input}
+            placeholder="Search VIN, Make, Model, Year..."
+             editable={false} 
+          /> */}
+          </TouchableOpacity>
+        )}
+        {/* <TouchableOpacity onPress={() => navigation.navigate('SearchScreen')}>
+          <Ionicons name="search" size={30} color="black" />
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={() => navigation.navigate('NotificationScreen')}>
           <Image
@@ -109,112 +156,81 @@ export default function HomeScreen({navigation, setCheckUser}) {
           />
         </TouchableOpacity>
       </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Top Map and Menu */}
 
-      {/* <View style={isDrawerOpen && styles.drawer}> */}
-      {/* <View style={styles.topContainer}>
-          <View style={styles.mapPlaceholder}>
-            <Image source={MAP_IMAGE} style={[styles.mapImage]} />
+        {/* <TouchableOpacity
+        style={{
+          position: 'absolute',
+          backgroundColor: '#613EEA',
+          top: 100,
+          right: 14,
+          zIndex: 999999,
+          height: 36,
+          width: 36,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 100,
+        }}
+        onPress={() => navigation.navigate('SearchScreen')}>
+        <Ionicons name="search" size={20} color="#fff" />
+      </TouchableOpacity> */}
+
+        <View style={{height: hp(45)}}>
+          <ParkingMap
+            parkingYards={parkingYards}
+            homeScreen={true}
+            zoomIn={true}
+            home={true}
+          />
+        </View>
+
+        {/* Options Cards */}
+        <View style={styles.cardsContainer}>
+          {cardData?.map(item => (
             <TouchableOpacity
-              onPress={() => navigation.navigate('MapViewScreen')}>
-              <Image
-                source={MAP_ICON}
+              key={item?.id}
+              style={[
+                styles.card,
+                {marginLeft: 0, backgroundColor: item.backgroundColor},
+              ]}
+              onPress={() =>
+                navigation.navigate('ActiveChipScreen', {type: item.type})
+              }>
+              <Text style={styles.cardText}>{item.text}</Text>
+              <View
                 style={{
-                  height: 70,
-                  width: 70,
-                  position: 'absolute',
-                  top: -50,
-                  right: 140,
-                }}
-              />
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <Text style={[styles.cardText, {fontSize: 22}]}>
+                  {item.count}
+                </Text>
+                <Image
+                  source={item?.icon}
+                  style={{
+                    height: 40,
+                    width: 40,
+                  }}
+                />
+              </View>
             </TouchableOpacity>
+          ))}
+        </View>
+        <View style={{flex: 1, marginBottom: 100}}>
+          <View style={{flex: 1, paddingTop: 20, paddingHorizontal: 16}}>
+            <Text style={styles.title}>Parking Yards</Text>
+            <FlatList
+              data={parkingYards}
+              keyExtractor={item => item.id}
+              renderItem={renderItem}
+              contentContainerStyle={styles.listContainer} // keep padding
+            />
           </View>
-        </View> */}
-
-      <View style={{height: hp(45)}}>
-        <ParkingMap
-          parkingYards={parkingYards}
-          homeScreen={true}
-          zoomIn={true}
-          home={true}
-          // selectedCar={selectedCar}
-        />
-      </View>
-
-      {/* Security Details */}
-      {/* <View style={styles.detailsContainer}>
-          <Text style={styles.locationText}>
-            Lekki Gardens Car Park A Security
-          </Text>
-          <View style={styles.profileContainer}>
-            <View>
-              <Image
-                source={{uri: 'https://randomuser.me/api/portraits/men/1.jpg'}}
-                style={styles.profileImage}
-              />
-           
-            </View>
-            <View style={{marginLeft: 10}}>
-              <Text style={styles.name}>Mark Evans</Text>
-              <Text style={styles.role}>Security Guard</Text>
-              <Text style={styles.badge}>Badge number - SG911</Text>
-            </View>
-          </View>
-        </View> */}
-
-      {/* Options Cards */}
-      <View style={styles.cardsContainer}>
-        {cardData?.map(item => (
-          <TouchableOpacity
-            key={item?.id}
-            style={[
-              styles.card,
-              {marginLeft: 0, backgroundColor: item.backgroundColor},
-            ]}>
-            <Text style={styles.cardText}>{item.text}</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                // height:heightPercentageToDP(12),
-              }}>
-              <Text style={[styles.cardText, {fontSize: 22}]}>
-                {item.count}
-              </Text>
-              <Image
-                source={item?.icon}
-                style={{
-                  height: 40,
-                  width: 40,
-                }}
-              />
-            </View>
-
-            {/* <Ionicons name={item.icon} size={32} color="purple" /> */}
-          </TouchableOpacity>
-        ))}
-        {/* <TouchableOpacity style={styles.card}>
-          <Ionicons name="notifications" size={32} color="purple" />
-          <View style={styles.redDot}></View>
-          <Text style={styles.cardText}>Notifications</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.card}>
-          <Ionicons name="person" size={32} color="purple" />
-          <Text style={styles.cardText}>View Incoming Rides</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.card}>
-          <Ionicons name="globe" size={32} color="purple" />
-          <Text style={styles.cardText}>Parking History</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.card}>
-          <Ionicons name="help" size={32} color="purple" />
-          <Text style={styles.cardText}>Contact Police</Text>
-        </TouchableOpacity> */}
-      </View>
-      {/* </View> */}
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -225,6 +241,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 16,
+    marginTop: 10,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f2f2f2',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    height: heightPercentageToDP(5),
+    width: widthPercentageToDP(64),
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    color: '#333',
   },
   drawer: {
     position: 'absolute',
@@ -274,13 +305,14 @@ const styles = StyleSheet.create({
   cardsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginTop: 30,
+    paddingHorizontal: 16,
   },
   card: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    width: '44%',
+    width: '48%',
     height: 140,
     borderRadius: 8,
     paddingVertical: 10,
@@ -304,4 +336,39 @@ const styles = StyleSheet.create({
     top: 10,
     right: 30,
   },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 20,
+  },
+  card1: {
+    width: '100%', // full width
+    borderWidth: 1,
+    borderColor: '#c1b7ed',
+    borderRadius: 10,
+    padding: 16,
+    marginBottom: 12, // spacing between rows
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+  name1: {
+    fontWeight: 'bold',
+    fontSize: 17,
+    color: '#252837',
+    marginBottom: 4,
+  },
+  address: {
+    fontSize: 13,
+    color: '#252837',
+  },
+  selectedText: {
+    color: '#613EEA',
+  },
 });
+
+
+// search globally ,
+// facility list screen  changes add search functionality on facility screen ,
+// Home screen changes,
+// vin details screen changes ,
+// make new screens active chips, in-active chips , and low battery chips  and add   logos and header changes 

@@ -23,6 +23,7 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar, home}) => {
   const [yards, setYards] = useState(parkingYards);
   const [carPosition, setCarPosition] = useState(null); // Current position of moving car
   const [carToFocus, setCarToFocus] = useState(null);
+console.log("selectedCar>>>", selectedCar);
 
   useEffect(() => {
     if (selectedCar) {
@@ -125,12 +126,12 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar, home}) => {
 
   useEffect(() => {
     if (zoomIn && mapRef.current) {
-      const center = parkingYards[0].center;
+      const center = parkingYards[0]?.center;
       // First zoom (very far out)
       mapRef.current.animateToRegion(
         {
-          latitude: center.latitude,
-          longitude: center.longitude,
+          latitude: center?.latitude,
+          longitude: center?.longitude,
           latitudeDelta: 1.0, // 🚀 extremely zoomed out
           longitudeDelta: 1.0,
         },
@@ -159,8 +160,8 @@ const ParkingMap = ({parkingYards, single, vin, zoomIn, selectedCar, home}) => {
         style={{flex: 1}}
         mapType="satellite"
         initialRegion={{
-          latitude: parkingYards[0].center.latitude,
-          longitude: parkingYards[0].center.longitude,
+          latitude: parkingYards[0]?.center?.latitude,
+          longitude: parkingYards[0]?.center?.longitude,
           latitudeDelta: 0.02,
           longitudeDelta: 0.02,
         }}>

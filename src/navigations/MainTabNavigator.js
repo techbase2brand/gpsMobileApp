@@ -202,9 +202,8 @@
 //   );
 // }
 
-
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeStack from './HomeStack';
 import ParkingYardStack from './ParkingYardStack';
 import MapStack from './MapStack';
@@ -213,7 +212,10 @@ import ScanStack from './ScanStack';
 import CustomTabBar from '../components/CustomTabBar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-import { CommonActions, getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import {
+  CommonActions,
+  getFocusedRouteNameFromRoute,
+} from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
@@ -221,11 +223,11 @@ export default function MainTabNavigator({setCheckUser}) {
   return (
     <Tab.Navigator
       tabBar={props => <CustomTabBar {...props} />}
-      screenOptions={({ route }) => ({
+      screenOptions={({route}) => ({
         headerShown: false,
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({focused, color, size}) => {
           let iconComponent;
-        
+
           if (route.name === 'Home') {
             iconComponent = (
               <Feather
@@ -266,63 +268,47 @@ export default function MainTabNavigator({setCheckUser}) {
                 color={focused ? '#613EEA' : 'white'}
               />
             );
-          } 
-        
+          }
+
           return iconComponent;
         },
-        
-        tabBarLabel: route.name,
-      })}
-    >
-      {/* <Tab.Screen 
-  name="Home"
-  listeners={({ navigation }) => ({
-    tabPress: e => {
-      e.preventDefault();
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: 'Home' }],
-        })
-      );
-    },
-  })}
->
-  {() => <HomeStack setCheckUser={setCheckUser} />}
-</Tab.Screen> */}
-<Tab.Screen 
-  name="Home"
-  options={({ route }) => {
-    const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-    console.log("routeName:::",routeName);
-    
-    if (routeName == 'AuthStack') {
-      return {
-        tabBarStyle: { display: 'none',backgroundColor:"red" },
-      };
-    }
-    return {
-      tabBarStyle: { display: 'flex' },
-    };
-  }}
-  listeners={({ navigation }) => ({
-    tabPress: e => {
-      e.preventDefault();
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: 'Home' }],
-        })
-      );
-    },
-  })}
->
-  {() => <HomeStack setCheckUser={setCheckUser} />}
-</Tab.Screen>
 
+        tabBarLabel: route.name,
+      })}>
+      <Tab.Screen
+        name="Home"
+        options={({route}) => {
+          const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+          console.log('routeName:::', routeName);
+
+          if (routeName == 'AuthStack') {
+            return {
+              tabBarStyle: {display: 'none', backgroundColor: 'red'},
+            };
+          }
+          return {
+            tabBarStyle: {display: 'flex'},
+          };
+        }}
+        listeners={({navigation}) => ({
+          tabPress: e => {
+            e.preventDefault();
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{name: 'Home'}],
+              }),
+            );
+          },
+        })}>
+        {() => <HomeStack setCheckUser={setCheckUser} />}
+      </Tab.Screen>
 
       <Tab.Screen name="Map" component={MapStack} />
-      <Tab.Screen name="Scan" component={ScanStack} listeners={({ navigation }) => ({
+      <Tab.Screen
+        name="Scan"
+        component={ScanStack}
+        listeners={({navigation}) => ({
           tabPress: e => {
             // Prevent default behaviour
             e.preventDefault();
@@ -330,13 +316,16 @@ export default function MainTabNavigator({setCheckUser}) {
             navigation.dispatch(
               CommonActions.reset({
                 index: 0,
-                routes: [{ name: 'Scan' }], // 'Home' is your Tab name
-              })
+                routes: [{name: 'Scan'}], // 'Home' is your Tab name
+              }),
             );
           },
-        })} />
-      <Tab.Screen name="History" component={HistoryStack}
-       listeners={({ navigation }) => ({
+        })}
+      />
+      <Tab.Screen
+        name="History"
+        component={HistoryStack}
+        listeners={({navigation}) => ({
           tabPress: e => {
             // Prevent default behaviour
             e.preventDefault();
@@ -344,11 +333,12 @@ export default function MainTabNavigator({setCheckUser}) {
             navigation.dispatch(
               CommonActions.reset({
                 index: 0,
-                routes: [{ name: 'History' }], // 'Home' is your Tab name
-              })
+                routes: [{name: 'History'}], // 'Home' is your Tab name
+              }),
             );
           },
-        })} />
+        })}
+      />
       <Tab.Screen name="Facility" component={ParkingYardStack} />
       {/* <Tab.Screen name="Search" component={VinListStack} /> */}
     </Tab.Navigator>
