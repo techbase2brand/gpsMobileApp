@@ -74,55 +74,6 @@ console.log("selectedCar>>>", selectedCar);
     return () => clearTimeout(timeout);
   }, [parkingYards]);
 
-  // useEffect(() => {
-  //   if (zoomIn) {
-  //     if (mapRef.current) {
-  //       const center = parkingYards[0].center;
-  //       mapRef.current.animateToRegion(
-  //         {
-  //           latitude: center.latitude,
-  //           longitude: center.longitude,
-  //           latitudeDelta: 0.05,
-  //           longitudeDelta: 0.05,
-  //         },
-  //         1000,
-  //       );
-  //       setTimeout(() => {
-  //         mapRef.current.animateToRegion(
-  //           {
-  //             latitude: center.latitude,
-  //             longitude: center.longitude,
-  //             latitudeDelta: 0.02,
-  //             longitudeDelta: 0.02,
-  //           },
-  //           1000,
-  //         );
-  //       }, 500);
-  //       setTimeout(() => {
-  //         mapRef.current.animateToRegion(
-  //           {
-  //             latitude: center.latitude,
-  //             longitude: center.longitude,
-  //             latitudeDelta: 0.005,
-  //             longitudeDelta: 0.005,
-  //           },
-  //           1000,
-  //         );
-  //       }, 1000);
-  //       setTimeout(() => {
-  //         mapRef.current.animateToRegion(
-  //           {
-  //             latitude: center.latitude,
-  //             longitude: center.longitude,
-  //             latitudeDelta: 0.005,
-  //             longitudeDelta: 0.005,
-  //           },
-  //           1000,
-  //         );
-  //       }, 1500);
-  //     }
-  //   }
-  // }, []);
 
   useEffect(() => {
     if (zoomIn && mapRef.current) {

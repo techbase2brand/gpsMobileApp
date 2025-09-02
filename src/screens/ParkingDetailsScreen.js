@@ -20,9 +20,8 @@ const ParkingDetailsScreen = ({navigation}) => {
   const {vin, yard} = route.params;
 
   const [feeds, setFeeds] = useState([]);
-  console.log('feedsfeeds>>', feeds);
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, []);
 
   const fetchData = async () => {

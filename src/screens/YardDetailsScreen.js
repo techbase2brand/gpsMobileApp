@@ -35,6 +35,7 @@ import {
   TATA,
   TOYOTA,
 } from '../assests/images';
+import ParkingMap1 from '../components/ParkingMap1';
 // const vinList = [
 //   {
 //     id: '1',
@@ -486,7 +487,7 @@ const YardDetailsScreen = ({navigation, route}) => {
         </View>
 
         <View style={{height: heightPercentageToDP(40)}}>
-          <ParkingMap
+          <ParkingMap1
             parkingYards={parking_yard}
             zoomIn={true}
             selectedCar={selectedCar}

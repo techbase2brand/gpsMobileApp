@@ -47,11 +47,17 @@
 <true/>
 <key>LSSupportsOpeningDocumentsInPlace</key>
 <true/>
+<key>NSCameraUsageDescription</key>
+<string>This app uses the camera to scan VIN codes.</string>
+<key>NSBluetoothAlwaysUsageDescription</key>
+<string>This app uses Bluetooth to connect to external GPS device.</string>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>This app needs location access to show GPS data.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>This app needs access to the photo library to allow users to upload and select images related to vehicles.</string>
 
-	<key>NSCameraUsageDescription</key>
-	<string>This app uses the camera to scan VIN codes.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>This app requires location access to track vehicles on the map.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {NOTIFICATION} from '../assests/images';
+import Ble from '../components/Ble';
 
 export default function ParkingHistory({navigation}) {
   const data = [
@@ -97,11 +98,12 @@ export default function ParkingHistory({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+      <Ble/>
+      {/* <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
-        {/* <Ionicons name="menu" size={28} color="black" /> */}
+        
         <Text style={styles.headerTitle}>History</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('NotificationScreen')}>
@@ -113,7 +115,6 @@ export default function ParkingHistory({navigation}) {
             }}
           />
         </TouchableOpacity>
-        {/* <Ionicons name="person-circle" size={32} color="black" /> */}
       </View>
 
       <FlatList
@@ -122,7 +123,7 @@ export default function ParkingHistory({navigation}) {
         renderItem={renderItem}
         contentContainerStyle={{padding: 16, overflow: 'hidden'}}
       />
-      <View style={{height: 60}} />
+      <View style={{height: 60}} /> */}
     </SafeAreaView>
   );
 }

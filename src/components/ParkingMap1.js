@@ -1,1090 +1,688 @@
-// import React, { useEffect, useRef, useState } from 'react';
-// import { View, Image, Text, StyleSheet } from 'react-native';
-// import MapView, { Marker, Circle, Callout } from 'react-native-maps';
+// import React, {useEffect, useRef} from 'react';
+// import {View, StyleSheet, Image} from 'react-native';
+// import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
+// import {CAR} from '../assests/images';
 // import Icon from 'react-native-vector-icons/FontAwesome';
-
-// const ParkingMap = ({ parkingYards, single, vin, zoomIn }) => {
-//   const [visibleCallouts, setVisibleCallouts] = useState([]);
-//   // const markerRef = useRef(null);
-//   const markerRefs = useRef({});
+// const ParkingMap1 = () => {
 //   const mapRef = useRef(null);
 
-//   useEffect(() => {
-//     const timeout = setTimeout(() => {
-//       const ids = parkingYards.map(yard => yard.id);
-//       setVisibleCallouts(ids);
-//     }, 1000);
-//     return () => clearTimeout(timeout);
-//   }, [parkingYards]);
-//   useEffect(() => {
-//     if (zoomIn) {
-//     if (mapRef.current) {
-//       const center = parkingYards[0].center;
+//   // Initial Position (Start Point)
+//   const animatedCoord = useRef(
+//     new AnimatedRegion({
+//       latitude: 30.71106,
+//       longitude: 76.6921,
+//       latitudeDelta: 0.01,
+//       longitudeDelta: 0.01,
+//     }),
+//   ).current;
 
-//       // Zoom 1
+//   // 🚗 function to smoothly update car position
+//   const updateCarPosition = (latitude, longitude) => {
+//     animatedCoord
+//       .timing({
+//         latitude,
+//         longitude,
+//         duration: 2000, // smooth animation speed (2 sec)
+//         useNativeDriver: false,
+//       })
+//       .start();
+
+//     if (mapRef.current) {
 //       mapRef.current.animateToRegion(
 //         {
-//           latitude: center.latitude,
-//           longitude: center.longitude,
-//           latitudeDelta: 0.05,
-//           longitudeDelta: 0.05,
+//           latitude,
+//           longitude,
+//           latitudeDelta:  0.0002, // zoom level (kam value = zyada zoom)
+//           longitudeDelta: 0.0002,
 //         },
-//         1000,
+//         1000, // animation duration (1 sec)
 //       );
-
-//       // Zoom 2 after 1 second
-//       setTimeout(() => {
-//         mapRef.current.animateToRegion(
-//           {
-//             latitude: center.latitude,
-//             longitude: center.longitude,
-//             latitudeDelta: 0.02,
-//             longitudeDelta: 0.02,
-//           },
-//           1000,
-//         );
-//       }, 500);
-
-//       // Zoom 3 after 2 seconds
-//       setTimeout(() => {
-//         mapRef.current.animateToRegion(
-//           {
-//             latitude: center.latitude,
-//             longitude: center.longitude,
-//             latitudeDelta: 0.005,
-//             longitudeDelta: 0.005,
-//           },
-//           1000,
-//         );
-//       }, 1000);
-
-//       // Zoom 4 after 3 seconds
-//       setTimeout(() => {
-//         mapRef.current.animateToRegion(
-//           {
-//             latitude: center.latitude,
-//             longitude: center.longitude,
-//             latitudeDelta: 0.005,
-//             longitudeDelta: 0.005,
-//           },
-//           1000,
-//         );
-//       }, 1500);
-//       }
 //     }
+//   };
+
+//   // ✅ Example: simulate backend coordinates every few sec
+//   useEffect(() => {
+//     const coords = [
+//       {latitude: 30.7111, longitude: 76.6922},
+//       {latitude: 30.7113, longitude: 76.6925},
+//       {latitude: 30.7116, longitude: 76.6927},
+//       {latitude: 30.7118, longitude: 76.6929},
+//         {latitude: 30.7120, longitude: 76.6931},
+//          {latitude: 30.7122, longitude: 76.6933},
+//          {latitude: 30.7124, longitude: 76.6935},
+//     ];
+
+//     let index = 0;
+//     const interval = setInterval(() => {
+//       if (index < coords.length) {
+//         const {latitude, longitude} = coords[index];
+//         updateCarPosition(latitude, longitude);
+//         index++;
+//       }
+//     }, 2000);
+
+//     return () => clearInterval(interval);
 //   }, []);
 
 //   return (
 //     <MapView
 //       ref={mapRef}
-//       style={{ flex: 1 }}
+//       mapType="satellite"
+//       style={styles.map}
 //       initialRegion={{
-//         latitude: parkingYards[0].center.latitude,
-//         longitude: parkingYards[0].center.longitude,
-//         // latitude: 37.78925,
-//         // longitude: -122.4324,
+//         latitude: 30.71106,
+//         longitude: 76.6921,
+//         latitudeDelta: 0.01,
+//         longitudeDelta: 0.01,
+//       }}>
+//       {/* 🚗 Car Marker */}
+//       <Marker.Animated coordinate={animatedCoord}>
+//         {/* <Image
+//           source={CAR}
+//           style={{height: 30, width: 30}}
+//           resizeMode="contain"
+//         /> */}
+//         <Icon name="car" size={16} color="red" />
+//       </Marker.Animated>
+//     </MapView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   map: {
+//     flex: 1,
+//   },
+// });
+
+// export default ParkingMap1;
+
+
+// import React, {useEffect, useRef, useState} from 'react';
+// import {View, StyleSheet, Image, Alert} from 'react-native';
+// import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
+// import {CAR} from '../assests/images';
+
+// const initialVinList = [
+//  {
+//     "id": "1",
+//     "vin": "VIN-100001",
+//     "parkingYard": 1,
+//     "year": 2016,
+//     "make": "Honda",
+//     "model": "Accord",
+//   latitude: 30.71106,
+//     longitude: 76.6921,
+//   },
+//   {
+//     "id": "2",
+//     "vin": "VIN-100002",
+//     "parkingYard": 1,
+//     "year": 2021,
+//     "make": "Hyundai",
+//     "model": "Creta",
+//      latitude: 30.712,
+//     longitude: 76.693,
+//   },
+// ];
+
+// const ParkingMap1 = ({selectedCar}) => {
+//   const mapRef = useRef(null);
+//   const [cars, setCars] = useState(initialVinList);
+
+//   // Animated coordinates store karne ke liye ref
+//   const animatedCoords = useRef(
+//     initialVinList.reduce((acc, car) => {
+//       acc[car.vin] = new AnimatedRegion({
+//         latitude: car.latitude,
+//         longitude: car.longitude,
+//         latitudeDelta: 0.01,
+//         longitudeDelta: 0.01,
+//       });
+//       return acc;
+//     }, {}),
+//   ).current;
+
+//   // 🚗 Update car position
+//   const updateCarPosition = (vin, latitude, longitude) => {
+//     animatedCoords[vin]
+//       .timing({
+//         latitude,
+//         longitude,
+//         duration: 2000,
+//         useNativeDriver: false,
+//       })
+//       .start();
+
+//     //  zoom
+//     if (mapRef.current) {
+//       mapRef.current.animateToRegion(
+//         {
+//           latitude,
+//           longitude,
+//           latitudeDelta: 0.002,
+//           longitudeDelta: 0.0002,
+//         },
+//         1000,
+//       );
+//     }
+//   };
+
+//   // ✅ Fetch GPS Tracking for all cars
+//   useEffect(() => {
+//     const interval = setInterval(async () => {
+//       try {
+//         const response = await fetch(
+//           'https://techrepairtracker.base2brand.com/api/fetchGpsTracking',
+//         );
+//         const json = await response.json();
+// console.log("json...",json);
+
+//         if (json?.status && json?.data?.length > 0) {
+//           // yahan assume kar raha hun ki API har car ke VIN ka data degi
+//           const updatedCars = cars.map(car => {
+//             const carData = json.data.find(d => d.deviceId === car.vin); // match VIN/deviceId
+//             if (carData) {
+//               const latitude = parseFloat(carData.lat);
+//               const longitude = parseFloat(carData.long);
+
+//               if (!isNaN(latitude) && !isNaN(longitude)) {
+//                 updateCarPosition(car.vin, latitude, longitude);
+//                 return {...car, latitude, longitude};
+//               }
+//             }
+//             return car;
+//           });
+
+//           setCars(updatedCars);
+//         } else {
+//           Alert.alert('No Data', 'No GPS tracking found');
+//         }
+//       } catch (error) {
+//         console.error('GPS Fetch Error:', error);
+//       }
+//     }, 2000);
+
+//     return () => clearInterval(interval);
+//   }, [cars]);
+
+//   return (
+//     <MapView
+//       ref={mapRef}
+//       mapType="satellite"
+//       style={styles.map}
+//       initialRegion={{
+//         latitude: 30.71106,
+//         longitude: 76.6921,
 //         latitudeDelta: 0.02,
 //         longitudeDelta: 0.02,
 //       }}>
-//       {parkingYards?.map(yard => (
-//         <View key={yard.id}>
-//           <Circle
-//             center={yard.center}
-//             radius={yard.radius}
-//             strokeColor="red"
-//             fillColor="rgba(0, 0, 255, 0.1)"
+//       {/* 🚗 Show all cars */}
+//       {cars.map(car => (
+//         <Marker.Animated key={car.vin} coordinate={animatedCoords[car.vin]}>
+//           <Image
+//             source={CAR}
+//             style={{height: 35, width: 35}}
+//             resizeMode="contain"
 //           />
-
-//           {/* Red marker at center with Callout */}
-//           {/* {!single && <Marker
-//             coordinate={yard.center}
-//             pinColor="red"
-//             ref={ref => {
-//               if (ref) markerRefs.current[yard.id] = ref;
-//             }}>
-//             <Callout>
-//               <Text>{yard.name}</Text>
-//             </Callout>
-//           </Marker>} */}
-
-//           {!single &&<Marker coordinate={yard.center}>
-//             <View>
-//               {/* Red Marker Icon */}
-//               <Icon name="map-marker" size={30} color="red" />
-
-//               {/* Custom Callout (Conditionally Rendered) */}
-//               {visibleCallouts.includes(yard.id) && (
-//                 <View style={styles.customCallout}>
-//                   <Text>{yard.name}</Text>
-//                 </View>
-//               )}
-//             </View>
-//           </Marker>}
-
-//           {/* Static cars */}
-//           {yard?.cars?.map(car => (
-//             <Marker
-//               key={car.id}
-//               coordinate={{ latitude: car.latitude, longitude: car.longitude }}
-//               title={single ? 'Parking Yard 1' : ''}
-//               description={single ? vin : ""}
-
-//             >
-//               <Icon name="car" size={20} color="#000" />
-//             </Marker>
-//           ))}
-//         </View>
+//         </Marker.Animated>
 //       ))}
 //     </MapView>
 //   );
 // };
 
 // const styles = StyleSheet.create({
-//   customCallout: {
-//     position: 'absolute',
-//     bottom: 40,
-//     // left:-40,
-//     backgroundColor: 'white',
-//     padding: 10,
-//     borderRadius: 5,
-//     borderWidth: 1,
-//     width:120,
-//     borderColor: '#ddd',
-//     elevation: 5,
+//   map: {
+//     flex: 1,
 //   },
 // });
 
-// export default ParkingMap;
+// export default ParkingMap1;
 
+// import React, {useEffect, useRef, useState} from 'react';
+// import {
+//   View,
+//   StyleSheet,
+//   Image,
+//   ActivityIndicator,
+//   TouchableOpacity,
+//   Text,
+// } from 'react-native';
+// import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
+// import StreetView from 'react-native-streetview'; // 👈 import
+// import {CAR} from '../assests/images';
+
+// const ParkingMap1 = () => {
+//   const mapRef = useRef(null);
+//   const [initialRegion, setInitialRegion] = useState(null);
+//   const [showStreetView, setShowStreetView] = useState(false); // 👈 toggle state
+
+//   const animatedCoord = useRef(
+//     new AnimatedRegion({
+//       latitude: 0,
+//       longitude: 0,
+//       latitudeDelta: 0.01,
+//       longitudeDelta: 0.01,
+//     }),
+//   ).current;
+
+//   const updateCarPosition = (latitude, longitude) => {
+//     animatedCoord
+//       .timing({
+//         latitude,
+//         longitude,
+//         duration: 2000,
+//         useNativeDriver: false,
+//       })
+//       .start();
+
+//     if (mapRef.current) {
+//       mapRef.current.animateToRegion(
+//         {
+//           latitude,
+//           longitude,
+//           latitudeDelta: 0.0008,
+//           longitudeDelta: 0.0008,
+//         },
+//         1000,
+//       );
+//     }
+//   };
+
+//   useEffect(() => {
+//     const fetchLocation = async () => {
+//       try {
+//         const response = await fetch(
+//           'https://techrepairtracker.base2brand.com/api/fetchGpsTracking',
+//         );
+//         const json = await response.json();
+
+//         if (json?.status && json?.data?.length > 0) {
+//           const latest = json.data[json.data.length - 1];
+//           const latitude = parseFloat(latest.lat);
+//           const longitude = parseFloat(latest.long);
+
+//           if (!isNaN(latitude) && !isNaN(longitude)) {
+//             if (!initialRegion) {
+//               setInitialRegion({
+//                 latitude,
+//                 longitude,
+//                 latitudeDelta: 0.01,
+//                 longitudeDelta: 0.01,
+//               });
+//               animatedCoord.setValue({latitude, longitude});
+//             } else {
+//               updateCarPosition(latitude, longitude);
+//             }
+//           }
+//         }
+//       } catch (error) {
+//         console.error('GPS Fetch Error:', error);
+//       }
+//     };
+
+//     fetchLocation();
+//     const interval = setInterval(fetchLocation, 2000);
+//     return () => clearInterval(interval);
+//   }, [initialRegion]);
+
+//   if (!initialRegion) {
+//     return (
+//       <View style={styles.loader}>
+//         <ActivityIndicator size="large" color="blue" />
+//       </View>
+//     );
+//   }
+
+//   return (
+//     <View style={{flex: 1}}>
+//       {showStreetView ? (
+//         // <View style={{flex:1, backgroundColor:"red"}}>
+//         //   <StreetView
+//         //   style={styles.map}
+//         //    allGesturesEnabled={true}       // sab gestures allowed
+//         // navigationGestures={true}       // 👈 arrow tap se next/prev possible
+//         // navigationLinksHidden={false}   // 👈 iOS me arrows forcefully visible
+//         // streetNamesHidden={false}       // optional: street names bhi dikhe
+//         // onPanoramaChange={(event) => {
+//         //   const { position } = event.nativeEvent;
+//         //   console.log('Moved to:', position.latitude, position.longitude);
+//         // }}
+//         //   coordinate={{
+//         //     latitude: animatedCoord.__getValue().latitude,
+//         //     longitude: animatedCoord.__getValue().longitude,
+//         //   }}
+//         //   pov={{
+//         //     tilt: 0,
+//         //     bearing: 0,
+//         //     // zoom: 1,
+//         //   }}
+//         // />
+//         <StreetView
+//           style={{flex: 1}}
+//           coordinate={{
+//             latitude: 40.758,
+//             longitude: -73.9855,
+//             radius: 50,
+//           }}
+//           pov={{
+//             tilt: 0,
+//             bearing: 0,
+//             // zoom: 1,
+//           }}
+//           allGesturesEnabled={true}
+//           navigationGestures={true} // enable moving with arrows
+//           navigationLinksHidden={false} // force show arrows if available
+//           // streetNamesHidden={false}
+//           onPanoramaChange={event => {
+//             console.log('Panorama changed:', event.nativeEvent);
+//           }}
+//         />
+//       ) : (
+//         // </View>
+//         <MapView ref={mapRef} style={styles.map} initialRegion={initialRegion}>
+//           <Marker.Animated coordinate={animatedCoord}>
+//             <Image
+//               source={CAR}
+//               style={{height: 40, width: 40}}
+//               resizeMode="contain"
+//             />
+//           </Marker.Animated>
+//         </MapView>
+//       )}
+
+//       {/* Toggle Button */}
+//       <TouchableOpacity
+//         style={styles.toggleBtn}
+//         onPress={() => setShowStreetView(!showStreetView)}>
+//         <Text style={{color: 'white'}}>
+//           {showStreetView ? 'Show Map' : 'Show Street View'}
+//         </Text>
+//       </TouchableOpacity>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   map: {
+//     flex: 1,
+//   },
+//   loader: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   toggleBtn: {
+//     position: 'absolute',
+//     bottom: 200,
+//     alignSelf: 'center',
+//     backgroundColor: 'black',
+//     padding: 10,
+//     borderRadius: 10,
+//   },
+// });
+
+// export default ParkingMap1;
+
+
+
+
+
+/// main vcode
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, StyleSheet, Button, Alert} from 'react-native';
-import MapView, {
-  Marker,
-  Circle,
-  Polygon,
-  Geojson,
-  AnimatedRegion,
-} from 'react-native-maps';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {View, StyleSheet, Image, ActivityIndicator} from 'react-native';
+import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
+import {CAR} from '../assests/images';
 
-const SLOT_SIZE = 0.00003; // Adjust for slot size
-
-const getSlotPolygon = (latitude, longitude, size = SLOT_SIZE) => {
-  // Return array of coords making a square polygon around (lat, lng)
-  return [
-    {latitude: latitude + size, longitude: longitude - size},
-    {latitude: latitude + size, longitude: longitude + size},
-    {latitude: latitude - size, longitude: longitude + size},
-    {latitude: latitude - size, longitude: longitude - size},
-  ];
-};
-
-// Point in Polygon checker (Ray casting algorithm)
-const isOutsidePolygon = (point, polygon) => {
-  let x = point.latitude;
-  let y = point.longitude;
-  let inside = false;
-
-  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-    const xi = polygon[i].latitude,
-      yi = polygon[i].longitude;
-    const xj = polygon[j].latitude,
-      yj = polygon[j].longitude;
-
-    const intersect =
-      yi > y !== yj > y &&
-      x < ((xj - xi) * (y - yi)) / (yj - yi + 0.0000001) + xi;
-    if (intersect) inside = !inside;
-  }
-  return !inside;
-};
-
-const ParkingMap1 = ({parkingYards, single, vin, zoomIn}) => {
+const ParkingMap1 = () => {
   const mapRef = useRef(null);
-  const [visibleCallouts, setVisibleCallouts] = useState([]);
-  const [yards, setYards] = useState(parkingYards);
-  const [carPosition, setCarPosition] = useState(null); // Current position of moving car
-  const [isMoving, setIsMoving] = useState(null); // Current position of moving car
+  const [initialRegion, setInitialRegion] = useState(null); // 👈 initially null
 
-  // car moving logic
-  const [yardData, setYardData] = useState(parkingYards);
-  const [isCarMoving, setIsCarMoving] = useState(true);
-
-  // const [animatedCoord] = useState(
-  //   new AnimatedRegion({
-  //     latitude: 30.71106,
-  //     longitude: 76.6921,
-  //     latitudeDelta: 0.0001,
-  //     longitudeDelta: 0.0001,
-  //   }),
-  // );
-
+  // Animated coordinates (default dummy value)
   const animatedCoord = useRef(
     new AnimatedRegion({
-      latitude: yardData[0].cars[0].latitude,
-      longitude: yardData[0].cars[0].longitude,
-      latitudeDelta: 0.0001,
-      longitudeDelta: 0.0001,
+      latitude: 0,
+      longitude: 0,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
     }),
   ).current;
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      const toCoord = {
-        latitude: yardData[0].cars[3].latitude,
-        longitude: yardData[0].cars[3].longitude,
-      };
+  // 🚗 Smooth update
+  const updateCarPosition = (latitude, longitude) => {
+    animatedCoord
+      .timing({
+        latitude,
+        longitude,
+        duration: 2000,
+        useNativeDriver: false,
+      })
+      .start();
 
-      animatedCoord
-        .timing({
-          ...toCoord,
-          duration: 10000,
-          useNativeDriver: false,
-        })
-        .start(() => {
-          // Animation complete => update visibility
-          setYardData(prev => {
-            const updated = [...prev];
-            updated[0].cars = updated[0].cars.map(car => {
-              if (car.id === '1') return {...car, show: false};
-              if (car.id === '4') return {...car, show: true};
-              return car;
-            });
-            return updated;
-          });
-          // ✅ SHOW ALERT
-          Alert.alert("Vehicle Relocated", "Car 1 has arrived at its designated Slot 4.");
-          setIsCarMoving(false);
-        });
-    }, 15000);
-
-    return () => clearTimeout(timeout);
-  }, []);
-
-
-  // slot logic
-  const slot1 = parkingYards[0]?.cars?.find(c => c.id === '1-1');
-  const slot18 = parkingYards[0]?.cars?.find(c => c.id === '1-18');
-
-  useEffect(() => {
-    if (!slot1 || !slot18) return;
-
-    setCarPosition({latitude: slot1.latitude, longitude: slot1.longitude}); // Start from slot 1
-
-    // Animate car movement from slot1 to slot18
-    let steps = 50; // How smooth animation will be
-    let currentStep = 0;
-
-    const latDiff = (slot18.latitude - slot1.latitude) / steps;
-    const longDiff = (slot18.longitude - slot1.longitude) / steps;
-
-    setIsMoving(true);
-    const interval = setInterval(() => {
-      currentStep++;
-      setCarPosition(prev => {
-        if (!prev) return prev;
-        const newLat = prev.latitude + latDiff;
-        const newLong = prev.longitude + longDiff;
-        return {latitude: newLat, longitude: newLong};
-      });
-
-      if (currentStep >= steps) {
-        clearInterval(interval);
-        setIsMoving(false);
+    // Zoom and follow car
+    if (mapRef.current) {
+      mapRef.current.animateToRegion(
         {
-          !single && Alert.alert('Alert', 'Car-1 has reached slot 18!');
-        }
-      }
-    }, 100); // Update every 100ms
-
-    return () => clearInterval(interval);
-  }, [parkingYards]);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      const ids = parkingYards?.map(yard => yard.id);
-      setVisibleCallouts(ids);
-    }, 1000);
-    return () => clearTimeout(timeout);
-  }, [parkingYards]);
-
-  useEffect(() => {
-    if (zoomIn) {
-      if (mapRef.current) {
-        const center = parkingYards[0]?.center;
-        mapRef.current.animateToRegion(
-          {
-            latitude: center?.latitude,
-            longitude: center?.longitude,
-            latitudeDelta: 0.05,
-            longitudeDelta: 0.05,
-          },
-          1000,
-        );
-        setTimeout(() => {
-          mapRef.current.animateToRegion(
-            {
-              latitude: center?.latitude,
-              longitude: center?.longitude,
-              latitudeDelta: 0.02,
-              longitudeDelta: 0.02,
-            },
-            1000,
-          );
-        }, 500);
-        setTimeout(() => {
-          mapRef.current.animateToRegion(
-            {
-              latitude: center?.latitude,
-              longitude: center?.longitude,
-              latitudeDelta: 0.005,
-              longitudeDelta: 0.005,
-            },
-            1000,
-          );
-        }, 1000);
-        setTimeout(() => {
-          mapRef.current.animateToRegion(
-            {
-              latitude: center?.latitude,
-              longitude: center?.longitude,
-              latitudeDelta: 0.005,
-              longitudeDelta: 0.005,
-            },
-            1000,
-          );
-        }, 1500);
-      }
+          latitude,
+          longitude,
+          latitudeDelta: 0.0008,
+          longitudeDelta: 0.0008,
+        },
+        1000,
+      );
     }
-  }, []);
-
-  const moveCarOutsidePolygon = () => {
-    if (!carPosition || !yards[0]) return;
-
-    const steps = 100;
-    const moveLat = 0.00095; // increase to move faster
-    const moveLng = 0.00095;
-    let currentStep = 0;
-
-    const interval = setInterval(() => {
-      currentStep++;
-      setCarPosition(prev => {
-        if (!prev) return prev;
-        const newLat = prev.latitude + moveLat / steps;
-        const newLng = prev.longitude + moveLng / steps;
-        const newPos = {latitude: newLat, longitude: newLng};
-        // Create polygon boundary
-        const yard = yards[0];
-        const polygonCoords = [
-          {
-            latitude: yard?.center?.latitude + yard.radius / 111000,
-            longitude:
-              yard?.center?.longitude -
-              yard?.radius /
-                (111000 * Math.cos(yard.center.latitude * (Math.PI / 180))),
-          },
-          {
-            latitude: yard.center.latitude + yard.radius / 111000,
-            longitude:
-              yard.center.longitude +
-              yard.radius /
-                (111000 * Math.cos(yard.center.latitude * (Math.PI / 180))),
-          },
-          {
-            latitude: yard.center.latitude - yard.radius / 111000,
-            longitude:
-              yard.center.longitude +
-              yard.radius /
-                (111000 * Math.cos(yard.center.latitude * (Math.PI / 180))),
-          },
-          {
-            latitude: yard.center.latitude - yard.radius / 111000,
-            longitude:
-              yard.center.longitude -
-              yard.radius /
-                (111000 * Math.cos(yard.center.latitude * (Math.PI / 180))),
-          },
-        ];
-
-        const isOut = isOutsidePolygon(newPos, polygonCoords);
-        if (isOut && !single) {
-          clearInterval(interval);
-          Alert.alert('Alert', 'Car no. 10 has exited from Parking Yard 1!');
-        }
-
-        return newPos;
-      });
-
-      if (currentStep >= steps) {
-        clearInterval(interval);
-      }
-    }, 100);
   };
 
+  // ✅ Fetch API
+  useEffect(() => {
+    const fetchLocation = async () => {
+      try {
+        const response = await fetch(
+          'https://techrepairtracker.base2brand.com/api/fetchGpsTracking',
+        );
+        const json = await response.json();
+        console.log('jsonjsonjsonjson', json);
+
+        if (json?.status && json?.data?.length > 0) {
+          const latest = json.data[json.data.length - 1];
+          const latitude = parseFloat(latest.lat);
+          const longitude = parseFloat(latest.long);
+
+          if (!isNaN(latitude) && !isNaN(longitude)) {
+            // set initialRegion from api data
+            if (!initialRegion) {
+              setInitialRegion({
+                latitude,
+                longitude,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+              });
+              animatedCoord.setValue({latitude, longitude}); // 👈 direct set
+            } else {
+              updateCarPosition(latitude, longitude);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('GPS Fetch Error:', error);
+      }
+    };
+
+    fetchLocation();
+
+    //  2 sec interval
+    const interval = setInterval(fetchLocation, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!initialRegion) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" color="blue" />
+      </View>
+    );
+  }
+
   return (
-    <>
-      <MapView
-        ref={mapRef}
-        style={{flex: 1}}
-        initialRegion={{
-          latitude: parkingYards[0]?.center?.latitude,
-          longitude: parkingYards[0]?.center?.longitude,
-          latitudeDelta: 0.02,
-          longitudeDelta: 0.02,
-        }}>
-        {yards?.map(yard => (
-          <View key={yard.id}>
-            <View
-              style={{
-                width: 100,
-                height: 100,
-                border: 2,
-                borderBlockColor: 'red',
-              }}></View>
-            <Polygon
-              // coordinates={[
-              //   {
-              //     latitude: yard.center.latitude + yard.radius / 111000,
-              //     longitude:
-              //       yard.center.longitude -
-              //       yard.radius /
-              //         (111000 *
-              //           Math.cos(yard.center.latitude * (Math.PI / 180))),
-              //   },
-              //   {
-              //     latitude: yard.center.latitude + yard.radius / 111000,
-              //     longitude:
-              //       yard.center.longitude +
-              //       yard.radius /
-              //         (111000 *
-              //           Math.cos(yard.center.latitude * (Math.PI / 180))),
-              //   },
-              //   {
-              //     latitude: yard.center.latitude - yard.radius / 111000,
-              //     longitude:
-              //       yard.center.longitude +
-              //       yard.radius /
-              //         (111000 *
-              //           Math.cos(yard.center.latitude * (Math.PI / 180))),
-              //   },
-              //   {
-              //     latitude: yard.center.latitude - yard.radius / 111000,
-              //     longitude:
-              //       yard.center.longitude -
-              //       yard.radius /
-              //         (111000 *
-              //           Math.cos(yard.center.latitude * (Math.PI / 180))),
-              //   },
-              // ]}
-              coordinates={[
-                {latitude: 30.711027302177996, longitude: 76.69192117295694},
-                {latitude: 30.711198763066967, longitude: 76.69214568900318},
-                {latitude: 30.711331402568817, longitude: 76.69241786767236},
-                {latitude: 30.71115886345906, longitude: 76.69258343258116},
-                {latitude: 30.7110122048609, longitude: 76.69228365975869},
-                {latitude: 30.71086985976396, longitude: 76.69205412659352},
-                {latitude: 30.711027302177968, longitude: 76.6919261900743},
-              ]}
-              strokeColor="red"
-              fillColor="rgba(0, 0, 255, 0.1)"
-              strokeWidth={1}
-            />
-
-            {single && (
-              <Marker coordinate={yard.center}>
-                <View>
-                  <Icon name="map-marker" size={30} color="red" />
-                  {visibleCallouts?.includes(yard?.id) && (
-                    <View style={styles.customCallout}>
-                      <Text>{yard?.name}</Text>
-                    </View>
-                  )}
-                </View>
-              </Marker>
-            )}
-
-            {isCarMoving && (
-              <Marker.Animated coordinate={animatedCoord}>
-                <Icon name="car" size={14} color="#000" />
-              </Marker.Animated>
-            )}
-
-            {yardData?.[0]?.cars?.map((car, index) => {
-              if (car.id === '1-1') return null;
-
-              const slotCoords = getSlotPolygon(car.latitude, car.longitude);
-
-              return (
-                <React.Fragment key={car.id}>
-                  {/* Show only when car.show is true and it's not moving */}
-                  {car.show && (!isCarMoving || car.id !== '1') && (
-                    <Marker
-                      coordinate={{
-                        latitude: car.latitude,
-                        longitude: car.longitude,
-                      }}>
-                      <Icon name="car" size={12} color="#000" />
-                    </Marker>
-                  )}
-
-                  {/* Polygon */}
-                  <Polygon
-                    coordinates={slotCoords}
-                    strokeColor="#008000"
-                    strokeWidth={2}
-                    fillColor="rgba(0, 128, 0, 0.1)"
-                  />
-
-                  {/* Slot Number */}
-                  <Marker
-                    coordinate={{
-                      latitude: car.latitude,
-                      longitude: car.longitude,
-                    }}
-                    anchor={{x: 0.5, y: 0.5}}
-                    tracksViewChanges={false}>
-                    <View
-                      style={{
-                        borderRadius: 12,
-                        paddingHorizontal: 6,
-                        paddingTop: 10,
-                      }}>
-                      <Text
-                        style={{
-                          color: 'red',
-                          fontWeight: 'bold',
-                          fontSize: 14,
-                        }}>
-                        {index + 1}
-                      </Text>
-                    </View>
-                  </Marker>
-                </React.Fragment>
-              );
-            })}
-
-            {/* Moving Car 1 Marker */}
-            {carPosition && (
-              <Marker
-                coordinate={carPosition}
-                title="Moving Car"
-                description="Car 1">
-                <Icon name="car" size={16} color="#000" />
-              </Marker>
-            )}
-          </View>
-        ))}
-      </MapView>
-
-      {/* Exit Button */}
-      {!single && (
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 20,
-            alignSelf: 'center',
-            backgroundColor: 'blue',
-            borderRadius: 10,
-          }}>
-          <Button
-            title="Move Car Outside The Parking Yard"
-            color={'#fff'}
-            onPress={moveCarOutsidePolygon}
-          />
-        </View>
-      )}
-    </>
+    <MapView
+      ref={mapRef}
+      mapType="satellite"
+      style={styles.map}
+      initialRegion={initialRegion} // dynamic initialRegion
+    >
+      <Marker.Animated coordinate={animatedCoord}>
+        <Image
+          source={CAR}
+          style={{height: 40, width: 40}}
+          resizeMode="contain"
+        />
+      </Marker.Animated>
+    </MapView>
   );
 };
 
 const styles = StyleSheet.create({
-  moveButton: {
-    position: 'absolute',
-    bottom: 20,
-    alignSelf: 'center',
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-  },
-  customCallout: {
-    position: 'absolute',
-    bottom: 40,
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 5,
-    borderWidth: 1,
-    width: 120,
-    borderColor: '#ddd',
-    elevation: 5,
+  map: {
+    flex: 1,
   },
 });
 
 export default ParkingMap1;
 
-
-
-//// for local park coordinates 
-
-
 // import React, {useEffect, useRef, useState} from 'react';
-// import {View, Text, StyleSheet, Button, Alert} from 'react-native';
-// import MapView, {
-//   Marker,
-//   Circle,
-//   Polygon,
-//   Geojson,
-//   AnimatedRegion,
-// } from 'react-native-maps';
-// import Icon from 'react-native-vector-icons/FontAwesome';
+// import {View, StyleSheet, Image, ActivityIndicator, Text} from 'react-native';
+// import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
+// import {BleManager} from 'react-native-ble-plx';
+// import {Buffer} from 'buffer';
+// import {CAR} from '../assests/images';
 
-// const SLOT_SIZE = 0.00003; // Adjust for slot size
+// const manager = new BleManager();
 
-// const getSlotPolygon = (latitude, longitude, size = SLOT_SIZE) => {
-//   // Return array of coords making a square polygon around (lat, lng)
-//   return [
-//     {latitude: latitude + size, longitude: longitude - size},
-//     {latitude: latitude + size, longitude: longitude + size},
-//     {latitude: latitude - size, longitude: longitude + size},
-//     {latitude: latitude - size, longitude: longitude - size},
-//   ];
-// };
-
-// // Point in Polygon checker (Ray casting algorithm)
-// const isOutsidePolygon = (point, polygon) => {
-//   let x = point.latitude;
-//   let y = point.longitude;
-//   let inside = false;
-
-//   for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-//     const xi = polygon[i].latitude,
-//       yi = polygon[i].longitude;
-//     const xj = polygon[j].latitude,
-//       yj = polygon[j].longitude;
-
-//     const intersect =
-//       yi > y !== yj > y &&
-//       x < ((xj - xi) * (y - yi)) / (yj - yi + 0.0000001) + xi;
-//     if (intersect) inside = !inside;
-//   }
-//   return !inside;
-// };
-
-// const ParkingMap = ({parkingYards, single, vin, zoomIn}) => {
+// const ParkingMap1 = () => {
 //   const mapRef = useRef(null);
-//   const [visibleCallouts, setVisibleCallouts] = useState([]);
-//   const [yards, setYards] = useState(parkingYards);
-//   const [carPosition, setCarPosition] = useState(null); // Current position of moving car
-//   const [isMoving, setIsMoving] = useState(null); // Current position of moving car
-
-//   // car moving logic
-//   const [yardData, setYardData] = useState(parkingYards);
-//   const [isCarMoving, setIsCarMoving] = useState(true);
-
-//   // const [animatedCoord] = useState(
-//   //   new AnimatedRegion({
-//   //     latitude: 30.71106,
-//   //     longitude: 76.6921,
-//   //     latitudeDelta: 0.0001,
-//   //     longitudeDelta: 0.0001,
-//   //   }),
-//   // );
-
+//   const [initialRegion, setInitialRegion] = useState(null);
 //   const animatedCoord = useRef(
 //     new AnimatedRegion({
-//       latitude: yardData[0].cars[0].latitude,
-//       longitude: yardData[0].cars[0].longitude,
-//       latitudeDelta: 0.0001,
-//       longitudeDelta: 0.0001,
+//       latitude: 0,
+//       longitude: 0,
+//       latitudeDelta: 0.01,
+//       longitudeDelta: 0.01,
 //     }),
 //   ).current;
 
-//   useEffect(() => {
-//     const timeout = setTimeout(() => {
-//       const toCoord = {
-//         latitude: yardData[0].cars[3].latitude,
-//         longitude: yardData[0].cars[3].longitude,
-//       };
+//   // 🔹 convert GPS format "3042.680232,07641.5344" -> decimal degrees
+//   const convertToDecimal = (rawLat, rawLon) => {
+//     // latitude = DDMM.mmmm
+//     const latDeg = parseInt(rawLat.substring(0, 2), 10);
+//     const latMin = parseFloat(rawLat.substring(2));
+//     const latitude = latDeg + latMin / 60;
 
-//       animatedCoord
-//         .timing({
-//           ...toCoord,
-//           duration: 10000,
-//           useNativeDriver: false,
-//         })
-//         .start(() => {
-//           // Animation complete => update visibility
-//           setYardData(prev => {
-//             const updated = [...prev];
-//             updated[0].cars = updated[0].cars.map(car => {
-//               if (car.id === '1') return {...car, show: false};
-//               if (car.id === '4') return {...car, show: true};
-//               return car;
-//             });
-//             return updated;
-//           });
-//           // ✅ SHOW ALERT
-//           Alert.alert("Vehicle Relocated", "Car 1 has arrived at its designated Slot 4.");
-//           setIsCarMoving(false);
-//         });
-//     }, 15000);
+//     // longitude = DDDMM.mmmm
+//     const lonDeg = parseInt(rawLon.substring(0, 3), 10);
+//     const lonMin = parseFloat(rawLon.substring(3));
+//     const longitude = lonDeg + lonMin / 60;
 
-//     return () => clearTimeout(timeout);
-//   }, []);
-
-
-//   // slot logic
-//   const slot1 = parkingYards[0]?.cars?.find(c => c.id === '1-1');
-//   const slot18 = parkingYards[0]?.cars?.find(c => c.id === '1-18');
-
-//   useEffect(() => {
-//     if (!slot1 || !slot18) return;
-
-//     setCarPosition({latitude: slot1.latitude, longitude: slot1.longitude}); // Start from slot 1
-
-//     // Animate car movement from slot1 to slot18
-//     let steps = 50; // How smooth animation will be
-//     let currentStep = 0;
-
-//     const latDiff = (slot18.latitude - slot1.latitude) / steps;
-//     const longDiff = (slot18.longitude - slot1.longitude) / steps;
-
-//     setIsMoving(true);
-//     const interval = setInterval(() => {
-//       currentStep++;
-//       setCarPosition(prev => {
-//         if (!prev) return prev;
-//         const newLat = prev.latitude + latDiff;
-//         const newLong = prev.longitude + longDiff;
-//         return {latitude: newLat, longitude: newLong};
-//       });
-
-//       if (currentStep >= steps) {
-//         clearInterval(interval);
-//         setIsMoving(false);
-//         {
-//           !single && Alert.alert('Alert', 'Car-1 has reached slot 18!');
-//         }
-//       }
-//     }, 100); // Update every 100ms
-
-//     return () => clearInterval(interval);
-//   }, [parkingYards]);
-
-//   useEffect(() => {
-//     const timeout = setTimeout(() => {
-//       const ids = parkingYards?.map(yard => yard.id);
-//       setVisibleCallouts(ids);
-//     }, 1000);
-//     return () => clearTimeout(timeout);
-//   }, [parkingYards]);
-
-//   useEffect(() => {
-//     if (zoomIn) {
-//       if (mapRef.current) {
-//         const center = parkingYards[0]?.center;
-//         mapRef.current.animateToRegion(
-//           {
-//             latitude: center?.latitude,
-//             longitude: center?.longitude,
-//             latitudeDelta: 0.05,
-//             longitudeDelta: 0.05,
-//           },
-//           1000,
-//         );
-//         setTimeout(() => {
-//           mapRef.current.animateToRegion(
-//             {
-//               latitude: center?.latitude,
-//               longitude: center?.longitude,
-//               latitudeDelta: 0.02,
-//               longitudeDelta: 0.02,
-//             },
-//             1000,
-//           );
-//         }, 500);
-//         setTimeout(() => {
-//           mapRef.current.animateToRegion(
-//             {
-//               latitude: center?.latitude,
-//               longitude: center?.longitude,
-//               latitudeDelta: 0.005,
-//               longitudeDelta: 0.005,
-//             },
-//             1000,
-//           );
-//         }, 1000);
-//         setTimeout(() => {
-//           mapRef.current.animateToRegion(
-//             {
-//               latitude: center?.latitude,
-//               longitude: center?.longitude,
-//               latitudeDelta: 0.005,
-//               longitudeDelta: 0.005,
-//             },
-//             1000,
-//           );
-//         }, 1500);
-//       }
-//     }
-//   }, []);
-
-//   const moveCarOutsidePolygon = () => {
-//     if (!carPosition || !yards[0]) return;
-
-//     const steps = 100;
-//     const moveLat = 0.00095; // increase to move faster
-//     const moveLng = 0.00095;
-//     let currentStep = 0;
-
-//     const interval = setInterval(() => {
-//       currentStep++;
-//       setCarPosition(prev => {
-//         if (!prev) return prev;
-//         const newLat = prev.latitude + moveLat / steps;
-//         const newLng = prev.longitude + moveLng / steps;
-//         const newPos = {latitude: newLat, longitude: newLng};
-//         // Create polygon boundary
-//         const yard = yards[0];
-//         const polygonCoords = [
-//           {
-//             latitude: yard?.center?.latitude + yard.radius / 111000,
-//             longitude:
-//               yard?.center?.longitude -
-//               yard?.radius /
-//                 (111000 * Math.cos(yard.center.latitude * (Math.PI / 180))),
-//           },
-//           {
-//             latitude: yard.center.latitude + yard.radius / 111000,
-//             longitude:
-//               yard.center.longitude +
-//               yard.radius /
-//                 (111000 * Math.cos(yard.center.latitude * (Math.PI / 180))),
-//           },
-//           {
-//             latitude: yard.center.latitude - yard.radius / 111000,
-//             longitude:
-//               yard.center.longitude +
-//               yard.radius /
-//                 (111000 * Math.cos(yard.center.latitude * (Math.PI / 180))),
-//           },
-//           {
-//             latitude: yard.center.latitude - yard.radius / 111000,
-//             longitude:
-//               yard.center.longitude -
-//               yard.radius /
-//                 (111000 * Math.cos(yard.center.latitude * (Math.PI / 180))),
-//           },
-//         ];
-
-//         const isOut = isOutsidePolygon(newPos, polygonCoords);
-//         if (isOut && !single) {
-//           clearInterval(interval);
-//           Alert.alert('Alert', 'Car no. 10 has exited from Parking Yard 1!');
-//         }
-
-//         return newPos;
-//       });
-
-//       if (currentStep >= steps) {
-//         clearInterval(interval);
-//       }
-//     }, 100);
+//     return {latitude, longitude};
 //   };
 
+//   const updateCarPosition = (latitude, longitude) => {
+//     animatedCoord.timing({
+//       latitude,
+//       longitude,
+//       duration: 2000,
+//       useNativeDriver: false,
+//     }).start();
+
+//     if (mapRef.current) {
+//       mapRef.current.animateToRegion(
+//         {
+//           latitude,
+//           longitude,
+//           latitudeDelta: 0.001,
+//           longitudeDelta: 0.001,
+//         },
+//         1000,
+//       );
+//     }
+//   };
+
+//   // 🔹 Start BLE scanning
+//   useEffect(() => {
+//    manager.startDeviceScan(null, null, (error, device) => {
+//   if (error) {
+//     console.error('Scan error:', error);
+//     return;
+//   }
+
+//   // 🔹 Abhi aap yaha log kar rahe ho
+//   console.log('BLE Device:', JSON.stringify(device, null, 2));
+
+//   // 👇 Yahi jagah rawScanRecord decode karna hai
+//   if (device.name && device.name.includes("GPS")) {
+//   console.log("GPS Device found:", device.name, device.id);
+// }
+//   if (device.rawScanRecord) {
+//     try {
+//       const decoded = Buffer.from(device.rawScanRecord, "base64").toString("utf-8");
+//       console.log("Decoded rawScanRecord:", decoded);
+
+//       const parsed = JSON.parse(decoded);
+//       console.log("Parsed JSON from rawScanRecord:", parsed);
+
+//       if (parsed.gps) {
+//         const [latStr, lonStr] = parsed.gps.split(",");
+//         const { latitude, longitude } = convertToDecimal(latStr, lonStr);
+
+//         console.log("Parsed GPS from rawScanRecord:", latitude, longitude);
+
+//         if (!initialRegion) {
+//           setInitialRegion({
+//             latitude,
+//             longitude,
+//             latitudeDelta: 0.01,
+//             longitudeDelta: 0.01,
+//           });
+//           animatedCoord.setValue({ latitude, longitude });
+//         } else {
+//           updateCarPosition(latitude, longitude);
+//         }
+//       }
+//     } catch (err) {
+//       console.warn("Error decoding rawScanRecord:", err);
+//     }
+//   }
+// });
+
+//     return () => {
+//       manager.stopDeviceScan();
+//     };
+//   }, [initialRegion]);
+
+//   if (!initialRegion) {
+//     return (
+//       <View style={styles.center}>
+//         <ActivityIndicator size="large" color="blue" />
+//         <Text>Waiting for GPS data…</Text>
+//       </View>
+//     );
+//   }
+
 //   return (
-//     <>
-//       <MapView
-//         ref={mapRef}
-//         style={{flex: 1}}
-//         initialRegion={{
-//           latitude: parkingYards[0]?.center?.latitude,
-//           longitude: parkingYards[0]?.center?.longitude,
-//           latitudeDelta: 0.02,
-//           longitudeDelta: 0.02,
-//         }}>
-//         {yards?.map(yard => (
-//           <View key={yard.id}>
-//             <View
-//               style={{
-//                 width: 100,
-//                 height: 100,
-//                 border: 2,
-//                 borderBlockColor: 'red',
-//               }}></View>
-//             <Polygon
-//               coordinates={[
-//                 {
-//                   latitude: yard.center.latitude + yard.radius / 111000,
-//                   longitude:
-//                     yard.center.longitude -
-//                     yard.radius /
-//                       (111000 *
-//                         Math.cos(yard.center.latitude * (Math.PI / 180))),
-//                 },
-//                 {
-//                   latitude: yard.center.latitude + yard.radius / 111000,
-//                   longitude:
-//                     yard.center.longitude +
-//                     yard.radius /
-//                       (111000 *
-//                         Math.cos(yard.center.latitude * (Math.PI / 180))),
-//                 },
-//                 {
-//                   latitude: yard.center.latitude - yard.radius / 111000,
-//                   longitude:
-//                     yard.center.longitude +
-//                     yard.radius /
-//                       (111000 *
-//                         Math.cos(yard.center.latitude * (Math.PI / 180))),
-//                 },
-//                 {
-//                   latitude: yard.center.latitude - yard.radius / 111000,
-//                   longitude:
-//                     yard.center.longitude -
-//                     yard.radius /
-//                       (111000 *
-//                         Math.cos(yard.center.latitude * (Math.PI / 180))),
-//                 },
-//               ]}
-//               // coordinates={[
-//               //   {latitude: 30.70945704315396, longitude: 76.68974278587228},
-//               //   {latitude: 30.709149839557938, longitude: 76.68997210378666},
-//               //   {latitude: 30.711048067019902, longitude: 76.69308122807507},
-//               //   {latitude: 30.711396529839035, longitude:  76.69281991231071},
-//               //   {latitude: 30.70946960528984, longitude:  76.68974057274954},
-//               // ]}
-//               strokeColor="red"
-//               fillColor="rgba(0, 0, 255, 0.1)"
-//               strokeWidth={1}
-//             />
-
-//             {single && (
-//               <Marker coordinate={yard.center}>
-//                 <View>
-//                   <Icon name="map-marker" size={30} color="red" />
-//                   {visibleCallouts?.includes(yard?.id) && (
-//                     <View style={styles.customCallout}>
-//                       <Text>{yard?.name}</Text>
-//                     </View>
-//                   )}
-//                 </View>
-//               </Marker>
-//             )}
-
-//             {isCarMoving && (
-//               <Marker.Animated coordinate={animatedCoord}>
-//                 <Icon name="car" size={14} color="#000" />
-//               </Marker.Animated>
-//             )}
-
-//             {yardData?.cars?.map((car, index) => {
-//               if (car.id === '1-1') return null;
-
-//               const slotCoords = getSlotPolygon(car.latitude, car.longitude);
-
-//               return (
-//                 <React.Fragment key={car.id}>
-//                   {/* Show only when car.show is true and it's not moving */}
-//                   {car.show && (!isCarMoving || car.id !== '1') && (
-//                     <Marker
-//                       coordinate={{
-//                         latitude: car.latitude,
-//                         longitude: car.longitude,
-//                       }}>
-//                       <Icon name="car" size={12} color="#000" />
-//                     </Marker>
-//                   )}
-
-//                   {/* Polygon */}
-//                   <Polygon
-//                     coordinates={slotCoords}
-//                     strokeColor="#008000"
-//                     strokeWidth={2}
-//                     fillColor="rgba(0, 128, 0, 0.1)"
-//                   />
-
-//                   {/* Slot Number */}
-//                   <Marker
-//                     coordinate={{
-//                       latitude: car.latitude,
-//                       longitude: car.longitude,
-//                     }}
-//                     anchor={{x: 0.5, y: 0.5}}
-//                     tracksViewChanges={false}>
-//                     <View
-//                       style={{
-//                         borderRadius: 12,
-//                         paddingHorizontal: 6,
-//                         paddingTop: 10,
-//                       }}>
-//                       <Text
-//                         style={{
-//                           color: 'red',
-//                           fontWeight: 'bold',
-//                           fontSize: 14,
-//                         }}>
-//                         {index + 1}
-//                       </Text>
-//                     </View>
-//                   </Marker>
-//                 </React.Fragment>
-//               );
-//             })}
-
-//             {/* Moving Car 1 Marker */}
-//             {carPosition && (
-//               <Marker
-//                 coordinate={carPosition}
-//                 title="Moving Car"
-//                 description="Car 1">
-//                 <Icon name="car" size={16} color="#000" />
-//               </Marker>
-//             )}
-//           </View>
-//         ))}
-//       </MapView>
-
-//       {/* Exit Button */}
-//       {!single && (
-//         <View
-//           style={{
-//             position: 'absolute',
-//             bottom: 20,
-//             alignSelf: 'center',
-//             backgroundColor: 'blue',
-//             borderRadius: 10,
-//           }}>
-//           <Button
-//             title="Move Car Outside The Parking Yard"
-//             color={'#fff'}
-//             onPress={moveCarOutsidePolygon}
-//           />
-//         </View>
-//       )}
-//     </>
+//     <MapView
+//       ref={mapRef}
+//       style={styles.map}
+//       mapType="satellite"
+//       initialRegion={initialRegion}>
+//       <Marker.Animated coordinate={animatedCoord}>
+//         <Image source={CAR} style={{width: 40, height: 40}} resizeMode="contain" />
+//       </Marker.Animated>
+//     </MapView>
 //   );
 // };
 
 // const styles = StyleSheet.create({
-//   moveButton: {
-//     position: 'absolute',
-//     bottom: 20,
-//     alignSelf: 'center',
-//     backgroundColor: 'blue',
-//     padding: 10,
-//     borderRadius: 5,
-//   },
-//   customCallout: {
-//     position: 'absolute',
-//     bottom: 40,
-//     backgroundColor: 'white',
-//     padding: 10,
-//     borderRadius: 5,
-//     borderWidth: 1,
-//     width: 120,
-//     borderColor: '#ddd',
-//     elevation: 5,
-//   },
+//   map: {flex: 1},
+//   center: {flex: 1, justifyContent: 'center', alignItems: 'center'},
 // });
 
-// export default ParkingMap;
+// export default ParkingMap1;
+

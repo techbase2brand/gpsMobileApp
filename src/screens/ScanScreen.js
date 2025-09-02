@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet, Modal} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {widthPercentageToDP} from '../utils';
 import AnimatedLottieView from 'lottie-react-native';
+import BleTesting from '../components/BleTesting';
 
 export default function ScanScreen({navigation}) {
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +18,9 @@ export default function ScanScreen({navigation}) {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Scan Options</Text>
+
+      <BleTesting/>
+      {/* <Text style={styles.title}>Scan Options</Text>
 
       <TouchableOpacity
         style={styles.button}
@@ -41,7 +44,6 @@ export default function ScanScreen({navigation}) {
       <Modal visible={showModal} transparent animationType="fade">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            {/* {isLoggingOut ? ( */}
             <>
               <AnimatedLottieView
                 source={require('../assets/scan.json')}
@@ -50,10 +52,9 @@ export default function ScanScreen({navigation}) {
                 style={{width: 180, height: 300}}
               />
             </>
-            {/* )} */}
           </View>
         </View>
-      </Modal>
+      </Modal> */}
     </View>
   );
 }

@@ -366,9 +366,8 @@ const styles = StyleSheet.create({
   },
 });
 
-
 // search globally ,
 // facility list screen  changes add search functionality on facility screen ,
 // Home screen changes,
 // vin details screen changes ,
-// make new screens active chips, in-active chips , and low battery chips  and add   logos and header changes 
+// make new screens active chips, in-active chips , and low battery chips  and add   logos and header changes

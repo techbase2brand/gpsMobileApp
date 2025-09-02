@@ -6,11 +6,12 @@ import {heightPercentageToDP as hp, widthPercentageToDP as wp} from '../utils';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Header from '../components/Header';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
+import ParkingMap1 from '../components/ParkingMap1';
 
 
 const MapViewScreen = ({navigation}) => {
   const [feeds, setFeeds] = useState([]);
-  console.log('feedsfeeds>>', feeds);
+  // console.log('feedsfeeds>>', feeds);
   useEffect(() => {
     fetchData();
   }, []);
@@ -32,11 +33,17 @@ const MapViewScreen = ({navigation}) => {
       <TouchableOpacity onPress={()=> navigation.goBack()} style={styles.notificationIcon}>
           <Ionicons name="arrow-back" size={32} color="black" />
         </TouchableOpacity>
-      <ParkingMap
+      {/* <ParkingMap
+        parkingYards={parkingYards}
+        single={true}
+        home={true}
+      /> */}
+      <ParkingMap1
         parkingYards={parkingYards}
         single={true}
         home={true}
       />
+      
     </View>
   );
 };
