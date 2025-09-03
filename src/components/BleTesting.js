@@ -1,154 +1,47 @@
-// import React, {useEffect, useRef, useState} from 'react';
-// import {View, StyleSheet, Image, ActivityIndicator, Text, Alert, FlatList} from 'react-native';
-// import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
-// import {BleManager} from 'react-native-ble-plx';
-// import {Buffer} from 'buffer';
-// import {CAR} from '../assests/images';
-
-// const manager = new BleManager();
+// import React, { useEffect, useState } from "react";
+// import { View, Text, FlatList, StyleSheet } from "react-native";
+// import { BleManager } from "react-native-ble-plx";
 
 // const BleTesting = () => {
-//   const mapRef = useRef(null);
-//   const [initialRegion, setInitialRegion] = useState(null);
-//    const [devices, setDevices] = useState([]);
-//   const animatedCoord = useRef(
-//     new AnimatedRegion({
-//       latitude: 0,
-//       longitude: 0,
-//       latitudeDelta: 0.01,
-//       longitudeDelta: 0.01,
-//     }),
-//   ).current;
+//   const [devices, setDevices] = useState([]);
+//   const manager = new BleManager();
 
-//   // 🔹 convert GPS format "3042.680232,07641.5344" -> decimal degrees
-//   const convertToDecimal = (rawLat, rawLon) => {
-//     // latitude = DDMM.mmmm
-//     const latDeg = parseInt(rawLat.substring(0, 2), 10);
-//     const latMin = parseFloat(rawLat.substring(2));
-//     const latitude = latDeg + latMin / 60;
-
-//     // longitude = DDDMM.mmmm
-//     const lonDeg = parseInt(rawLon.substring(0, 3), 10);
-//     const lonMin = parseFloat(rawLon.substring(3));
-//     const longitude = lonDeg + lonMin / 60;
-
-//     return {latitude, longitude};
-//   };
-
-//   const updateCarPosition = (latitude, longitude) => {
-//     animatedCoord.timing({
-//       latitude,
-//       longitude,
-//       duration: 2000,
-//       useNativeDriver: false,
-//     }).start();
-
-//     if (mapRef.current) {
-//       mapRef.current.animateToRegion(
-//         {
-//           latitude,
-//           longitude,
-//           latitudeDelta: 0.001,
-//           longitudeDelta: 0.001,
-//         },
-//         1000,
-//       );
-//     }
-//   };
-
-//   // 🔹 Start BLE scanning
 //   useEffect(() => {
-//    manager.startDeviceScan(null, null, (error, device) => {
-//   if (error) {
-//     console.error('Scan error:', error);
-//     return;
-//   }
+//     manager.startDeviceScan(null, null, (error, device) => {
+//       if (error) {
+//         console.error("Scan error:", error);
+//         return;
+//       }
 
-//   // 🔹 Abhi aap yaha log kar rahe ho
-//   console.log('BLE Device:', JSON.stringify(device, null, 2));
-// // Alert.alert('BLE Device:', JSON.stringify(device, null, 2))
-//   // 👇 Yahi jagah rawScanRecord decode karna hai
-//   if (device.name && device.name.includes("GPS")) {
-//   console.log("GPS Device found:", device.name, device.id);
-// }
-//  if (device) {
-//         // device ko string me convert karke FlatList ke liye store karenge
-//         const deviceStr = JSON.stringify(device, null, 2);
+//       if (device) {
+//         // console.log wali string banayenge
+//         const logString =
+//           "BLE Device: " + JSON.stringify(device, null, 2);
 
 //         setDevices(prev => {
-//           // duplicate na ho isliye filter
+//           // agar pehle se hai to repeat na ho
 //           if (prev.find(d => d.id === device.id)) {
 //             return prev;
 //           }
-//           return [...prev, { id: device.id, data: deviceStr }];
+//           return [...prev, { id: device.id, log: logString }];
 //         });
 //       }
-//   if (device.rawScanRecord) {
-//     try {
-//       const decoded = Buffer.from(device.rawScanRecord, "base64").toString("utf-8");
-//       console.log("Decoded rawScanRecord:", decoded);
-
-//       const parsed = JSON.parse(decoded);
-//       console.log("Parsed JSON from rawScanRecord:", parsed);
-
-//       if (parsed.gps) {
-//         const [latStr, lonStr] = parsed.gps.split(",");
-//         const { latitude, longitude } = convertToDecimal(latStr, lonStr);
-
-//         console.log("Parsed GPS from rawScanRecord:", latitude, longitude);
-
-//         if (!initialRegion) {
-//           setInitialRegion({
-//             latitude,
-//             longitude,
-//             latitudeDelta: 0.01,
-//             longitudeDelta: 0.01,
-//           });
-//           animatedCoord.setValue({ latitude, longitude });
-//         } else {
-//           updateCarPosition(latitude, longitude);
-//         }
-//       }
-//     } catch (err) {
-//       console.warn("Error decoding rawScanRecord:", err);
-//     }
-//   }
-// });
+//     });
 
 //     return () => {
 //       manager.stopDeviceScan();
 //     };
 //   }, []);
 
-// //   if (!initialRegion) {
-// //     return (
-// //       <View style={styles.center}>
-// //         <ActivityIndicator size="large" color="blue" />
-// //         <Text>Waiting for GPS data…</Text>
-// //       </View>
-// //     );
-// //   }
-
 //   return (
-//     <View>
-
-//     {/* <MapView
-//       ref={mapRef}
-//       style={styles.map}
-//       mapType="satellite"
-//       initialRegion={initialRegion}>
-//       <Marker.Animated coordinate={animatedCoord}>
-//         <Image source={CAR} style={{width: 40, height: 40}} resizeMode="contain" />
-//       </Marker.Animated>
-//     </MapView> */}
-
-//      <Text style={styles.header}>Nearby BLE Devices</Text>
+//     <View style={styles.container}>
+//       <Text style={styles.header}>Nearby BLE Devices</Text>
 //       <FlatList
 //         data={devices}
 //         keyExtractor={item => item.id}
 //         renderItem={({ item }) => (
 //           <View style={styles.card}>
-//             <Text style={styles.text}>{item.data}</Text>
+//             <Text style={styles.text}>{item.log}</Text>
 //           </View>
 //         )}
 //       />
@@ -157,10 +50,9 @@
 // };
 
 // const styles = StyleSheet.create({
-//   map: {flex: 1, height:600},
-//   center: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-//    header: { fontSize: 18, fontWeight: "bold", marginBottom: 10 },
-//    card: {
+//   container: { flex: 1, padding: 10, backgroundColor: "#fff" },
+//   header: { fontSize: 18, fontWeight: "bold", marginBottom: 10 },
+//   card: {
 //     padding: 10,
 //     borderWidth: 1,
 //     borderColor: "#ccc",
@@ -168,38 +60,42 @@
 //     marginBottom: 10,
 //     backgroundColor: "#f9f9f9",
 //   },
-//   text: { fontSize: 12, color: "#333" },
+//   text: { fontSize: 12, color: "#333", fontFamily: "Courier" },
 // });
 
 // export default BleTesting;
 
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import {BleManager} from 'react-native-ble-plx';
 
-import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
-import { BleManager } from "react-native-ble-plx";
+const manager = new BleManager();
 
-const BleTesting = () => {
+const BLEScannerIOS = () => {
   const [devices, setDevices] = useState([]);
-  const manager = new BleManager();
+  const [connectedDevice, setConnectedDevice] = useState(null);
+  const [deviceDetails, setDeviceDetails] = useState(null);
 
+  // 🔹 Scan Devices (iOS)
   useEffect(() => {
     manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
-        console.error("Scan error:", error);
+        console.error('Scan error:', error);
         return;
       }
 
-      if (device) {
-        // console.log wali string banayenge
-        const logString =
-          "BLE Device: " + JSON.stringify(device, null, 2);
-
+      if (device && device.id) {
         setDevices(prev => {
-          // agar pehle se hai to repeat na ho
-          if (prev.find(d => d.id === device.id)) {
-            return prev;
-          }
-          return [...prev, { id: device.id, log: logString }];
+          const exists = prev.find(d => d.id === device.id);
+          if (exists) return prev;
+          return [...prev, device];
         });
       }
     });
@@ -209,34 +105,160 @@ const BleTesting = () => {
     };
   }, []);
 
+  // 🔹 Parse GPS Data if present
+  const parseLatLong = rawScanRecord => {
+    try {
+      const decoded = Buffer.from(rawScanRecord, 'base64').toString('utf-8');
+      const parsed = JSON.parse(decoded);
+
+      if (parsed?.gps) {
+        const [latStr, lonStr] = parsed.gps.split(',');
+        return {
+          latitude: parseFloat(latStr),
+          longitude: parseFloat(lonStr),
+        };
+      }
+    } catch (err) {
+      console.warn('No valid GPS found:', err);
+    }
+    return null;
+  };
+
+  // 🔹 Connect to Device
+  const connectToDevice = async device => {
+    try {
+      console.log('Connecting to:', device.name || 'Unknown', device.id);
+      const connected = await manager.connectToDevice(device.id);
+      await connected.discoverAllServicesAndCharacteristics();
+
+      setConnectedDevice(connected);
+
+      let details = {
+        id: connected.id,
+        name: connected.name || device.localName || 'Unknown',
+        rssi: device.rssi,
+      };
+
+      if (device.rawScanRecord) {
+        const gpsData = parseLatLong(device.rawScanRecord);
+        console.log('gpsData::', device.rawScanRecord);
+
+        if (gpsData) {
+          details = {...details, ...gpsData};
+        }
+      }
+
+      setDeviceDetails(details);
+      console.log('✅ Connected:', details);
+    } catch (err) {
+      console.error('❌ Connection error:', err);
+    }
+  };
+
+  // 🔹 Disconnect from Device
+  const disconnectFromDevice = async () => {
+    if (connectedDevice) {
+      try {
+        await manager.cancelDeviceConnection(connectedDevice.id);
+        console.log('🔴 Disconnected:', connectedDevice.id);
+        setConnectedDevice(null);
+        setDeviceDetails(null);
+      } catch (err) {
+        console.error('❌ Disconnect error:', err);
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Nearby BLE Devices</Text>
+      <Text style={styles.header}>Nearby BLE Devices (iOS)</Text>
+
+      {/* 🔹 List of Devices */}
       <FlatList
         data={devices}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text style={styles.text}>{item.log}</Text>
-          </View>
-        )}
+        renderItem={({item}) => {
+          const isConnected = connectedDevice?.id === item.id;
+          const deviceName = item.name || item.localName || 'Unknown Device';
+          return (
+            <View style={styles.card}>
+              <View style={{flex: 1}}>
+                <Text style={styles.name}>{deviceName}</Text>
+                <Text style={styles.id}>{item.id}</Text>
+                <Text style={styles.rssi}>RSSI: {item.rssi}</Text>
+              </View>
+              <TouchableOpacity
+                style={[styles.button, isConnected && styles.connectedButton]}
+                onPress={() =>
+                  isConnected ? disconnectFromDevice() : connectToDevice(item)
+                }>
+                <Text style={styles.buttonText}>
+                  {isConnected ? 'Disconnect' : 'Connect'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          );
+        }}
       />
+
+      {/* 🔹 Connected Device Details */}
+      {deviceDetails && (
+        <ScrollView style={styles.detailsBox}>
+          <Text style={styles.detailsHeader}>Connected Device Details</Text>
+          <Text>ID: {deviceDetails.id}</Text>
+          <Text>Name: {deviceDetails.name}</Text>
+          <Text>RSSI: {deviceDetails.rssi}</Text>
+          {deviceDetails.latitude && (
+            <Text>
+              Latitude: {deviceDetails.latitude}, Longitude:{' '}
+              {deviceDetails.longitude}
+            </Text>
+          )}
+        </ScrollView>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 10, backgroundColor: "#fff" },
-  header: { fontSize: 18, fontWeight: "bold", marginBottom: 10 },
+  container: {flex: 1, backgroundColor: '#fff', padding: 10},
+  header: {fontSize: 20, fontWeight: 'bold', marginVertical: 20},
   card: {
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderRadius: 10,
+    backgroundColor: '#f9f9f9',
     marginBottom: 10,
-    backgroundColor: "#f9f9f9",
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
-  text: { fontSize: 12, color: "#333", fontFamily: "Courier" },
+  name: {fontSize: 16, fontWeight: '600'},
+  id: {fontSize: 12, color: '#555'},
+  rssi: {fontSize: 12, color: '#999'},
+  button: {
+    backgroundColor: '#007bff',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+  connectedButton: {
+    backgroundColor: 'red',
+  },
+  buttonText: {color: '#fff', fontWeight: 'bold'},
+  detailsBox: {
+    marginTop: 15,
+    padding: 12,
+    borderRadius: 10,
+    backgroundColor: '#eef',
+    borderWidth: 1,
+    borderColor: '#99f',
+  },
+  detailsHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
 });
 
-export default BleTesting;
+export default BLEScannerIOS;

@@ -428,125 +428,125 @@
 
 
 /// main vcode
-import React, {useEffect, useRef, useState} from 'react';
-import {View, StyleSheet, Image, ActivityIndicator} from 'react-native';
-import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
-import {CAR} from '../assests/images';
+// import React, {useEffect, useRef, useState} from 'react';
+// import {View, StyleSheet, Image, ActivityIndicator} from 'react-native';
+// import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
+// import {CAR} from '../assests/images';
 
-const ParkingMap1 = () => {
-  const mapRef = useRef(null);
-  const [initialRegion, setInitialRegion] = useState(null); // 👈 initially null
+// const ParkingMap1 = () => {
+//   const mapRef = useRef(null);
+//   const [initialRegion, setInitialRegion] = useState(null); // 👈 initially null
 
-  // Animated coordinates (default dummy value)
-  const animatedCoord = useRef(
-    new AnimatedRegion({
-      latitude: 0,
-      longitude: 0,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
-    }),
-  ).current;
+//   // Animated coordinates (default dummy value)
+//   const animatedCoord = useRef(
+//     new AnimatedRegion({
+//       latitude: 0,
+//       longitude: 0,
+//       latitudeDelta: 0.01,
+//       longitudeDelta: 0.01,
+//     }),
+//   ).current;
 
-  // 🚗 Smooth update
-  const updateCarPosition = (latitude, longitude) => {
-    animatedCoord
-      .timing({
-        latitude,
-        longitude,
-        duration: 2000,
-        useNativeDriver: false,
-      })
-      .start();
+//   // 🚗 Smooth update
+//   const updateCarPosition = (latitude, longitude) => {
+//     animatedCoord
+//       .timing({
+//         latitude,
+//         longitude,
+//         duration: 2000,
+//         useNativeDriver: false,
+//       })
+//       .start();
 
-    // Zoom and follow car
-    if (mapRef.current) {
-      mapRef.current.animateToRegion(
-        {
-          latitude,
-          longitude,
-          latitudeDelta: 0.0008,
-          longitudeDelta: 0.0008,
-        },
-        1000,
-      );
-    }
-  };
+//     // Zoom and follow car
+//     if (mapRef.current) {
+//       mapRef.current.animateToRegion(
+//         {
+//           latitude,
+//           longitude,
+//           latitudeDelta: 0.0008,
+//           longitudeDelta: 0.0008,
+//         },
+//         1000,
+//       );
+//     }
+//   };
 
-  // ✅ Fetch API
-  useEffect(() => {
-    const fetchLocation = async () => {
-      try {
-        const response = await fetch(
-          'https://techrepairtracker.base2brand.com/api/fetchGpsTracking',
-        );
-        const json = await response.json();
-        console.log('jsonjsonjsonjson', json);
+//   // ✅ Fetch API
+//   useEffect(() => {
+//     const fetchLocation = async () => {
+//       try {
+//         const response = await fetch(
+//           'https://techrepairtracker.base2brand.com/api/fetchGpsTracking',
+//         );
+//         const json = await response.json();
+//         console.log('jsonjsonjsonjson', json);
 
-        if (json?.status && json?.data?.length > 0) {
-          const latest = json.data[json.data.length - 1];
-          const latitude = parseFloat(latest.lat);
-          const longitude = parseFloat(latest.long);
+//         if (json?.status && json?.data?.length > 0) {
+//           const latest = json.data[json.data.length - 1];
+//           const latitude = parseFloat(latest.lat);
+//           const longitude = parseFloat(latest.long);
 
-          if (!isNaN(latitude) && !isNaN(longitude)) {
-            // set initialRegion from api data
-            if (!initialRegion) {
-              setInitialRegion({
-                latitude,
-                longitude,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
-              });
-              animatedCoord.setValue({latitude, longitude}); // 👈 direct set
-            } else {
-              updateCarPosition(latitude, longitude);
-            }
-          }
-        }
-      } catch (error) {
-        console.error('GPS Fetch Error:', error);
-      }
-    };
+//           if (!isNaN(latitude) && !isNaN(longitude)) {
+//             // set initialRegion from api data
+//             if (!initialRegion) {
+//               setInitialRegion({
+//                 latitude,
+//                 longitude,
+//                 latitudeDelta: 0.01,
+//                 longitudeDelta: 0.01,
+//               });
+//               animatedCoord.setValue({latitude, longitude}); // 👈 direct set
+//             } else {
+//               updateCarPosition(latitude, longitude);
+//             }
+//           }
+//         }
+//       } catch (error) {
+//         console.error('GPS Fetch Error:', error);
+//       }
+//     };
 
-    fetchLocation();
+//     fetchLocation();
 
-    //  2 sec interval
-    const interval = setInterval(fetchLocation, 2000);
-    return () => clearInterval(interval);
-  }, []);
+//     //  2 sec interval
+//     const interval = setInterval(fetchLocation, 2000);
+//     return () => clearInterval(interval);
+//   }, []);
 
-  if (!initialRegion) {
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size="large" color="blue" />
-      </View>
-    );
-  }
+//   if (!initialRegion) {
+//     return (
+//       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+//         <ActivityIndicator size="large" color="blue" />
+//       </View>
+//     );
+//   }
 
-  return (
-    <MapView
-      ref={mapRef}
-      mapType="satellite"
-      style={styles.map}
-      initialRegion={initialRegion} // dynamic initialRegion
-    >
-      <Marker.Animated coordinate={animatedCoord}>
-        <Image
-          source={CAR}
-          style={{height: 40, width: 40}}
-          resizeMode="contain"
-        />
-      </Marker.Animated>
-    </MapView>
-  );
-};
+//   return (
+//     <MapView
+//       ref={mapRef}
+//       mapType="satellite"
+//       style={styles.map}
+//       initialRegion={initialRegion} // dynamic initialRegion
+//     >
+//       <Marker.Animated coordinate={animatedCoord}>
+//         <Image
+//           source={CAR}
+//           style={{height: 40, width: 40}}
+//           resizeMode="contain"
+//         />
+//       </Marker.Animated>
+//     </MapView>
+//   );
+// };
 
-const styles = StyleSheet.create({
-  map: {
-    flex: 1,
-  },
-});
+// const styles = StyleSheet.create({
+//   map: {
+//     flex: 1,
+//   },
+// });
 
-export default ParkingMap1;
+// export default ParkingMap1;
 
 // import React, {useEffect, useRef, useState} from 'react';
 // import {View, StyleSheet, Image, ActivityIndicator, Text} from 'react-native';
@@ -686,3 +686,190 @@ export default ParkingMap1;
 
 // export default ParkingMap1;
 
+
+
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  Image,
+  ActivityIndicator,
+  PermissionsAndroid,
+  Platform,
+} from 'react-native';
+import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
+import Geolocation from '@react-native-community/geolocation';
+import {CAR} from '../assests/images';
+
+const GOOGLE_MAPS_APIKEY = 'AIzaSyBXNyT9zcGdvhAUCUEYTm6e_qPw26AOPgI'; // 👈 Add your API Key
+
+const ParkingMap1 = () => {
+  const mapRef = useRef(null);
+  const [initialRegion, setInitialRegion] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState(null); // 👈 user location
+  const [carLocation, setCarLocation] = useState(null); // 👈 API car location
+console.log("initialRegioninitialRegion",initialRegion);
+
+  // Animated coordinates
+  const animatedCoord = useRef(
+    new AnimatedRegion({
+      latitude: 0,
+      longitude: 0,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    }),
+  ).current;
+
+  // 🚗 Smooth update for car
+  const updateCarPosition = (latitude, longitude) => {
+    animatedCoord
+      .timing({
+        latitude,
+        longitude,
+        duration: 2000,
+        useNativeDriver: false,
+      })
+      .start();
+
+    if (mapRef.current) {
+      mapRef.current.animateToRegion(
+        {
+          latitude,
+          longitude,
+          latitudeDelta: 0.0008,
+          longitudeDelta: 0.0008,
+        },
+        1000,
+      );
+    }
+  };
+const requestLocationPermission = async () => {
+  if (Platform.OS === 'android') {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    } catch (err) {
+      console.warn(err);
+      return false;
+    }
+  }
+  return true; // iOS case
+};
+  // 🔹 Fetch API car location
+  useEffect(() => {
+    const fetchLocation = async () => {
+      try {
+        const response = await fetch(
+          'https://techrepairtracker.base2brand.com/api/fetchGpsTracking',
+        );
+        const json = await response.json();
+
+        if (json?.status && json?.data?.length > 0) {
+          const latest = json.data[json.data.length - 1];
+          const latitude = parseFloat(latest.lat);
+          const longitude = parseFloat(latest.long);
+
+          if (!isNaN(latitude) && !isNaN(longitude)) {
+            setCarLocation({latitude, longitude});
+
+            if (!initialRegion) {
+              setInitialRegion({
+                latitude,
+                longitude,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+              });
+              animatedCoord.setValue({latitude, longitude});
+            } else {
+              updateCarPosition(latitude, longitude);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('GPS Fetch Error:', error);
+      }
+    };
+
+    fetchLocation();
+    const interval = setInterval(fetchLocation, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // 🔹 Get current device location
+ useEffect(() => {
+  const getLocation = async () => {
+    const hasPermission = await requestLocationPermission();
+    if (!hasPermission) {
+      console.log('❌ Location permission denied');
+      return;
+    }
+
+    Geolocation.getCurrentPosition(
+      pos => {
+        const {latitude, longitude} = pos.coords;
+        setCurrentLocation({latitude, longitude});
+        console.log('✅ Current Location:', latitude, longitude);
+      },
+      error => {
+        console.log('❌ Location Error:', error);
+      },
+      {
+    enableHighAccuracy: true,
+    timeout: 30000,   // 👈 30 sec
+    maximumAge: 10000,
+  }
+    );
+  };
+
+  getLocation();
+}, []);
+
+
+  if (!initialRegion) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="blue" />
+      </View>
+    );
+  }
+
+  return (
+    <MapView
+      ref={mapRef}
+      mapType="satellite"
+      style={styles.map}
+      initialRegion={initialRegion}
+      showsUserLocation={true} // 👈 blue dot
+    >
+      {/* 🚗 Car Marker */}
+      <Marker.Animated coordinate={animatedCoord}>
+        <Image source={CAR} style={{height: 40, width: 40}} resizeMode="contain" />
+      </Marker.Animated>
+
+      {/* 📍 Directions from user → car */}
+      <MapViewDirections
+        origin={currentLocation}
+        destination={carLocation}
+        apikey={GOOGLE_MAPS_APIKEY}
+        strokeWidth={4}
+        strokeColor="blue"
+        onReady={result => {
+          mapRef.current.fitToCoordinates(result.coordinates, {
+            edgePadding: {top: 50, right: 50, bottom: 50, left: 50},
+            animated: true,
+          });
+        }}
+      />
+    </MapView>
+  );
+};
+
+const styles = StyleSheet.create({
+  map: {flex: 1},
+  loader: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+});
+
+export default ParkingMap1;
