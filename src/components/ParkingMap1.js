@@ -96,7 +96,6 @@
 
 // export default ParkingMap1;
 
-
 // import React, {useEffect, useRef, useState} from 'react';
 // import {View, StyleSheet, Image, Alert} from 'react-native';
 // import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
@@ -423,10 +422,6 @@
 
 // export default ParkingMap1;
 
-
-
-
-
 /// main vcode
 // import React, {useEffect, useRef, useState} from 'react';
 // import {View, StyleSheet, Image, ActivityIndicator} from 'react-native';
@@ -686,8 +681,6 @@
 
 // export default ParkingMap1;
 
-
-
 import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
@@ -709,7 +702,7 @@ const ParkingMap1 = () => {
   const [initialRegion, setInitialRegion] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null); // 👈 user location
   const [carLocation, setCarLocation] = useState(null); // 👈 API car location
-console.log("initialRegioninitialRegion",initialRegion);
+  console.log('initialRegioninitialRegion', initialRegion);
 
   // Animated coordinates
   const animatedCoord = useRef(
@@ -744,20 +737,20 @@ console.log("initialRegioninitialRegion",initialRegion);
       );
     }
   };
-const requestLocationPermission = async () => {
-  if (Platform.OS === 'android') {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
-      return granted === PermissionsAndroid.RESULTS.GRANTED;
-    } catch (err) {
-      console.warn(err);
-      return false;
+  const requestLocationPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        return false;
+      }
     }
-  }
-  return true; // iOS case
-};
+    return true; // iOS case
+  };
   // 🔹 Fetch API car location
   useEffect(() => {
     const fetchLocation = async () => {
@@ -799,34 +792,33 @@ const requestLocationPermission = async () => {
   }, []);
 
   // 🔹 Get current device location
- useEffect(() => {
-  const getLocation = async () => {
-    const hasPermission = await requestLocationPermission();
-    if (!hasPermission) {
-      console.log('❌ Location permission denied');
-      return;
-    }
+  useEffect(() => {
+    const getLocation = async () => {
+      const hasPermission = await requestLocationPermission();
+      if (!hasPermission) {
+        console.log('❌ Location permission denied');
+        return;
+      }
 
-    Geolocation.getCurrentPosition(
-      pos => {
-        const {latitude, longitude} = pos.coords;
-        setCurrentLocation({latitude, longitude});
-        console.log('✅ Current Location:', latitude, longitude);
-      },
-      error => {
-        console.log('❌ Location Error:', error);
-      },
-      {
-    enableHighAccuracy: true,
-    timeout: 30000,   // 👈 30 sec
-    maximumAge: 10000,
-  }
-    );
-  };
+      Geolocation.getCurrentPosition(
+        pos => {
+          const {latitude, longitude} = pos.coords;
+          setCurrentLocation({latitude, longitude});
+          console.log('✅ Current Location:', latitude, longitude);
+        },
+        error => {
+          console.log('❌ Location Error:', error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 30000, // 👈 30 sec
+          maximumAge: 10000,
+        },
+      );
+    };
 
-  getLocation();
-}, []);
-
+    getLocation();
+  }, []);
 
   if (!initialRegion) {
     return (
@@ -846,7 +838,11 @@ const requestLocationPermission = async () => {
     >
       {/* 🚗 Car Marker */}
       <Marker.Animated coordinate={animatedCoord}>
-        <Image source={CAR} style={{height: 40, width: 40}} resizeMode="contain" />
+        <Image
+          source={CAR}
+          style={{height: 40, width: 40}}
+          resizeMode="contain"
+        />
       </Marker.Animated>
 
       {/* 📍 Directions from user → car */}
@@ -855,7 +851,7 @@ const requestLocationPermission = async () => {
         destination={carLocation}
         apikey={GOOGLE_MAPS_APIKEY}
         strokeWidth={4}
-        strokeColor="blue"
+        strokeColor="red"
         onReady={result => {
           mapRef.current.fitToCoordinates(result.coordinates, {
             edgePadding: {top: 50, right: 50, bottom: 50, left: 50},
