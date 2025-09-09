@@ -19,8 +19,8 @@ export default function ScanScreen({navigation}) {
   return (
     <View style={styles.container}>
 
-      <BleTesting/>
-      {/* <Text style={styles.title}>Scan Options</Text>
+      {/* <BleTesting/> */}
+       <Text style={styles.title}>Scan Options</Text> 
 
       <TouchableOpacity
         style={styles.button}
@@ -54,7 +54,7 @@ export default function ScanScreen({navigation}) {
             </>
           </View>
         </View>
-      </Modal> */}
+      </Modal> 
     </View>
   );
 }

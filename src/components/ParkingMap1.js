@@ -680,6 +680,196 @@
 // });
 
 // export default ParkingMap1;
+const GOOGLE_MAPS_APIKEY = 'AIzaSyBXNyT9zcGdvhAUCUEYTm6e_qPw26AOPgI'; // 👈 Add your API Key
+
+// import React, {useEffect, useRef, useState} from 'react';
+// import {
+//   View,
+//   StyleSheet,
+//   Image,
+//   ActivityIndicator,
+//   PermissionsAndroid,
+//   Platform,
+// } from 'react-native';
+// import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
+// import MapViewDirections from 'react-native-maps-directions';
+// import Geolocation from '@react-native-community/geolocation';
+// import {CAR} from '../assests/images';
+
+// const ParkingMap1 = () => {
+//   const mapRef = useRef(null);
+//   const [initialRegion, setInitialRegion] = useState(null);
+//   const [currentLocation, setCurrentLocation] = useState(null); // 👈 user location
+//   const [carLocation, setCarLocation] = useState(null); // 👈 API car location
+//   console.log('initialRegioninitialRegion', initialRegion);
+
+//   // Animated coordinates
+//   const animatedCoord = useRef(
+//     new AnimatedRegion({
+//       latitude: 0,
+//       longitude: 0,
+//       latitudeDelta: 0.01,
+//       longitudeDelta: 0.01,
+//     }),
+//   ).current;
+
+//   // 🚗 Smooth update for car
+//   const updateCarPosition = (latitude, longitude) => {
+//     animatedCoord
+//       .timing({
+//         latitude,
+//         longitude,
+//         duration: 2000,
+//         useNativeDriver: false,
+//       })
+//       .start();
+
+//     if (mapRef.current) {
+//       mapRef.current.animateToRegion(
+//         {
+//           latitude,
+//           longitude,
+//           latitudeDelta: 0.0008,
+//           longitudeDelta: 0.0008,
+//         },
+//         1000,
+//       );
+//     }
+//   };
+//   const requestLocationPermission = async () => {
+//     if (Platform.OS === 'android') {
+//       try {
+//         const granted = await PermissionsAndroid.request(
+//           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+//         );
+//         return granted === PermissionsAndroid.RESULTS.GRANTED;
+//       } catch (err) {
+//         console.warn(err);
+//         return false;
+//       }
+//     }
+//     return true; // iOS case
+//   };
+//   // 🔹 Fetch API car location
+//   useEffect(() => {
+//     const fetchLocation = async () => {
+//       try {
+//         const response = await fetch(
+//           'https://techrepairtracker.base2brand.com/api/fetchGpsTracking',
+//         );
+//         const json = await response.json();
+//         console.log('json>>>>', json);
+
+//         if (json?.status && json?.data?.length > 0) {
+//           const latest = json.data[json.data.length - 1];
+//           const latitude = parseFloat(latest.lat);
+//           const longitude = parseFloat(latest.long);
+
+//           if (!isNaN(latitude) && !isNaN(longitude)) {
+//             setCarLocation({latitude, longitude});
+
+//             if (!initialRegion) {
+//               setInitialRegion({
+//                 latitude,
+//                 longitude,
+//                 latitudeDelta: 0.01,
+//                 longitudeDelta: 0.01,
+//               });
+//               animatedCoord.setValue({latitude, longitude});
+//             } else {
+//               updateCarPosition(latitude, longitude);
+//             }
+//           }
+//         }
+//       } catch (error) {
+//         console.error('GPS Fetch Error:', error);
+//       }
+//     };
+
+//     fetchLocation();
+//     const interval = setInterval(fetchLocation, 2000);
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   // 🔹 Get current device location
+//   useEffect(() => {
+//     const getLocation = async () => {
+//       const hasPermission = await requestLocationPermission();
+//       if (!hasPermission) {
+//         console.log('❌ Location permission denied');
+//         return;
+//       }
+
+//       Geolocation.getCurrentPosition(
+//         pos => {
+//           const {latitude, longitude} = pos.coords;
+//           setCurrentLocation({latitude, longitude});
+//           console.log('✅ Current Location:', latitude, longitude);
+//         },
+//         error => {
+//           console.log('❌ Location Error:', error);
+//         },
+//         {
+//           enableHighAccuracy: true,
+//           timeout: 30000, // 👈 30 sec
+//           maximumAge: 10000,
+//         },
+//       );
+//     };
+
+//     getLocation();
+//   }, []);
+
+//   if (!initialRegion) {
+//     return (
+//       <View style={styles.loader}>
+//         <ActivityIndicator size="large" color="blue" />
+//       </View>
+//     );
+//   }
+
+//   return (
+//     <MapView
+//       ref={mapRef}
+//       mapType="satellite"
+//       style={styles.map}
+//       initialRegion={initialRegion}
+//       showsUserLocation={true} // 👈 blue dot
+//     >
+//       {/* 🚗 Car Marker */}
+//       <Marker.Animated coordinate={animatedCoord}>
+//         <Image
+//           source={CAR}
+//           style={{height: 40, width: 40}}
+//           resizeMode="contain"
+//         />
+//       </Marker.Animated>
+
+//       {/* 📍 Directions from user → car */}
+//       <MapViewDirections
+//         origin={currentLocation}
+//         destination={carLocation}
+//         apikey={GOOGLE_MAPS_APIKEY}
+//         strokeWidth={4}
+//         strokeColor="red"
+//         onReady={result => {
+//           mapRef.current.fitToCoordinates(result.coordinates, {
+//             edgePadding: {top: 50, right: 50, bottom: 50, left: 50},
+//             animated: true,
+//           });
+//         }}
+//       />
+//     </MapView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   map: {flex: 1},
+//   loader: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+// });
+
+// export default ParkingMap1;
+
 
 import React, {useEffect, useRef, useState} from 'react';
 import {
@@ -687,24 +877,21 @@ import {
   StyleSheet,
   Image,
   ActivityIndicator,
-  PermissionsAndroid,
-  Platform,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import Geolocation from '@react-native-community/geolocation';
+import StreetView from 'react-native-streetview';
 import {CAR} from '../assests/images';
-
-const GOOGLE_MAPS_APIKEY = 'AIzaSyBXNyT9zcGdvhAUCUEYTm6e_qPw26AOPgI'; // 👈 Add your API Key
 
 const ParkingMap1 = () => {
   const mapRef = useRef(null);
   const [initialRegion, setInitialRegion] = useState(null);
-  const [currentLocation, setCurrentLocation] = useState(null); // 👈 user location
-  const [carLocation, setCarLocation] = useState(null); // 👈 API car location
-  console.log('initialRegioninitialRegion', initialRegion);
+  const [showStreetView, setShowStreetView] = useState(false);
+  const [links, setLinks] = useState([]);
+  console.log('linkslinks', links);
 
-  // Animated coordinates
   const animatedCoord = useRef(
     new AnimatedRegion({
       latitude: 0,
@@ -714,44 +901,23 @@ const ParkingMap1 = () => {
     }),
   ).current;
 
-  // 🚗 Smooth update for car
-  const updateCarPosition = (latitude, longitude) => {
-    animatedCoord
-      .timing({
-        latitude,
-        longitude,
-        duration: 2000,
-        useNativeDriver: false,
-      })
-      .start();
+  const [bearing, setBearing] = useState(0);
+  const [targetCoord, setTargetCoord] = useState(null);
 
-    if (mapRef.current) {
-      mapRef.current.animateToRegion(
-        {
-          latitude,
-          longitude,
-          latitudeDelta: 0.0008,
-          longitudeDelta: 0.0008,
-        },
-        1000,
-      );
-    }
+  // bearing calculate helper
+  const calculateBearing = (lat1, lon1, lat2, lon2) => {
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+    lat1 = (lat1 * Math.PI) / 180;
+    lat2 = (lat2 * Math.PI) / 180;
+
+    const y = Math.sin(dLon) * Math.cos(lat2);
+    const x =
+      Math.cos(lat1) * Math.sin(lat2) -
+      Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+
+    return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
   };
-  const requestLocationPermission = async () => {
-    if (Platform.OS === 'android') {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        );
-        return granted === PermissionsAndroid.RESULTS.GRANTED;
-      } catch (err) {
-        console.warn(err);
-        return false;
-      }
-    }
-    return true; // iOS case
-  };
-  // 🔹 Fetch API car location
+
   useEffect(() => {
     const fetchLocation = async () => {
       try {
@@ -766,8 +932,6 @@ const ParkingMap1 = () => {
           const longitude = parseFloat(latest.long);
 
           if (!isNaN(latitude) && !isNaN(longitude)) {
-            setCarLocation({latitude, longitude});
-
             if (!initialRegion) {
               setInitialRegion({
                 latitude,
@@ -776,8 +940,23 @@ const ParkingMap1 = () => {
                 longitudeDelta: 0.01,
               });
               animatedCoord.setValue({latitude, longitude});
-            } else {
-              updateCarPosition(latitude, longitude);
+            }
+
+            // Target 500m ahead
+            const target = {
+              latitude: latitude + 0.0045, // approx 500m north
+              longitude,
+            };
+            setTargetCoord(target);
+
+            if (target) {
+              const brng = calculateBearing(
+                latitude,
+                longitude,
+                target.latitude,
+                target.longitude,
+              );
+              setBearing(brng);
             }
           }
         }
@@ -789,36 +968,7 @@ const ParkingMap1 = () => {
     fetchLocation();
     const interval = setInterval(fetchLocation, 2000);
     return () => clearInterval(interval);
-  }, []);
-
-  // 🔹 Get current device location
-  useEffect(() => {
-    const getLocation = async () => {
-      const hasPermission = await requestLocationPermission();
-      if (!hasPermission) {
-        console.log('❌ Location permission denied');
-        return;
-      }
-
-      Geolocation.getCurrentPosition(
-        pos => {
-          const {latitude, longitude} = pos.coords;
-          setCurrentLocation({latitude, longitude});
-          console.log('✅ Current Location:', latitude, longitude);
-        },
-        error => {
-          console.log('❌ Location Error:', error);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 30000, // 👈 30 sec
-          maximumAge: 10000,
-        },
-      );
-    };
-
-    getLocation();
-  }, []);
+  }, [initialRegion]);
 
   if (!initialRegion) {
     return (
@@ -829,43 +979,171 @@ const ParkingMap1 = () => {
   }
 
   return (
-    <MapView
-      ref={mapRef}
-      mapType="satellite"
-      style={styles.map}
-      initialRegion={initialRegion}
-      showsUserLocation={true} // 👈 blue dot
-    >
-      {/* 🚗 Car Marker */}
-      <Marker.Animated coordinate={animatedCoord}>
-        <Image
-          source={CAR}
-          style={{height: 40, width: 40}}
-          resizeMode="contain"
-        />
-      </Marker.Animated>
+    <View style={{flex: 1}}>
+      {showStreetView ? (
+        <View style={{flex: 1}}>
+          <StreetView
+            style={styles.map}
+            allGesturesEnabled={true}
+            coordinate={{
+              latitude: animatedCoord.__getValue().latitude,
+              longitude: animatedCoord.__getValue().longitude,
+            }}
+            pov={{
+              tilt: 0,
+              bearing: bearing,
+              zoom: 1,
+            }}
+            onPanoramaChange={event => {
+              const {nativeEvent} = event;
+              console.log('nativeEvent:::', nativeEvent);
 
-      {/* 📍 Directions from user → car */}
-      <MapViewDirections
-        origin={currentLocation}
-        destination={carLocation}
-        apikey={GOOGLE_MAPS_APIKEY}
-        strokeWidth={4}
-        strokeColor="red"
-        onReady={result => {
-          mapRef.current.fitToCoordinates(result.coordinates, {
-            edgePadding: {top: 50, right: 50, bottom: 50, left: 50},
-            animated: true,
-          });
-        }}
-      />
-    </MapView>
+              if (nativeEvent?.position) {
+                const {latitude, longitude} = nativeEvent.position;
+                animatedCoord
+                  .timing({
+                    latitude,
+                    longitude,
+                    duration: 800,
+                    useNativeDriver: false,
+                  })
+                  .start();
+              }
+              if (nativeEvent?.links) {
+                setLinks(nativeEvent.links);
+                console.log('Available links (arrows):', nativeEvent.links);
+              }
+            }}
+          />
+
+          {/* Mini Map Overlay */}
+          <TouchableOpacity
+            onPress={() => setShowStreetView(false)}
+            style={styles.miniMapContainer}>
+            <MapView
+              style={styles.miniMap}
+              region={{
+                latitude: animatedCoord.__getValue().latitude,
+                longitude: animatedCoord.__getValue().longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
+              }}
+              pointerEvents="none" // disable touch
+            >
+              <Marker.Animated coordinate={animatedCoord}>
+                <Image
+                  source={CAR}
+                  style={{height: 20, width: 20}}
+                  resizeMode="contain"
+                />
+              </Marker.Animated>
+
+              {targetCoord && (
+                <MapViewDirections
+                  origin={{
+                    latitude: animatedCoord.__getValue().latitude,
+                    longitude: animatedCoord.__getValue().longitude,
+                  }}
+                  destination={targetCoord}
+                  apikey={GOOGLE_MAPS_APIKEY}
+                  strokeWidth={3}
+                  strokeColor="blue"
+                  mode="DRIVING"
+                />
+              )}
+            </MapView>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <MapView ref={mapRef} mapType="satellite" style={styles.map} initialRegion={initialRegion}>
+          <Marker.Animated coordinate={animatedCoord}>
+            <Image
+              source={CAR}
+              style={{height: 30, width: 30}}
+              resizeMode="contain"
+            />
+          </Marker.Animated>
+
+          {targetCoord && (
+            <MapViewDirections
+              origin={{
+                latitude: animatedCoord.__getValue().latitude,
+                longitude: animatedCoord.__getValue().longitude,
+              }}
+              destination={targetCoord}
+              apikey={GOOGLE_MAPS_APIKEY}
+              strokeWidth={4}
+              strokeColor="blue"
+              mode="DRIVING"
+              onReady={result => {
+                if (result.coordinates.length > 1) {
+                  const start = result.coordinates[0];
+                  const next = result.coordinates[1];
+                  const brng = calculateBearing(
+                    start.latitude,
+                    start.longitude,
+                    next.latitude,
+                    next.longitude,
+                  );
+                  setBearing(brng);
+                }
+              }}
+            />
+          )}
+        </MapView>
+      )}
+
+      <TouchableOpacity
+        style={styles.toggleBtn}
+        onPress={() => setShowStreetView(!showStreetView)}>
+        <Text style={styles.toggleBtnText}>
+          {showStreetView ? 'Show Map' : 'Show Street View'}
+        </Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   map: {flex: 1},
-  loader: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  toggleBtn: {
+    position: 'absolute',
+    bottom: 120,
+    alignSelf: 'center',
+    backgroundColor: '#000',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 12,
+  },
+  toggleBtnText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  miniMapContainer: {
+    position: 'absolute',
+    top: 20,
+    right: 10,
+    width: 140,
+    height: 140,
+    borderRadius: 12,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#fff',
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 0, height: 2},
+    shadowRadius: 4,
+    elevation: 6,
+  },
+  miniMap: {
+    flex: 1,
+  },
 });
 
 export default ParkingMap1;

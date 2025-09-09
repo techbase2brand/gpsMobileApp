@@ -399,6 +399,226 @@
 // export default ApiList;
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyBXNyT9zcGdvhAUCUEYTm6e_qPw26AOPgI'; // 👈 add your Google Maps API key
+// import React, {useEffect, useRef, useState} from 'react';
+// import {
+//   View,
+//   StyleSheet,
+//   Image,
+//   ActivityIndicator,
+//   TouchableOpacity,
+//   Text,
+//   Animated,
+// } from 'react-native';
+// import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
+// import MapViewDirections from 'react-native-maps-directions';
+// import StreetView from 'react-native-streetview';
+// import {CAR} from '../assests/images';
+
+// const ParkingMap1 = () => {
+//   const mapRef = useRef(null);
+//   const [initialRegion, setInitialRegion] = useState(null);
+//   const [showStreetView, setShowStreetView] = useState(false);
+
+//   const animatedCoord = useRef(
+//     new AnimatedRegion({
+//       latitude: 0,
+//       longitude: 0,
+//       latitudeDelta: 0.01,
+//       longitudeDelta: 0.01,
+//     }),
+//   ).current;
+
+//   const [bearing, setBearing] = useState(0);
+//   const [targetCoord, setTargetCoord] = useState(null);
+
+//   // bearing calculate helper
+//   const calculateBearing = (lat1, lon1, lat2, lon2) => {
+//     const dLon = ((lon2 - lon1) * Math.PI) / 180;
+//     lat1 = (lat1 * Math.PI) / 180;
+//     lat2 = (lat2 * Math.PI) / 180;
+
+//     const y = Math.sin(dLon) * Math.cos(lat2);
+//     const x =
+//       Math.cos(lat1) * Math.sin(lat2) -
+//       Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+
+//     return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
+//   };
+
+//   // street arrow rotation
+//   const arrowRotation = useRef(new Animated.Value(0)).current;
+//   useEffect(() => {
+//     Animated.timing(arrowRotation, {
+//       toValue: bearing,
+//       duration: 800,
+//       useNativeDriver: true,
+//     }).start();
+//   }, [bearing]);
+
+//   const rotateArrow = arrowRotation.interpolate({
+//     inputRange: [0, 360],
+//     outputRange: ['0deg', '360deg'],
+//   });
+
+//   useEffect(() => {
+//     const fetchLocation = async () => {
+//       try {
+//         const response = await fetch(
+//           'https://techrepairtracker.base2brand.com/api/fetchGpsTracking',
+//         );
+//         const json = await response.json();
+
+//         if (json?.status && json?.data?.length > 0) {
+//           const latest = json.data[json.data.length - 1];
+//           const latitude = parseFloat(latest.lat);
+//           const longitude = parseFloat(latest.long);
+
+//           if (!isNaN(latitude) && !isNaN(longitude)) {
+//             if (!initialRegion) {
+//               setInitialRegion({
+//                 latitude,
+//                 longitude,
+//                 latitudeDelta: 0.01,
+//                 longitudeDelta: 0.01,
+//               });
+//               animatedCoord.setValue({latitude, longitude});
+//             }
+
+//             // Target 500m ahead
+//             const target = {
+//               latitude: latitude + 0.0045, // approx 500m north
+//               longitude,
+//             };
+//             setTargetCoord(target);
+//           }
+//         }
+//       } catch (error) {
+//         console.error('GPS Fetch Error:', error);
+//       }
+//     };
+
+//     fetchLocation();
+//     const interval = setInterval(fetchLocation, 2000);
+//     return () => clearInterval(interval);
+//   }, [initialRegion]);
+
+//   if (!initialRegion) {
+//     return (
+//       <View style={styles.loader}>
+//         <ActivityIndicator size="large" color="blue" />
+//       </View>
+//     );
+//   }
+
+//   return (
+//     <View style={{flex: 1}}>
+//       {showStreetView ? (
+//         <>
+//           <StreetView
+//             style={styles.map}
+//             allGesturesEnabled={true}
+//             coordinate={{
+//               latitude: animatedCoord.__getValue().latitude,
+//               longitude: animatedCoord.__getValue().longitude,
+//             }}
+//             pov={{
+//               tilt: 0,
+//               bearing: bearing,
+//               zoom: 1,
+//             }}
+//           />
+
+//         </>
+//       ) : (
+//         <MapView ref={mapRef} style={styles.map} initialRegion={initialRegion}>
+//           <Marker.Animated coordinate={animatedCoord}>
+//             <Image
+//               source={CAR}
+//               style={{height: 30, width: 30}}
+//               resizeMode="contain"
+//             />
+//           </Marker.Animated>
+
+//           {targetCoord && (
+//             <MapViewDirections
+//               origin={{
+//                 latitude: animatedCoord.__getValue().latitude,
+//                 longitude: animatedCoord.__getValue().longitude,
+//               }}
+//               destination={targetCoord}
+//               apikey={GOOGLE_MAPS_APIKEY}
+//               strokeWidth={4}
+//               strokeColor="blue"
+//               mode="DRIVING"
+//               onReady={result => {
+//                 if (result.coordinates.length > 1) {
+//                   const start = result.coordinates[0];
+//                   const next = result.coordinates[1];
+//                   const brng = calculateBearing(
+//                     start.latitude,
+//                     start.longitude,
+//                     next.latitude,
+//                     next.longitude,
+//                   );
+//                   setBearing(brng);
+//                 }
+//               }}
+//             />
+//           )}
+//         </MapView>
+//       )}
+
+//       <TouchableOpacity
+//         style={styles.toggleBtn}
+//         onPress={() => setShowStreetView(!showStreetView)}>
+//         <Text style={styles.toggleBtnText}>
+//           {showStreetView ? 'Show Map' : 'Show Street View'}
+//         </Text>
+//       </TouchableOpacity>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   map: {flex: 1},
+//   loader: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   toggleBtn: {
+//     position: 'absolute',
+//     bottom: 80,
+//     alignSelf: 'center',
+//     backgroundColor: '#000',
+//     paddingHorizontal: 15,
+//     paddingVertical: 10,
+//     borderRadius: 12,
+//   },
+//   toggleBtnText: {
+//     color: '#fff',
+//     fontSize: 14,
+//     fontWeight: '600',
+//   },
+//   arrowOverlay: {
+//     position: 'absolute',
+//     top: '45%',
+//     left: '45%',
+//     width: 40,
+//     height: 40,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: 'rgba(0,0,0,0.3)',
+//     borderRadius: 20,
+//   },
+//   arrow: {
+//     fontSize: 24,
+//     color: 'white',
+//     fontWeight: 'bold',
+//   },
+// });
+
+// export default ParkingMap1;
 import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
@@ -407,7 +627,6 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Text,
-  Animated,
 } from 'react-native';
 import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
@@ -418,6 +637,8 @@ const ParkingMap1 = () => {
   const mapRef = useRef(null);
   const [initialRegion, setInitialRegion] = useState(null);
   const [showStreetView, setShowStreetView] = useState(false);
+  const [links, setLinks] = useState([]);
+  console.log('linkslinks', links);
 
   const animatedCoord = useRef(
     new AnimatedRegion({
@@ -444,21 +665,6 @@ const ParkingMap1 = () => {
 
     return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
   };
-
-  // street arrow rotation
-  const arrowRotation = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    Animated.timing(arrowRotation, {
-      toValue: bearing,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  }, [bearing]);
-
-  const rotateArrow = arrowRotation.interpolate({
-    inputRange: [0, 360],
-    outputRange: ['0deg', '360deg'],
-  });
 
   useEffect(() => {
     const fetchLocation = async () => {
@@ -490,6 +696,16 @@ const ParkingMap1 = () => {
               longitude,
             };
             setTargetCoord(target);
+
+            if (target) {
+              const brng = calculateBearing(
+                latitude,
+                longitude,
+                target.latitude,
+                target.longitude,
+              );
+              setBearing(brng);
+            }
           }
         }
       } catch (error) {
@@ -513,7 +729,7 @@ const ParkingMap1 = () => {
   return (
     <View style={{flex: 1}}>
       {showStreetView ? (
-        <>
+        <View style={{flex: 1}}>
           <StreetView
             style={styles.map}
             allGesturesEnabled={true}
@@ -526,14 +742,66 @@ const ParkingMap1 = () => {
               bearing: bearing,
               zoom: 1,
             }}
+            onPanoramaChange={event => {
+              const {nativeEvent} = event;
+              console.log('nativeEvent:::', nativeEvent);
+
+              if (nativeEvent?.position) {
+                const {latitude, longitude} = nativeEvent.position;
+                animatedCoord
+                  .timing({
+                    latitude,
+                    longitude,
+                    duration: 800,
+                    useNativeDriver: false,
+                  })
+                  .start();
+              }
+              if (nativeEvent?.links) {
+                setLinks(nativeEvent.links);
+                console.log('Available links (arrows):', nativeEvent.links);
+              }
+            }}
           />
 
-          {/* Custom Arrow Overlay */}
-          <Animated.View
-            style={[styles.arrowOverlay, {transform: [{rotate: rotateArrow}]}]}>
-            <Text style={styles.arrow}>↑</Text>
-          </Animated.View>
-        </>
+          {/* Mini Map Overlay */}
+          <TouchableOpacity
+            onPress={() => setShowStreetView(false)}
+            style={styles.miniMapContainer}>
+            <MapView
+              style={styles.miniMap}
+              region={{
+                latitude: animatedCoord.__getValue().latitude,
+                longitude: animatedCoord.__getValue().longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
+              }}
+              pointerEvents="none" // disable touch
+            >
+              <Marker.Animated coordinate={animatedCoord}>
+                <Image
+                  source={CAR}
+                  style={{height: 20, width: 20}}
+                  resizeMode="contain"
+                />
+              </Marker.Animated>
+
+              {targetCoord && (
+                <MapViewDirections
+                  origin={{
+                    latitude: animatedCoord.__getValue().latitude,
+                    longitude: animatedCoord.__getValue().longitude,
+                  }}
+                  destination={targetCoord}
+                  apikey={GOOGLE_MAPS_APIKEY}
+                  strokeWidth={3}
+                  strokeColor="blue"
+                  mode="DRIVING"
+                />
+              )}
+            </MapView>
+          </TouchableOpacity>
+        </View>
       ) : (
         <MapView ref={mapRef} style={styles.map} initialRegion={initialRegion}>
           <Marker.Animated coordinate={animatedCoord}>
@@ -605,21 +873,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
-  arrowOverlay: {
+  miniMapContainer: {
     position: 'absolute',
-    top: '45%',
-    left: '45%',
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    borderRadius: 20,
+    top: 20,
+    right: 10,
+    width: 140,
+    height: 140,
+    borderRadius: 12,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#fff',
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 0, height: 2},
+    shadowRadius: 4,
+    elevation: 6,
   },
-  arrow: {
-    fontSize: 24,
-    color: 'white',
-    fontWeight: 'bold',
+  miniMap: {
+    flex: 1,
   },
 });
 
