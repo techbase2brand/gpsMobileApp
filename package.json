@@ -39,6 +39,7 @@
     "react-native-streetview": "^0.4.4",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-vector-icons": "^10.2.0",
+    "react-native-vision-camera": "^4.7.2",
     "react-redux": "^9.2.0",
     "redux-persist": "^6.0.0",
     "socket.io-client": "^4.8.1"

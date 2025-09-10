@@ -870,7 +870,6 @@ const GOOGLE_MAPS_APIKEY = 'AIzaSyBXNyT9zcGdvhAUCUEYTm6e_qPw26AOPgI'; // 👈 Ad
 
 // export default ParkingMap1;
 
-
 import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
@@ -1055,7 +1054,11 @@ const ParkingMap1 = () => {
           </TouchableOpacity>
         </View>
       ) : (
-        <MapView ref={mapRef} mapType="satellite" style={styles.map} initialRegion={initialRegion}>
+        <MapView
+          ref={mapRef}
+          mapType="satellite"
+          style={styles.map}
+          initialRegion={initialRegion}>
           <Marker.Animated coordinate={animatedCoord}>
             <Image
               source={CAR}
@@ -1147,3 +1150,4 @@ const styles = StyleSheet.create({
 });
 
 export default ParkingMap1;
+
